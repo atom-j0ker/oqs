@@ -1,5 +1,7 @@
 package com.oqs.model;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -17,10 +19,12 @@ public class Category {
     @Column(name = "category_name")
     private String name;
 
+    @JsonIgnore
     @ManyToOne(cascade = {CascadeType.ALL})
-    @JoinColumn(name = "category_id", insertable = false, updatable = false)
+    @JoinColumn(name = "category_category", insertable = false, updatable = false)
     private Category category;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "category")
     private Set<Category> categories = new HashSet<Category>();
 

@@ -1,13 +1,13 @@
 package com.oqs.config;
 
-import com.oqs.crud.RoleDAO;
-import com.oqs.crud.UserDAO;
-import org.springframework.beans.factory.annotation.Value;
+import com.oqs.crud.*;
+//import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 //import org.springframework.context.annotation.PropertySource;
 //import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+//import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.io.Resource;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 //import org.springframework.jdbc.datasource.init.DataSourceInitializer;
@@ -17,6 +17,8 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 //import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+//import org.springframework.scheduling.annotation.EnableScheduling;
 //import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 //import org.springframework.scheduling.annotation.EnableScheduling;
 //import org.springframework.scheduling.quartz.*;
@@ -31,7 +33,7 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 @Configuration
 //@PropertySource(value = "classpath:util.properties") //<context:property-placeholder location=".." />
 @ComponentScan(basePackages = "com.oqs.controllers")
-//@EnableScheduling //task:annotation-driven
+@EnableTransactionManagement
 public class ApplicationConfig {
 
     @Bean(name = "dataSource")
@@ -54,14 +56,38 @@ public class ApplicationConfig {
     @Bean(name = "jpaTransactionManager")
     public JpaTransactionManager getJpaTransactionManager() {
         JpaTransactionManager jpa = new JpaTransactionManager();
-        jpa.setEntityManagerFactory(getLocalContainerEntityManagerFactoryBean().getNativeEntityManagerFactory());
+        jpa.setEntityManagerFactory(getLocalContainerEntityManagerFactoryBean().getObject());
         return jpa;
+    }
+
+    @Bean(name = "businessDAO")
+    public BusinessDAO getBusinessDAO() {
+        BusinessDAO businessDAO = new BusinessDAO();
+        return businessDAO;
+    }
+
+    @Bean(name = "categoryDAO")
+    public CategoryDAO getCategoryDAO() {
+        CategoryDAO categoryDAO = new CategoryDAO();
+        return categoryDAO;
+    }
+
+    @Bean(name = "masterDAO")
+    public MasterDAO getMasterDAO() {
+        MasterDAO masterDAO = new MasterDAO();
+        return masterDAO;
     }
 
     @Bean(name = "roleDAO")
     public RoleDAO getRoleDAO() {
         RoleDAO roleDAO = new RoleDAO();
         return roleDAO;
+    }
+
+    @Bean(name = "serviceDAO")
+    public ServiceDAO getServiceDAO() {
+        ServiceDAO serviceDAO = new ServiceDAO();
+        return serviceDAO;
     }
 
     @Bean(name = "userDAO")

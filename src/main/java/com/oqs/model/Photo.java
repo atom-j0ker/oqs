@@ -12,7 +12,7 @@ public class Photo {
     private long id;
 
     @Column(name = "photo_photo")
-    private Blob photo;
+    private String photo;
 
     @OneToOne(mappedBy = "photo")
     private Business business;
@@ -23,7 +23,7 @@ public class Photo {
     public Photo() {
     }
 
-    public Photo(Blob photo, Business business, User user) {
+    public Photo(String photo, Business business, User user) {
         this.photo = photo;
         this.business = business;
         this.user = user;
@@ -37,11 +37,11 @@ public class Photo {
         this.id = id;
     }
 
-    public Blob getPhoto() {
+    public String getPhoto() {
         return photo;
     }
 
-    public void setPhoto(Blob photo) {
+    public void setPhoto(String photo) {
         this.photo = photo;
     }
 

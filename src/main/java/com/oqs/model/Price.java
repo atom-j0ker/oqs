@@ -10,7 +10,7 @@ public class Price {
     @Column(name = "price_id")
     private long id;
 
-    @Column(name = "master_starttime")
+    @Column(name = "price_price")
     private String price;
 
     @OneToOne(mappedBy = "price")

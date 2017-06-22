@@ -24,7 +24,7 @@ public class Service {
     private Category category;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "price_id")
+    @JoinColumn(name = "service_price")
     private Price price;
 
     @Column(name = "service_duration")

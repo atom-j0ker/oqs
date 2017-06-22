@@ -25,7 +25,7 @@ public class Business {
     private String phone;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "photo_id")
+    @JoinColumn(name = "business_photo")
     private Photo photo;
 
     @OneToMany(mappedBy = "business", cascade = CascadeType.ALL)
@@ -37,7 +37,7 @@ public class Business {
     @OneToMany(mappedBy = "business", cascade = CascadeType.ALL)
     private Collection<Service> services = new ArrayList<Service>();
 
-    @OneToMany(mappedBy = "business", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "business", cascade = CascadeType.ALL)
     private Collection<User> users = new ArrayList<User>();
 
     public Business() {

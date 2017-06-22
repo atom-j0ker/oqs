@@ -12,7 +12,7 @@ public class Master {
     @Column(name = "master_id")
     private long id;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "master_business")
     private Business business;
 

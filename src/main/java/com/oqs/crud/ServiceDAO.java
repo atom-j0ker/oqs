@@ -5,6 +5,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import java.util.List;
 
 @Transactional
 public class ServiceDAO {
@@ -21,5 +23,13 @@ public class ServiceDAO {
 
     public Service get(long id) {
         return entityManager.find(Service.class, id);
+    }
+
+    public List<Service> getServiceListByOrganization(long organizationId) {
+        TypedQuery<Service> query = entityManager.createQuery(
+                "select s from Service s where s.business.id = :business", Service.class
+        ).setParameter("business", organizationId);
+        List<Service> result = query.getResultList();
+        return result;
     }
 }

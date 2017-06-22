@@ -22,8 +22,8 @@ public class User {
     @JoinColumn(name = "master_id")
     private Master master;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_business", nullable = false)
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_business")
     private Business business;
 
     @Column(name = "user_firstname")
@@ -40,7 +40,7 @@ public class User {
     private Photo photo;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "service_role",
+    @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "ur_user"),
             inverseJoinColumns = @JoinColumn(name = "ur_role"))
     private Set<Role> roles = new HashSet<Role>();

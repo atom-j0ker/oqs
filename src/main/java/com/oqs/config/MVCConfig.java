@@ -19,23 +19,17 @@ import org.springframework.web.servlet.view.XmlViewResolver;
 import java.util.List;
 import java.util.Locale;
 
-@EnableWebMvc  //<mvc:annotation-driven>
+@EnableWebMvc
 @Configuration
-@ComponentScan(basePackages = {"com.oqs.controllers"}) //<context:component-scan base-package=''>
-@EnableTransactionManagement //???
+@ComponentScan(basePackages = {"com.oqs.controllers"})
+@EnableTransactionManagement
 public class MVCConfig extends WebMvcConfigurerAdapter {
 
-    /**
-     * <mvc:resources mapping="/resources/**" location="/resources/" />
-     */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
     }
 
-    /**
-     * bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-     */
     @Bean
     public InternalResourceViewResolver jspViewResolver() {
         InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();

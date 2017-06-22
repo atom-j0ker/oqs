@@ -2,8 +2,11 @@ package com.oqs.crud;
 
 import com.oqs.model.Business;
 import org.springframework.transaction.annotation.Transactional;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import java.util.List;
 
 @Transactional
 public class BusinessDAO {
@@ -22,4 +25,11 @@ public class BusinessDAO {
         return entityManager.find(Business.class, id);
     }
 
+    public List<Business> getBsnList() {
+        TypedQuery<Business> query = entityManager.createQuery(
+                "select b from Business b", Business.class
+        );
+        List<Business> result = query.getResultList();
+        return result;
+    }
 }

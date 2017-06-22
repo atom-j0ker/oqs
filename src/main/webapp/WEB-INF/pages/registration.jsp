@@ -10,6 +10,9 @@
     <p><input type="text" name="firstname" placeholder="first name"/></p>
     <p><input type="text" name="lastname" placeholder="last name"/></p>
     <p><input type="tel" name="phone" placeholder="telephone"></p>
+    <p><input type="radio" name="role" value="ROLE_USER">client</p>
+    <p><input type="radio" name="role" value="ROLE_MASTER">master</p>
+    <p><input type="radio" name="role" value="ROLE_BUSINESS">business</p>
     <p><input type="submit" value="Sign up"></p>
 </form>
 </body>

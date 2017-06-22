@@ -4,11 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.sql.DataSource;
 
@@ -22,9 +22,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.jdbcAuthentication().dataSource(dataSource)
+        auth.jdbcAuthentication()
+                .passwordEncoder(passwordEncoder())
+                .dataSource(dataSource)
                 .usersByUsernameQuery("SELECT USER_EMAIL, USER_PASSWORD, TRUE FROM USER WHERE USER_EMAIL = ?")
-                .authoritiesByUsernameQuery("SELECT U.USER_EMAIL, R.ROLE_NAME FROM ROLE R, USER U, USER_ROLE UR WHERE U.USER_ID = UR.UR_USER AND UR.UR_ROLE = R.ROLE_ID AND U.USER_EMAIL = ?");
+                .authoritiesByUsernameQuery("SELECT U.USER_EMAIL, R.ROLE_NAME FROM ROLE R, USER U, USER_ROLE UR " +
+                        "WHERE U.USER_ID = UR.UR_USER AND UR.UR_ROLE = R.ROLE_ID AND U.USER_EMAIL = ?");
     }
 
     @Override
@@ -36,8 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordParameter("password").loginProcessingUrl("/login").defaultSuccessUrl("/")
                 .and()
                 .authorizeRequests()
-                .antMatchers("/admin-page").hasRole("ADMIN")
-                .antMatchers("/user/**").hasAnyRole("USER", "BUSINESS")
+                .antMatchers("/user/**").hasAnyRole("USER", "BUSINESS", "MASTER")
                 .antMatchers("/**").permitAll()
                 .and()
                 .logout().logoutSuccessUrl("/")
@@ -46,8 +48,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean(name = "encoder")
-    public Md5PasswordEncoder passwordEncoder() {
-        Md5PasswordEncoder encoder = new Md5PasswordEncoder();
+    public BCryptPasswordEncoder passwordEncoder() {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         return encoder;
     }
 }
