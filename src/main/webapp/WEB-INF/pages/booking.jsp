@@ -3,6 +3,14 @@
 <html>
 <head>
     <title>${service.name}</title>
+    <style>
+        <%@ include file="/resources/css/bootstrap.css" %>
+        <%@ include file="/resources/css/test-bootstrap.min.css" %>
+        <%@ include file="/resources/css/test-bootstrap-datetimepicker.min.css" %>
+    </style>
+    <script src="<c:url value="/resources/js/jquery.js" />" charset="UTF-8"></script>
+    <script src="<c:url value="/resources/js/test-bootstrap.min.js" />"></script>
+    <script src="<c:url value="/resources/js/test-bootstrap-datetimepicker.js" />" charset="UTF-8"></script>
 </head>
 <body>
 <p>${organization.name}</p>
@@ -19,6 +27,7 @@
     <p>
         <form class="form-horizontal" role="form">
             <fieldset>
+
     <p style="font-size: 20px; color: white">Choose Date:</p>
     <div class="input-group date form_date" data-date="" data-date-format="dd-mm-yyyy"
          data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
@@ -45,5 +54,28 @@
 
 </form>
 </form>
+
+<script type="text/javascript">
+    $('.form_date').datetimepicker({
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0
+    });
+    $('.form_time').datetimepicker({
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 1,
+        minView: 0,
+        maxView: 1,
+        forceParse: 0
+    });
+</script>
+
 </body>
 </html>

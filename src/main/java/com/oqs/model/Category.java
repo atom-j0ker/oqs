@@ -1,6 +1,6 @@
 package com.oqs.model;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -25,9 +25,10 @@ public class Category {
     private Category category;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "category")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "category")
     private Set<Category> categories = new HashSet<Category>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private Collection<Service> services = new ArrayList<Service>();
 

@@ -37,10 +37,10 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
         dispatcher.setLoadOnStartup(1);
         dispatcher.addMapping("/");
 
-        FilterRegistration.Dynamic encodingFilter = servletContext.addFilter("encoding-filter", new CharacterEncodingFilter());
-        encodingFilter.setInitParameter("encoding", "UTF-8");
-        encodingFilter.setInitParameter("forceEncoding", "true");
-        encodingFilter.addMappingForUrlPatterns(null, true, "/*");
+//        FilterRegistration.Dynamic encodingFilter = servletContext.addFilter("encoding-filter", new CharacterEncodingFilter());
+//        encodingFilter.setInitParameter("encoding", "UTF-8");
+//        encodingFilter.setInitParameter("forceEncoding", "true");
+//        encodingFilter.addMappingForUrlPatterns(null, true, "/*");
 
     }
 

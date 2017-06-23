@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -46,6 +47,14 @@ public class OrganizationController {
         modelAndView.setViewName("organizations");
         modelAndView.addObject("organizations", businessDAO.getBsnList());
         modelAndView.addObject("categories", categoryDAO.getCategories());
+
+        List<Category> categories = categoryDAO.getCategories();
+        for (Category c : categories) {
+            System.out.println("id="+c.getId()+"name="+c.getName());
+            for(Category cc : c.getCategories())
+                System.out.println("sub="+cc.getName());
+        }
+
         return modelAndView;
     }
 
