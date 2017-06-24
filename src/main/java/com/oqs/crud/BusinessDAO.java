@@ -32,4 +32,11 @@ public class BusinessDAO {
         List<Business> result = query.getResultList();
         return result;
     }
+
+    //переделать через сервис
+    public List<Business> getBsnListByCategory(Long categoryId) {
+        TypedQuery<Business> query = entityManager.createQuery("select b from Business b where b.=" + categoryId + " order by b.name", Business.class);
+        List<Business> result = query.getResultList();
+        return result;
+    }
 }

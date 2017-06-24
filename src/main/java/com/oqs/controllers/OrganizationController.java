@@ -47,27 +47,18 @@ public class OrganizationController {
         modelAndView.setViewName("organizations");
         modelAndView.addObject("organizations", businessDAO.getBsnList());
         modelAndView.addObject("categories", categoryDAO.getCategories());
-
-        List<Category> categories = categoryDAO.getCategories();
-        for (Category c : categories) {
-            System.out.println("id="+c.getId()+"name="+c.getName());
-            for(Category cc : c.getCategories())
-                System.out.println("sub="+cc.getName());
-        }
-
         return modelAndView;
     }
 
-    @RequestMapping(value = "/subcategories", method = RequestMethod.GET)
+    @RequestMapping(value = "/createOrganizationTable", method = RequestMethod.GET)
     @ResponseBody
-    public List<Category> organizationsBySort(@RequestParam("categoryId") String categoryId) {
-        List<Category> subcategories = categoryDAO.getSubcategories(Long.valueOf(categoryId));
-        return subcategories;
+    public List<Business> organizationsBySort(@RequestParam("categoryId") String categoryId) {
+        List<Business> organizations = businessDAO.getBsnListByCategory(Long.valueOf(categoryId));
+        return organizations;
     }
 
     @RequestMapping(value = "/organization/{organizationId}", method = RequestMethod.GET)
     public ModelAndView organization(@PathVariable("organizationId") long organizationId) {
-
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("organization");
         modelAndView.addObject("organization", businessDAO.get(organizationId));

@@ -1,5 +1,7 @@
 package com.oqs.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -24,19 +26,24 @@ public class Business {
     @Column(name = "business_phone")
     private String phone;
 
+    @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "business_photo")
     private Photo photo;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "business", cascade = CascadeType.ALL)
     private Collection<Master> masters = new ArrayList<Master>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "business", cascade = CascadeType.ALL)
     private Collection<Rating> ratings = new ArrayList<Rating>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "business", cascade = CascadeType.ALL)
     private Collection<Service> services = new ArrayList<Service>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "business", cascade = CascadeType.ALL)
     private Collection<User> users = new ArrayList<User>();
 

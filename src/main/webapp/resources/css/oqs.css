@@ -1,3 +1,13 @@
+.container-left-part{
+    width: 20%;
+    float: left;
+}
+
+.container-right-part{
+    width: 80%;
+    float: left;
+}
+
 .dropdown-submenu {
     position: relative;
 }
