@@ -1,5 +1,7 @@
 package com.oqs.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -23,6 +25,7 @@ public class Service {
     @JoinColumn(name = "service_category")
     private Category category;
 
+    @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "service_price")
     private Price price;
@@ -30,6 +33,7 @@ public class Service {
     @Column(name = "service_duration")
     private short duration;
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "service_master",
             joinColumns = @JoinColumn(name = "sm_service"),

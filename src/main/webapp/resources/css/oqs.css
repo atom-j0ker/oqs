@@ -1,9 +1,17 @@
-.container-left-part{
+.container-left-part-1 {
     width: 20%;
     float: left;
 }
 
-.container-right-part{
+div.dropdown.container-left-part-2 {
+    position: absolute;
+    margin-top: 200px;
+}
+
+.container-left-part-2 {
+}
+
+.container-right-part {
     width: 80%;
     float: left;
 }

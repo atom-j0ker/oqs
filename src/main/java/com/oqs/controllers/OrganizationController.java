@@ -6,6 +6,7 @@ import com.oqs.crud.ServiceDAO;
 import com.oqs.crud.UserDAO;
 import com.oqs.model.Business;
 import com.oqs.model.Category;
+import com.oqs.model.Service;
 import com.oqs.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -50,11 +51,18 @@ public class OrganizationController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/createOrganizationTable", method = RequestMethod.GET)
+    @RequestMapping(value = "/create-organization-table", method = RequestMethod.GET)
     @ResponseBody
     public List<Business> organizationsBySort(@RequestParam("categoryId") String categoryId) {
         List<Business> organizations = businessDAO.getBsnListByCategory(Long.valueOf(categoryId));
         return organizations;
+    }
+
+    @RequestMapping(value = "/fill-service", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Service> findServices(@RequestParam("categoryId") String categoryId) {
+        List<Service> services = serviceDAO.getServiceListByCategory(Long.valueOf(categoryId));
+        return services;
     }
 
     @RequestMapping(value = "/organization/{organizationId}", method = RequestMethod.GET)

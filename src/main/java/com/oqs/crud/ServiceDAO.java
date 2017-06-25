@@ -32,4 +32,13 @@ public class ServiceDAO {
         List<Service> result = query.getResultList();
         return result;
     }
+
+    public List<Service> getServiceListByCategory(long categoryId) {
+        TypedQuery<Service> query = entityManager.createQuery(
+                "select s from Service s where s.category.id in " +
+                        "(select c.id from Category c where c.category.id = :categoryId) or s.category.id = :categoryId", Service.class
+        ).setParameter("categoryId", categoryId);
+        List<Service> result = query.getResultList();
+        return result;
+    }
 }
