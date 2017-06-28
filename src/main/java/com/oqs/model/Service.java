@@ -120,4 +120,75 @@ public class Service {
                 ", masters=" + masters +
                 '}';
     }
+
+    public class ServiceTable {
+
+        private String serviceName;
+        private String servicePrice;
+        private long organizationId;
+        private String organizationName;
+        private String organizationAddress;
+        private String organizationTelephone;
+
+        public ServiceTable(Service service) {
+            this.serviceName = service.getName();
+            this.servicePrice = service.getPrice().getPrice();
+            this.organizationId = service.getBusiness().getId();
+            this.organizationName = service.getBusiness().getName();
+            this.organizationAddress = service.getBusiness().getAddress();
+            this.organizationTelephone = service.getBusiness().getPhone();
+        }
+
+        public String getServiceName() {
+            return serviceName;
+        }
+
+        public void setServiceName(String serviceName) {
+            this.serviceName = serviceName;
+        }
+
+        public String getServicePrice() {
+            return servicePrice;
+        }
+
+        public void setServicePrice(String servicePrice) {
+            this.servicePrice = servicePrice;
+        }
+
+        public long getOrganizationId() {
+            return organizationId;
+        }
+
+        public void setOrganizationId(long organizationId) {
+            this.organizationId = organizationId;
+        }
+
+        public String getOrganizationName() {
+            return organizationName;
+        }
+
+        public void setOrganizationName(String organizationName) {
+            this.organizationName = organizationName;
+        }
+
+        public String getOrganizationAddress() {
+            return organizationAddress;
+        }
+
+        public void setOrganizationAddress(String organizationAddress) {
+            this.organizationAddress = organizationAddress;
+        }
+
+        public String getOrganizationTelephone() {
+            return organizationTelephone;
+        }
+
+        public void setOrganizationTelephone(String organizationTelephone) {
+            this.organizationTelephone = organizationTelephone;
+        }
+    }
+
+    public ServiceTable getServiceTable(Service service) {
+        return new ServiceTable(service);
+    }
 }

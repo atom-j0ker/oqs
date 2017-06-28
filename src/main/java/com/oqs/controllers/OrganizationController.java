@@ -65,6 +65,25 @@ public class OrganizationController {
         return services;
     }
 
+    @RequestMapping(value = "/fill-choosed-service-table", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Service.ServiceTable> fillChoosedServiceTable(@RequestParam("serviceId") String serviceId) {
+        Service service = serviceDAO.get(Long.valueOf(serviceId));
+        List<Service.ServiceTable> serviceList = new ArrayList<Service.ServiceTable>();
+        serviceList.add(service.getServiceTable(service));
+        return serviceList;
+    }
+
+    @RequestMapping(value = "/fill-service-table", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Service.ServiceTable> fillServiceTable(@RequestParam("categoryId") String categoryId) {
+        List<Service> services = serviceDAO.getServiceListByCategory(Long.valueOf(categoryId));
+        List<Service.ServiceTable> serviceList = new ArrayList<Service.ServiceTable>();
+        for (Service s : services)
+            serviceList.add(s.getServiceTable(s));
+        return serviceList;
+    }
+
     @RequestMapping(value = "/organization/{organizationId}", method = RequestMethod.GET)
     public ModelAndView organization(@PathVariable("organizationId") long organizationId) {
         ModelAndView modelAndView = new ModelAndView();

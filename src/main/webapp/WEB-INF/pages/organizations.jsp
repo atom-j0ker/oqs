@@ -55,6 +55,8 @@
 </div>
 
 <script type="text/javascript">
+    var categoryId;
+
     $('.dropdown-submenu a.test').on("mouseenter", function (e) {
         $(this).next('ul').toggle();
         e.stopPropagation();
@@ -67,7 +69,7 @@
     });
 
     $('a.test').on("click", function (e) {
-        var categoryId = e.target.id;
+        categoryId = e.target.id;
         var categoryName = e.target.text;
         fillCategory(categoryId, categoryName);
     });
@@ -139,29 +141,20 @@
         document.getElementById("choose-service-btn").innerHTML =
             serviceName + ' <span class="caret"></span>';
         createOrganizationTableTh(table);
-//        for (var i = 0; i < data.length; i++) {
-        tr = document.createElement('tr');
-        var tdService = document.createElement('td');
-        tdService.innerHTML = "service";
-        tr.appendChild(tdService);
-        var tdPrice = document.createElement('td');
-        tdPrice.innerHTML = "price";
-        tr.appendChild(tdPrice);
-        var a = document.createElement('a');
-        var td = document.createElement('td');
-        a.innerHTML = "organization";
-        a.style.color = "blue";
-        td.appendChild(a);
-        a.href = "/organization/" + "1";
-        tr.appendChild(td);
-        var tdAddress = document.createElement('td');
-        tdAddress.innerHTML = "address";
-        tr.appendChild(tdAddress);
-        var tdPhone = document.createElement('td');
-        tdPhone.innerHTML = "phone";
-        tr.appendChild(tdPhone);
-        table.tBodies[0].appendChild(tr);
-//        }
+
+        $.ajax({
+            type: "GET",
+            url: "/fill-choosed-service-table",
+            data: "serviceId=" + serviceId,
+            dataType: 'json',
+            success: function (data) {
+                for (i = 0; i < data.length; i++)
+                    fillOrganizationTable(table, data);
+            },
+            error: function (xhr, textStatus) {
+                alert([xhr.status, textStatus]);
+            }
+        });
     });
 
     $('#show-service-btn').on("click", function (e) {
@@ -173,7 +166,9 @@
             data: "categoryId=" + categoryId,
             dataType: 'json',
             success: function (data) {
-
+                for (i = 0; i < data.length; i++) {
+                    fillOrganizationTable(table, data);
+                }
             },
             error: function (xhr, textStatus) {
                 alert([xhr.status, textStatus]);
@@ -191,6 +186,30 @@
         appendTh(tr, thAddress, "Address");
         appendTh(tr, thTelephone, "Telephone");
         table.tHead.appendChild(tr);
+    }
+
+    function fillOrganizationTable(table, data) {
+        tr = document.createElement('tr');
+        var tdService = document.createElement('td');
+        tdService.innerHTML = data[i].serviceName;
+        tr.appendChild(tdService);
+        var tdPrice = document.createElement('td');
+        tdPrice.innerHTML = data[i].servicePrice;
+        tr.appendChild(tdPrice);
+        var a = document.createElement('a');
+        var td = document.createElement('td');
+        a.innerHTML = data[i].organizationName;
+        a.style.color = "blue";
+        td.appendChild(a);
+        a.href = "/organization/" + data[i].organizationId;
+        tr.appendChild(td);
+        var tdAddress = document.createElement('td');
+        tdAddress.innerHTML = data[i].organizationAddress;
+        tr.appendChild(tdAddress);
+        var tdPhone = document.createElement('td');
+        tdPhone.innerHTML = data[i].organizationTelephone;
+        tr.appendChild(tdPhone);
+        table.tBodies[0].appendChild(tr);
     }
 
     function appendTh(tr, th, name) {
