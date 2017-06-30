@@ -3,9 +3,12 @@
 <html>
 <head>
     <title>${organization.name}</title>
+    <style>
+        <%@ include file="/resources/css/oqs.css" %>
+    </style>
 </head>
 <body>
-<img src="${organization.photo.photo}"/>
+<img class="organization-photo" src="${organization.photo.photo}"/>
 <P>${organization.name}</P>
 <P>${organization.address}</P>
 <P>${organization.description}</P>

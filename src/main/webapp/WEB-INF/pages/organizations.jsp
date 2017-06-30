@@ -83,6 +83,8 @@
             success: function (data) {
                 document.getElementById("choose-category-btn").innerHTML =
                     categoryName + ' <span class="caret"></span>';
+                document.getElementById("choose-service-btn").innerHTML =
+                    "Choose service <span class='caret'></span>";
                 $("#organizationTable tr").remove();
                 var table = document.getElementById("organizationTable");
                 var tr = document.createElement('tr');
@@ -109,6 +111,7 @@
                     table.tBodies[0].appendChild(tr);
                 }
                 $('#show-service-btn').prop("disabled", false);
+
                 fillService(categoryId);
             },
             error: function (xhr, textStatus) {

@@ -58,7 +58,7 @@ public class UserController {
 
         if(role.getRole().equals(ROLE_MASTER)) {
             Master master = new Master();
-            masterDAO.saveOrUpdate(master);
+//            masterDAO.saveOrUpdate(master);
             user.setMaster(master);
         }
         userDAO.saveOrUpdate(user);

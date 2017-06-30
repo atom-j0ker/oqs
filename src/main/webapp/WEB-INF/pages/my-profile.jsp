@@ -7,9 +7,14 @@
 </head>
 <body>
 <sec:authentication var="currentUser" property="principal"/>
-${user.email}
+<p>${user.email}</p>
 <sec:authorize access="isAuthenticated()">
     <p>${currentUser.authorities}</p>
+</sec:authorize>
+<p>${user.firstname} ${user.lastname}</p>
+
+<sec:authorize access="hasRole('ROLE_USER')">
+    loh
 </sec:authorize>
 <sec:authorize access="hasRole('ROLE_MASTER')">
 

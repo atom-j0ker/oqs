@@ -90,6 +90,18 @@ public class ApplicationConfig {
         return serviceDAO;
     }
 
+    @Bean(name = "scheduleDAO")
+    public ScheduleDAO getScheduleDAO() {
+        ScheduleDAO scheduleDAO = new ScheduleDAO();
+        return scheduleDAO;
+    }
+
+    @Bean(name = "statusDAO")
+    public StatusDAO getStatusDAO() {
+        StatusDAO statusDAO = new StatusDAO();
+        return statusDAO;
+    }
+
     @Bean(name = "userDAO")
     public UserDAO getUserDAO() {
         UserDAO userDAO = new UserDAO();

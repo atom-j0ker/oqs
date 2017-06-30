@@ -19,7 +19,7 @@ public class User {
     private String password;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "master_id")
+    @JoinColumn(name = "user_master")
     private Master master;
 
     @ManyToOne(cascade = CascadeType.ALL)

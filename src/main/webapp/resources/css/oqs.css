@@ -17,6 +17,23 @@ div.dropdown.container-left-part-2 {
     float: left;
 }
 
+.organization-photo {
+    width: 800px;
+    height: 600px;
+    margin-top: 50px;
+    margin-left: 50px;
+    margin-bottom: 20px;
+}
+
+.booking-form {
+    width: 40%;
+    margin-left: 30%;
+    margin-top: 100px;
+    padding: 5%;
+    border: 2px solid black;
+    text-align: center;
+}
+
 .dropdown-submenu {
     position: relative;
 }
