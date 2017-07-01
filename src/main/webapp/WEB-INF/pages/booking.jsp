@@ -93,11 +93,9 @@
 
     $("#timeListId").change(function () {
         time = $(this).val();
-        alert(time)
     });
 
     function confirmBooking() {
-        alert("here")
         var masterElement = document.getElementById("masterListId");
         var masterName = masterElement.options[masterElement.selectedIndex].text;
         if (confirm("Your booking:\n" + "master: " + masterName + "\ndate: " + date + "\ntime: " + time))

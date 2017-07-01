@@ -43,7 +43,7 @@ public class ServiceController {
     }
 
     @RequestMapping(value = "/booking-add/{organizationId}/{username}/{serviceId}", method = RequestMethod.POST)
-    public String book(@PathVariable("organizationId") long organizationId,
+    public String bookingAdd(@PathVariable("organizationId") long organizationId,
                      @PathVariable("username") String username,
                      @PathVariable("serviceId") long serviceId,
                      HttpServletRequest request, Schedule schedule) throws ParseException {
@@ -68,6 +68,13 @@ public class ServiceController {
 
         return "redirect:/user/" + userDAO.getId(username);
     }
+
+    @RequestMapping(value = "/delete-booking/{scheduleId}", method = RequestMethod.GET)
+    @ResponseBody
+    public void bookingDelete(@PathVariable("scheduleId") long scheduleId) {
+        scheduleDAO.delete(scheduleId);
+    }
+
 
     @RequestMapping(value = "/fill-time-list", method = RequestMethod.GET)
     @ResponseBody

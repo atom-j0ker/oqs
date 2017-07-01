@@ -2,6 +2,7 @@ package com.oqs.controllers;
 
 import com.oqs.crud.MasterDAO;
 import com.oqs.crud.RoleDAO;
+import com.oqs.crud.ScheduleDAO;
 import com.oqs.crud.UserDAO;
 import com.oqs.model.Master;
 import com.oqs.model.Role;
@@ -23,9 +24,9 @@ import java.util.Set;
 public class UserController {
 
     @Autowired
-    MasterDAO masterDAO;
-    @Autowired
     RoleDAO roleDAO;
+    @Autowired
+    ScheduleDAO scheduleDAO;
     @Autowired
     UserDAO userDAO;
     @Autowired
@@ -74,6 +75,11 @@ public class UserController {
 
     @RequestMapping(value = "/user/{userId}", method = RequestMethod.GET)
     public ModelAndView myProfilePage(@PathVariable("userId") long userId) {
-        return new ModelAndView("my-profile", "user", userDAO.get(userId));
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("my-profile");
+        modelAndView.addObject("user", userDAO.get(userId));
+        modelAndView.addObject("schedule", scheduleDAO.getScheduleListByUserId(userId));
+
+        return modelAndView;
     }
 }

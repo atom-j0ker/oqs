@@ -5,6 +5,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import java.util.List;
 
 @Transactional
 public class ScheduleDAO {
@@ -21,5 +23,13 @@ public class ScheduleDAO {
 
     public Schedule get(long id) {
         return entityManager.find(Schedule.class, id);
+    }
+
+    public List<Schedule> getScheduleListByUserId(long userId) {
+        TypedQuery<Schedule> query = entityManager.createQuery(
+                "select s from Schedule s where s.user.id=" + userId, Schedule.class
+        );
+        List<Schedule> result = query.getResultList();
+        return result;
     }
 }
