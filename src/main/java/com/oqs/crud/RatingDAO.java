@@ -5,6 +5,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import java.util.List;
 
 @Transactional
 public class RatingDAO {
@@ -21,5 +23,18 @@ public class RatingDAO {
 
     public Rating get(long id) {
         return entityManager.find(Rating.class, id);
+    }
+
+    public double getRating(long businessId) {
+        TypedQuery<Rating> query = entityManager.createQuery(
+                "select r from Rating r where r.business=" + businessId, Rating.class
+        );
+        List<Rating> result = query.getResultList();
+        double rating = 0;
+        for (Rating r : result)
+            rating += r.getRating();
+        if (!result.isEmpty())
+            rating = rating / result.size();
+        return rating;
     }
 }

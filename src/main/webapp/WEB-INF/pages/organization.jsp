@@ -6,8 +6,17 @@
     <style>
         <%@ include file="/resources/css/oqs.css" %>
     </style>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/resources/css/star-rating.css" media="all" type="text/css"/>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="/resources/js/star-rating.js" type="text/javascript"></script>
 </head>
 <body>
+
+<input type="text" class="kv-fa rating-loading" value="${rating}" data-size="md" title="">
+<br>
+
 <img class="organization-photo" src="${organization.photo.photo}"/>
 <P>${organization.name}</P>
 <P>${organization.address}</P>
@@ -21,4 +30,11 @@
     </c:forEach>
 </ul>
 </body>
+
+<script type="text/javascript">
+    $('.kv-fa').rating({
+        filledStar: '<i class="fa fa-star"></i>',
+        emptyStar: '<i class="fa fa-star-o"></i>'
+    });
+</script>
 </html>

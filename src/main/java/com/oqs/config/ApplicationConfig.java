@@ -84,6 +84,12 @@ public class ApplicationConfig {
         return roleDAO;
     }
 
+    @Bean(name = "ratingDAO")
+    public RatingDAO getRatingDAO() {
+        RatingDAO ratingDAO = new RatingDAO();
+        return ratingDAO;
+    }
+
     @Bean(name = "serviceDAO")
     public ServiceDAO getServiceDAO() {
         ServiceDAO serviceDAO = new ServiceDAO();

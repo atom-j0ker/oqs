@@ -1,9 +1,6 @@
 package com.oqs.controllers;
 
-import com.oqs.crud.BusinessDAO;
-import com.oqs.crud.CategoryDAO;
-import com.oqs.crud.ServiceDAO;
-import com.oqs.crud.UserDAO;
+import com.oqs.crud.*;
 import com.oqs.model.Business;
 import com.oqs.model.Category;
 import com.oqs.model.Service;
@@ -24,6 +21,8 @@ public class OrganizationController {
     BusinessDAO businessDAO;
     @Autowired
     CategoryDAO categoryDAO;
+    @Autowired
+    RatingDAO ratingDAO;
     @Autowired
     ServiceDAO serviceDAO;
     @Autowired
@@ -90,6 +89,7 @@ public class OrganizationController {
         modelAndView.setViewName("organization");
         modelAndView.addObject("organization", businessDAO.get(organizationId));
         modelAndView.addObject("services", serviceDAO.getServiceListByOrganization(organizationId));
+        modelAndView.addObject("rating", ratingDAO.getRating(organizationId));
         return modelAndView;
     }
 }
