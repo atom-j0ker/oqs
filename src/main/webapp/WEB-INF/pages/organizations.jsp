@@ -32,7 +32,6 @@
                 </li>
             </c:forEach>
         </ul>
-
     </div>
 
     <div class="container-right-part">
@@ -57,6 +56,10 @@
 <script type="text/javascript">
     var categoryId;
 
+    if("${categoryId}" != "") {
+        fillTable("${categoryId}", "${categoryName}");
+    }
+
     $('.dropdown-submenu a.test').on("mouseenter", function (e) {
         $(this).next('ul').toggle();
         e.stopPropagation();
@@ -71,10 +74,10 @@
     $('a.test').on("click", function (e) {
         categoryId = e.target.id;
         var categoryName = e.target.text;
-        fillCategory(categoryId, categoryName);
+        fillTable(categoryId, categoryName);
     });
 
-    function fillCategory(categoryId, categoryName) {
+    function fillTable(categoryId, categoryName) {
         $.ajax({
             type: "GET",
             url: "/create-organization-table",
@@ -110,6 +113,7 @@
                     tr.appendChild(tdPhone);
                     table.tBodies[0].appendChild(tr);
                 }
+                sorttable.makeSortable(table);
                 $('#show-service-btn').prop("disabled", false);
 
                 fillService(categoryId);
@@ -213,6 +217,7 @@
         tdPhone.innerHTML = data[i].organizationTelephone;
         tr.appendChild(tdPhone);
         table.tBodies[0].appendChild(tr);
+        sorttable.makeSortable(table);
     }
 
     function appendTh(tr, th, name) {

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,12 +43,25 @@ public class OrganizationController {
     }
 
     @RequestMapping(value = "/organizations", method = RequestMethod.GET)
-    public ModelAndView organizationsPage() {
+    public ModelAndView organizationsPage(@ModelAttribute("categoryId") String categoryId, @ModelAttribute("categoryName") String categoryName) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("organizations");
         modelAndView.addObject("organizations", businessDAO.getBsnList());
         modelAndView.addObject("categories", categoryDAO.getCategories());
+        if (!categoryId.equals("")) {
+            modelAndView.addObject("categoryId", categoryId);
+            modelAndView.addObject("categoryName", categoryName);
+        }
         return modelAndView;
+    }
+
+    @RequestMapping(value = "/organizations-sort-by", method = RequestMethod.POST)
+    public String organizationsSortBy(@RequestParam("categoryId") String categoryId,
+                                      @RequestParam("categoryName") String categoryName,
+                                      RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("categoryId", categoryId);
+        redirectAttributes.addFlashAttribute("categoryName", categoryName);
+        return "redirect:/organizations";
     }
 
     @RequestMapping(value = "/create-organization-table", method = RequestMethod.GET)

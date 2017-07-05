@@ -17,6 +17,38 @@ div.dropdown.container-left-part-2 {
     float: left;
 }
 
+section#services .section-heading {
+    font-size: 40px;
+    margin-top: 0px;
+    margin-bottom: 80px;
+    padding: 30px;
+    background-color: rgb(76, 0, 76);
+    color: white;
+    text-align: center;
+}
+
+.organization-types {
+    margin-left: 5%;
+    margin-bottom: 50px;
+    width: 90%;
+    float: left;
+}
+
+.organization-types-image {
+    width: 200px;
+    height: 200px;
+    float: left;
+    margin: 10px;
+}
+
+.organization-types-description {
+    text-align: justify;
+    width:75%;
+    float: left;
+    margin: 10px;
+    font-size: 16px;
+}
+
 .organization-photo {
     width: 800px;
     height: 600px;

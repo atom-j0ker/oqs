@@ -14,10 +14,9 @@
 </head>
 <body>
 
+<img class="organization-photo" src="${organization.photo.photo}"/>
 <input type="text" class="kv-fa rating-loading" value="${rating}" data-size="md" title="">
 <br>
-
-<img class="organization-photo" src="${organization.photo.photo}"/>
 <P>${organization.name}</P>
 <P>${organization.address}</P>
 <P>${organization.description}</P>
