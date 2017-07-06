@@ -1,11 +1,10 @@
 package com.oqs.controllers;
 
 import com.oqs.crud.*;
-import com.oqs.model.Business;
-import com.oqs.model.Category;
-import com.oqs.model.Service;
-import com.oqs.model.User;
+import com.oqs.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -99,11 +98,25 @@ public class OrganizationController {
 
     @RequestMapping(value = "/organization/{organizationId}", method = RequestMethod.GET)
     public ModelAndView organization(@PathVariable("organizationId") long organizationId) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("organization");
         modelAndView.addObject("organization", businessDAO.get(organizationId));
         modelAndView.addObject("services", serviceDAO.getServiceListByOrganization(organizationId));
+        modelAndView.addObject("categories", categoryDAO.getCategories());
         modelAndView.addObject("rating", ratingDAO.getRating(organizationId));
+        if (auth.isAuthenticated()) {
+            String username = auth.getName();
+            if (!username.equals("anonymousUser"))
+                modelAndView.addObject("user", userDAO.get(userDAO.getId(username)));
+        }
         return modelAndView;
+    }
+
+    @RequestMapping(value = "/fill-subcategories", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Category> fillCategories(@RequestParam("categoryId") String categoryId) {
+        List<Category> categories = categoryDAO.getSubcategories(Long.valueOf(categoryId));
+        return categories;
     }
 }

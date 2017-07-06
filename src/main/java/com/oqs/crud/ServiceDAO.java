@@ -13,8 +13,8 @@ public class ServiceDAO {
     @PersistenceContext
     public EntityManager entityManager;
 
-    public void saveOrUpdate(Service service) {
-        entityManager.merge(service);
+    public long saveOrUpdate(Service service) {
+        return entityManager.merge(service).getId();
     }
 
     public void delete(long id) {

@@ -36,7 +36,7 @@
             <form class="form-horizontal" role="form">
                 <fieldset>
 
-        <p style="font-size: 20px; color: white">Choose Date:</p>
+        <p>Choose Date:</p>
         <div class="input-group date form_date" data-date="" data-date-format="dd-mm-yyyy"
              data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
             <input id="datepicker" name="dateName" class="form-control" size="16" type="text" value=""
@@ -47,7 +47,7 @@
         <input type="hidden" id="dtp_input2" value=""/><br/>
         <span class="error-msg" id="invalid-date"></span>
 
-        <p style="font-size: 20px; color: white">Choose time:</p>
+        <p>Choose time:</p>
         <p><select class="form-control input-lg" id="timeListId" name="timeListName">
             <option value="0" disabled selected>-- Time --</option>
         </select>

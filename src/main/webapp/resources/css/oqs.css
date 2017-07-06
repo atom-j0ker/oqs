@@ -75,3 +75,7 @@ section#services .section-heading {
     left: 100%;
     margin-top: -1px;
 }
+
+.add-service {
+    margin: 50px;
+}
