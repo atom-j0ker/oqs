@@ -79,3 +79,13 @@ section#services .section-heading {
 .add-service {
     margin: 50px;
 }
+
+.footer {
+    background-color: rgba(41, 4, 28, 0.71);
+    color: white;
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}

@@ -54,6 +54,9 @@
         <input type="button" id="add-service" value="Add service">
     </div>
 </c:if>
+
+<jsp:include page="fragments/footer.jsp"/>
+
 </body>
 
 <script type="text/javascript">

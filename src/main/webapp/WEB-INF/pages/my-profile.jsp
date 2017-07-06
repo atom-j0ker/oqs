@@ -59,6 +59,8 @@
     <p><a href="/user/${user.id}/create-business">create business</a></p>
 </sec:authorize>
 
+<jsp:include page="fragments/footer.jsp"/>
+
 <script>
     $(".delete-booking-btn").click(function () {
         var bookingId = $(this).closest('tr').attr('id');

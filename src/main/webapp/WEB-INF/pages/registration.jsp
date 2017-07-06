@@ -2,6 +2,10 @@
 <html>
 <head>
     <title>registration</title>
+    <style>
+        <%@ include file="/resources/css/oqs.css" %>
+        <%@ include file="/resources/css/bootstrap.css" %>
+    </style>
 </head>
 <body>
 <form action="registration" method="post">
@@ -15,5 +19,7 @@
     <p><input type="radio" name="role" value="ROLE_BUSINESS">business</p>
     <p><input type="submit" value="Sign up"></p>
 </form>
+<jsp:include page="fragments/footer.jsp"/>
+
 </body>
 </html>
