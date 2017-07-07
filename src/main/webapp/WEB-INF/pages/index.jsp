@@ -13,6 +13,17 @@
 <body>
 <sec:authentication var="user" property="principal"/>
 
+<header>
+    <div class="container">
+        <div class="intro-text">
+            <div class="intro-lead-in">Welcome<br>To:<br><br>Online<br>Queue<br>System</div>
+            <div class="intro-heading">It's Nice To Meet You</div>
+            <p class="intro-advice">Save Your Time
+            <a href="/organizations" class="btn btn-xl">Organizations</a></p>
+        </div>
+    </div>
+</header>
+
 <a href="organizations">Organizations</a>
 <a href="registration">Registration</a>
 <a href="authorization">Authorization</a>
@@ -27,7 +38,7 @@
 </sec:authorize>
 
 <section id="services">
-    <h2 class="section-heading">Organization types</h2>
+    <h2 class="section-heading">Organization Categories</h2>
     <div class="container">
         <form class="organization-types" action="/organizations-sort-by" method="post">
             <input type="hidden" value="2" name="categoryId"/>

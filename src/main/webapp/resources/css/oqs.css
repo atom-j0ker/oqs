@@ -1,3 +1,88 @@
+header {
+    background: url("/resources/photos/space.jpg") no-repeat scroll center center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+    color: white;
+}
+@media (min-width: 768px) {
+    header .intro-text {
+        padding-top: 200px;
+        padding-bottom: 100px;    }
+
+    header .intro-text .intro-lead-in {
+        font-style: italic;
+        font-size: 40px;
+        line-height: 40px;
+        margin-bottom: 25px;
+        float: left;
+    }
+
+    header .intro-text .intro-heading {
+        font-weight: 500;
+        font-size: 75px;
+        line-height: 75px;
+        margin-bottom: 50px;
+        text-align: center;
+    }
+
+    header .intro-text .intro-advice {
+        font-size: 40px;
+        margin-top: 420px;
+        margin-left: 140px;
+    }
+}
+
+.btn-xl {
+    color: white;
+    background-color: rgba(2, 3, 88, 0.68);
+    border-color: white;
+    font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    text-transform: uppercase;
+    font-weight: 700;
+    border-radius: 3px;
+    font-size: 18px;
+    padding: 20px 40px;
+    margin-left: 300px;
+}
+.btn-xl:hover,
+.btn-xl:focus,
+.btn-xl:active,
+.btn-xl.active,
+.open .dropdown-toggle.btn-xl {
+    color: white;
+    background-color: rgba(8, 0, 199, 0.68);
+    border-color: white;
+}
+.btn-xl:active,
+.btn-xl.active,
+.open .dropdown-toggle.btn-xl {
+    background-image: none;
+}
+.btn-xl.disabled,
+.btn-xl[disabled],
+fieldset[disabled] .btn-xl,
+.btn-xl.disabled:hover,
+.btn-xl[disabled]:hover,
+fieldset[disabled] .btn-xl:hover,
+.btn-xl.disabled:focus,
+.btn-xl[disabled]:focus,
+fieldset[disabled] .btn-xl:focus,
+.btn-xl.disabled:active,
+.btn-xl[disabled]:active,
+fieldset[disabled] .btn-xl:active,
+.btn-xl.disabled.active,
+.btn-xl[disabled].active,
+fieldset[disabled] .btn-xl.active {
+    background-color: rgba(8, 0, 199, 0.68);
+    border-color: white;
+}
+.btn-xl .badge {
+    color: #fed136;
+    background-color: white;
+}
+
 .container-left-part-1 {
     width: 20%;
     float: left;
@@ -22,7 +107,7 @@ section#services .section-heading {
     margin-top: 0px;
     margin-bottom: 80px;
     padding: 30px;
-    background-color: rgb(76, 0, 76);
+    background-color: rgb(1, 4, 72);
     color: white;
     text-align: center;
 }
@@ -43,7 +128,7 @@ section#services .section-heading {
 
 .organization-types-description {
     text-align: justify;
-    width:75%;
+    width: 75%;
     float: left;
     margin: 10px;
     font-size: 16px;
@@ -81,7 +166,7 @@ section#services .section-heading {
 }
 
 .footer {
-    background-color: rgba(41, 4, 28, 0.71);
+    background-color: rgba(5, 2, 76, 0.65);
     color: white;
     position: fixed;
     right: 0;
