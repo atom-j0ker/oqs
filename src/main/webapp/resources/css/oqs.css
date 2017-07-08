@@ -1,3 +1,20 @@
+.header-top {
+    background-color: rgba(5, 2, 76, 0.65);
+    border-color: transparent;
+}
+
+.header-name {
+    font-size: 50px;
+    font-style: italic;
+    font-weight: bold;
+    color: white;
+}
+
+.header-text {
+    font-size: 20px;
+    color: white;
+}
+
 header {
     background: url("/resources/photos/space.jpg") no-repeat scroll center center;
     -webkit-background-size: cover;
@@ -163,6 +180,36 @@ section#services .section-heading {
 
 .add-service {
     margin: 50px;
+}
+
+.authorization-form {
+    text-align: center;
+    margin-top: 250px;
+    margin-left: 40%;
+    width: 300px;
+}
+
+.authorization-title {
+    font-size: 26px;
+}
+
+.authorization-btn {
+    width: 150px;
+}
+
+.registration-form {
+    margin-top: 200px;
+    margin-left: 40%;
+    width: 300px;
+    text-align: center;
+}
+
+.registration-title {
+    font-size: 26px;
+}
+
+.registration-btn {
+    width: 150px;
 }
 
 .footer {

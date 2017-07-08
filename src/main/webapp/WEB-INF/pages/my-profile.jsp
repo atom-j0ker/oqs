@@ -13,6 +13,9 @@
     </style>
 </head>
 <body>
+
+<jsp:include page="fragments/header.jsp"/>
+
 <sec:authentication var="currentUser" property="principal"/>
 <h2>My profile</h2>
 <p>${user.email}</p>

@@ -8,16 +8,20 @@
     </style>
 </head>
 <body>
-<form action="registration" method="post">
-    <p><input type="email" name="email" placeholder="email"/></p>
-    <p><input type="password" name="password" placeholder="password"/></p>
-    <p><input type="text" name="firstname" placeholder="first name"/></p>
-    <p><input type="text" name="lastname" placeholder="last name"/></p>
-    <p><input type="tel" name="phone" placeholder="telephone"></p>
-    <p><input type="radio" name="role" value="ROLE_USER">client</p>
-    <p><input type="radio" name="role" value="ROLE_MASTER">master</p>
-    <p><input type="radio" name="role" value="ROLE_BUSINESS">business</p>
-    <p><input type="submit" value="Sign up"></p>
+
+<jsp:include page="fragments/header.jsp"/>
+
+<form class="registration-form" action="registration" method="post">
+    <p class="registration-title">Registration</p>
+    <p><input class="form-control" type="email" name="email" placeholder="Enter email"/></p>
+    <p><input class="form-control" type="password" name="password" placeholder="Enter password"/></p>
+    <p><input class="form-control" type="text" name="firstname" placeholder="Enter first name"/></p>
+    <p><input class="form-control" type="text" name="lastname" placeholder="Enter last name"/></p>
+    <p><input class="form-control" type="tel" name="phone" placeholder="Enter telephone"></p>
+    <p><input type="radio" name="role" value="ROLE_USER"> client</p>
+    <p><input type="radio" name="role" value="ROLE_MASTER"> master</p>
+    <p><input type="radio" name="role" value="ROLE_BUSINESS"> business</p>
+    <p><input class="btn btn-primary registration-btn" type="submit" value="Sign up"></p>
 </form>
 <jsp:include page="fragments/footer.jsp"/>
 

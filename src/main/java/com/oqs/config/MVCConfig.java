@@ -38,11 +38,4 @@ public class MVCConfig extends WebMvcConfigurerAdapter {
         return viewResolver;
     }
 
-    @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        super.addViewControllers(registry);
-        registry.addViewController("/").setViewName("forward:/index.html");
-    }
-
-
 }

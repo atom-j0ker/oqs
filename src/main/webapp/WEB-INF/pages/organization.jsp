@@ -17,6 +17,9 @@
     <%--<script src="<c:url value="/resources/js/jquery.js" />"></script>--%>
 
 </head>
+
+<jsp:include page="fragments/header.jsp"/>
+
 <body>
 <sec:authorize access="isAuthenticated()">
     <sec:authentication var="currentUser" property="principal"/>

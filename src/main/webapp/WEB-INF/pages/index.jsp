@@ -9,9 +9,11 @@
         <%@ include file="/resources/css/bootstrap.min.css" %>
         <%@ include file="/resources/css/oqs.css" %>
     </style>
+
 </head>
 <body>
-<sec:authentication var="user" property="principal"/>
+
+<jsp:include page="fragments/header.jsp"/>
 
 <header>
     <div class="container">
@@ -19,23 +21,11 @@
             <div class="intro-lead-in">Welcome<br>To:<br><br>Online<br>Queue<br>System</div>
             <div class="intro-heading">It's Nice To Meet You</div>
             <p class="intro-advice">Save Your Time
-            <a href="/organizations" class="btn btn-xl">Organizations</a></p>
+                <a href="/organizations" class="btn btn-xl">Organizations</a>
+            </p>
         </div>
     </div>
 </header>
-
-<a href="organizations">Organizations</a>
-<a href="registration">Registration</a>
-<a href="authorization">Authorization</a>
-
-<sec:authorize access="isAuthenticated()">
-    <c:set var="username" value="${user.username}"/>
-    <p>${username}</p>
-    <form action="my-profile" method="post">
-        <input type="hidden" name="username" value="${username}">
-        <input type="submit" value="my profile">
-    </form>
-</sec:authorize>
 
 <section id="services">
     <h2 class="section-heading">Organization Categories</h2>
@@ -63,7 +53,7 @@
             <input class="organization-types-image" style="float: right" type="image"
                    src="/resources/photos/categories/service-station.png"/>
             <p class="organization-types-description"><strong>SERVICE</strong><br>
-                A service station  is a repair shop where automobiles are repaired by auto mechanics
+                A service station is a repair shop where automobiles are repaired by auto mechanics
                 and technicians. Specialty automobile repair shops are shops specializing in certain
                 parts such as brakes, mufflers and exhaust systems, transmissions, body parts,
                 automobile electrification, automotive air conditioner repairs, automotive glass

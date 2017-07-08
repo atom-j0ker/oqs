@@ -14,6 +14,8 @@
 </head>
 <body>
 
+<jsp:include page="fragments/header.jsp"/>
+
 <div class="container">
     <div class="dropdown container-left-part-1">
         <button id="choose-category-btn" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">

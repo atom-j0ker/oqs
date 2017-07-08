@@ -8,6 +8,9 @@
     </style>
 </head>
 <body>
+
+<jsp:include page="fragments/header.jsp"/>
+
 <form action="create-business" method="post">
     <p><input type="text" name="name" placeholder="name"/></p>
     <p><input type="text" name="address" placeholder="address"/></p>

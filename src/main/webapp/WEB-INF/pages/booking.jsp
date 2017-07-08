@@ -15,6 +15,9 @@
     <script src="<c:url value="/resources/js/test-bootstrap-datetimepicker.js" />" charset="UTF-8"></script>
 </head>
 <body>
+
+<jsp:include page="fragments/header.jsp"/>
+
 <sec:authorize access="isAuthenticated()">
     <sec:authentication var="user" property="principal.username"/>
 </sec:authorize>
