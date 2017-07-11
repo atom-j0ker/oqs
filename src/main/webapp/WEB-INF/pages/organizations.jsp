@@ -16,6 +16,8 @@
 
 <jsp:include page="fragments/header.jsp"/>
 
+<br><br><br><br>
+
 <div class="container">
     <div class="dropdown container-left-part-1">
         <button id="choose-category-btn" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
@@ -61,6 +63,7 @@
     var categoryId;
 
     if("${categoryId}" != "") {
+        categoryId = ${categoryId}
         fillTable("${categoryId}", "${categoryName}");
     }
 

@@ -13,17 +13,11 @@
     <link rel="stylesheet" href="/resources/css/star-rating.css" media="all" type="text/css"/>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="/resources/js/star-rating.js" type="text/javascript"></script>
-
-    <%--<script src="<c:url value="/resources/js/jquery.js" />"></script>--%>
-
 </head>
 
 <jsp:include page="fragments/header.jsp"/>
 
 <body>
-<sec:authorize access="isAuthenticated()">
-    <sec:authentication var="currentUser" property="principal"/>
-</sec:authorize>
 
 <img class="organization-photo" src="${organization.photo.photo}"/>
 <input type="text" class="kv-fa rating-loading" value="${rating}" data-size="md" title="">
@@ -41,20 +35,22 @@
 
 <c:if test="${organization.id == user.business.id}">
     <div class="add-service">
-        <p>Add service:</p>
-        <select id="categoryListId">
-            <option value="0" selected disabled> -- Choose category --</option>
-            <c:forEach items="${categories}" var="category">
-                <option id="${category.id}" value="${category.name}">${category.name}</option>
-            </c:forEach>
-        </select><br>
-        <select id="subcategoryListId">
-            <option value="0" selected disabled> -- Choose subcategory --</option>
-        </select><br>
-        <input type="text" id="newService" placeholder="Service"><br>
-        <input type="text" id="newPrice" placeholder="Price (E.g. 10-15$)"><br>
-        <input type="text" id="newDuration" placeholder="Duration (E.g. 60 min)"><br>
-        <input type="button" id="add-service" value="Add service">
+        <p id="add-service-btn">Add service:</p>
+        <div class="add-service-form">
+            <select id="categoryListId">
+                <option value="0" selected disabled> -- Choose category --</option>
+                <c:forEach items="${categories}" var="category">
+                    <option id="${category.id}" value="${category.name}">${category.name}</option>
+                </c:forEach>
+            </select><br>
+            <select id="subcategoryListId">
+                <option value="0" selected disabled> -- Choose subcategory --</option>
+            </select><br>
+            <input type="text" id="newService" placeholder="Service"><br>
+            <input type="text" id="newPrice" placeholder="Price (E.g. 10-15$)"><br>
+            <input type="text" id="newDuration" placeholder="Duration (E.g. 60 min)"><br>
+            <input type="button" id="add-service" value="Add service">
+        </div>
     </div>
 </c:if>
 
@@ -63,9 +59,17 @@
 </body>
 
 <script type="text/javascript">
+
     $('.kv-fa').rating({
         filledStar: '<i class="fa fa-star"></i>',
         emptyStar: '<i class="fa fa-star-o"></i>'
+    });
+
+    $("#add-service-btn").click(function () {
+        if ($('.add-service-form').css('display') === 'none')
+            $(".add-service-form").css('display', 'block');
+        else
+            $(".add-service-form").css('display', 'none');
     });
 
     $("#categoryListId").change(function () {
@@ -102,7 +106,7 @@
             url: "/add-service/" + ${organization.id},
             data: "subcategoryId=" + subcategoryId + "&serviceName=" + serviceName + "&priceValue=" + priceValue + "&duration=" + duration,
             success: function (service) {
-                $("#service-list").append("<li><a href='/organization/" + ${organization.id} + "/service/" + service.id + "'>" + service.name + "</a></li>");
+                $("#service-list").append("<li><a href='/organization/" + ${organization.id} +"/service/" + service.id + "'>" + service.name + "</a></li>");
             },
             error: function (xhr, textStatus) {
                 alert([xhr.status, textStatus]);

@@ -6,7 +6,6 @@
 <style>
     <%@ include file="/resources/css/oqs.css" %>
 </style>
-<%--<script src="/resources/js/jquery.js"></script>--%>
 
 <c:set var="url" value="${requestScope['javax.servlet.forward.request_uri']}"/>
 <sec:authentication var="user" property="principal"/>
@@ -33,7 +32,7 @@
                 <li><a href="/logout"><span class="header-text">Logout</span></a></li>
                 <li><a href="#" onclick="document.getElementById('my-profile').submit();">
                     <span class="header-text">My profile</span></a></li>
-                <form id="my-profile" action="my-profile" method="post">
+                <form id="my-profile" action="/my-profile" method="post">
                     <input type="hidden" name="username" value="${username}">
                 </form>
             </sec:authorize>
@@ -45,7 +44,7 @@
     </div>
 </nav>
 
-<script>
+<script type="text/javascript">
     if (${url == "/"}) {
         document.getElementById("organizations-btn").style.visibility = "visible";
         document.getElementById("about-btn").style.visibility = "visible";

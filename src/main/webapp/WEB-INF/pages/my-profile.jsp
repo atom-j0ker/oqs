@@ -56,10 +56,16 @@
     </c:if>
 </sec:authorize>
 <sec:authorize access="hasRole('ROLE_MASTER')">
-
 </sec:authorize>
 <sec:authorize access="hasRole('ROLE_BUSINESS')">
-    <p><a href="/user/${user.id}/create-business">create business</a></p>
+    <c:choose>
+    <c:when test="${empty user.business.id}">
+        <p><a href="/user/${user.id}/create-business">create business</a></p>
+    </c:when>
+    <c:otherwise>
+        <p><a href="/organization/${user.business.id}">my business</a></p>
+    </c:otherwise>
+    </c:choose>
 </sec:authorize>
 
 <jsp:include page="fragments/footer.jsp"/>

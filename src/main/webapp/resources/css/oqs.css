@@ -182,6 +182,10 @@ section#services .section-heading {
     margin: 50px;
 }
 
+.add-service-form {
+    display: none;
+}
+
 .authorization-form {
     text-align: center;
     margin-top: 250px;
