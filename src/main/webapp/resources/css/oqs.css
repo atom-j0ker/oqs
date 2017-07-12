@@ -100,6 +100,12 @@ fieldset[disabled] .btn-xl.active {
     background-color: white;
 }
 
+.organization-content {
+    float: left;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
 .container-left-part-1 {
     width: 20%;
     float: left;
@@ -151,12 +157,38 @@ section#services .section-heading {
     font-size: 16px;
 }
 
+.organization-left-part {
+    width: 60%;
+    float: left;
+}
+
+.organization-right-part {
+    width: 40%;
+    float: left;
+    margin-top: 20px;
+}
+
 .organization-photo {
     width: 800px;
     height: 600px;
-    margin-top: 50px;
+    margin-top: 20px;
     margin-left: 50px;
     margin-bottom: 20px;
+}
+
+.organization-name {
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.organization-description {
+    margin-top: 30px;
+}
+
+.organization-services {
+    width: 100%;
+    float: left;
+    padding-left: 50px;
 }
 
 .booking-form {

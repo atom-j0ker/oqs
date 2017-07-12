@@ -17,7 +17,6 @@ public class FileUpload {
                 byte[] bytes = file.getBytes();
                 BufferedOutputStream buffStream =
                         new BufferedOutputStream(new FileOutputStream(new File(directory + "/bsn-" + bsnId + ".jpg")));
-                System.out.println(directory);
                 buffStream.write(bytes);
                 buffStream.close();
             } catch (Exception e) {

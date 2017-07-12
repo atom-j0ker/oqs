@@ -14,51 +14,61 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="/resources/js/star-rating.js" type="text/javascript"></script>
 </head>
+<body>
 
 <jsp:include page="fragments/header.jsp"/>
 
-<body>
+<div class="organization-content">
+    <div class="organization-left-part">
+        <img class="organization-photo" src="${organization.photo.photo}"/>
 
-<img class="organization-photo" src="${organization.photo.photo}"/>
-<input type="text" class="kv-fa rating-loading" value="${rating}" data-size="md" title="">
-<br>
-<P>${organization.name}</P>
-<P>${organization.address}</P>
-<P>${organization.description}</P>
-<P>${organization.phone}</P>
-
-<ul id="service-list">
-    <c:forEach items="${services}" var="service">
-        <li><a href="/organization/${organization.id}/service/${service.id}">${service.name}</a></li>
-    </c:forEach>
-</ul>
-
-<c:if test="${organization.id == user.business.id}">
-
-    <form action="/organization/${organization.id}/change-photo" method="post" enctype="multipart/form-data">
-        <input id="file" name="file" class="hidden-files" type="file" accept="image/*">
-        <input type="submit" value="Upload">
-    </form>
-
-    <div class="add-service">
-        <p id="add-service-btn">Add service:</p>
-        <div class="add-service-form">
-            <select id="categoryListId">
-                <option value="0" selected disabled> -- Choose category --</option>
-                <c:forEach items="${categories}" var="category">
-                    <option id="${category.id}" value="${category.name}">${category.name}</option>
-                </c:forEach>
-            </select><br>
-            <select id="subcategoryListId">
-                <option value="0" selected disabled> -- Choose subcategory --</option>
-            </select><br>
-            <input type="text" id="newService" placeholder="Service"><br>
-            <input type="text" id="newPrice" placeholder="Price (E.g. 10-15$)"><br>
-            <input type="text" id="newDuration" placeholder="Duration (E.g. 60 min)"><br>
-            <input type="button" id="add-service" value="Add service">
+    </div>
+    <div class="organization-right-part">
+        <p class="organization-name">${organization.name}</p>
+        <input type="text" class="kv-fa rating-loading" value="${rating}" data-size="md" title="">
+        <div class="organization-description">
+            <p>Address: ${organization.address}</p>
+            <p>Telephone: ${organization.phone}</p>
+            <p>${organization.description}</p>
         </div>
     </div>
-</c:if>
+
+    <div class="organization-services">
+        <p>Organization services:</p>
+        <ul id="service-list">
+            <c:forEach items="${services}" var="service">
+                <li><a href="/organization/${organization.id}/service/${service.id}">${service.name}</a></li>
+            </c:forEach>
+        </ul>
+    </div>
+
+    <c:if test="${organization.id == user.business.id}">
+
+        <form action="/organization/${organization.id}/change-photo" method="post" enctype="multipart/form-data">
+            <input id="file" name="file" class="hidden-files" type="file" accept="image/*">
+            <input type="submit" value="Upload">
+        </form>
+
+        <div class="add-service">
+            <p id="add-service-btn">Add service:</p>
+            <div class="add-service-form">
+                <select id="categoryListId">
+                    <option value="0" selected disabled> -- Choose category --</option>
+                    <c:forEach items="${categories}" var="category">
+                        <option id="${category.id}" value="${category.name}">${category.name}</option>
+                    </c:forEach>
+                </select><br>
+                <select id="subcategoryListId">
+                    <option value="0" selected disabled> -- Choose subcategory --</option>
+                </select><br>
+                <input type="text" id="newService" placeholder="Service"><br>
+                <input type="text" id="newPrice" placeholder="Price (E.g. 10-15$)"><br>
+                <input type="text" id="newDuration" placeholder="Duration (E.g. 60 min)"><br>
+                <input type="button" id="add-service" value="Add service">
+            </div>
+        </div>
+    </c:if>
+</div>
 
 <jsp:include page="fragments/footer.jsp"/>
 
