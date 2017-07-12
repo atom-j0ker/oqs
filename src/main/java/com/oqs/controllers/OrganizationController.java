@@ -63,6 +63,21 @@ public class OrganizationController {
         return "redirect:/organizations";
     }
 
+    @RequestMapping(value = "/search-service", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Service.ServiceTable> searchServices(@RequestParam("string") String string) {
+        System.out.println(string);
+        List<Service> services = serviceDAO.getServiceListByString(string);
+        System.out.println(services.size());
+        List<Service.ServiceTable> serviceList = new ArrayList<Service.ServiceTable>();
+        for (Service s : services) {
+            System.out.println(s.getName());
+            serviceList.add(s.getServiceTable(s));
+        }
+        System.out.println(serviceList.size());
+        return serviceList;
+    }
+
     @RequestMapping(value = "/create-organization-table", method = RequestMethod.GET)
     @ResponseBody
     public List<Business> organizationsBySort(@RequestParam("categoryId") String categoryId) {

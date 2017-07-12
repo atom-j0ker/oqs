@@ -16,44 +16,46 @@
 
 <jsp:include page="fragments/header.jsp"/>
 
-<br><br><br><br>
+<div class="organization-content">
+    <div class="container organization-search">
+        <div class="dropdown container-left-part-1">
+            <input type="text" id="search-service" placeholder="Search service">
+            <button id="choose-category-btn" class="btn btn-default dropdown-toggle" type="button"
+                    data-toggle="dropdown">
+                Choose category
+                <span class="caret"></span></button>
+            <ul class="dropdown-menu">
+                <c:forEach items="${categories}" var="category">
+                    <li class="dropdown-submenu">
+                        <a id="${category.id}" class="test" tabindex="-1" href="#">${category.name}<span
+                                class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <c:forEach items="${category.categories}" var="subcategory">
+                                <li><a id="${subcategory.id}" class="test" href="#">${subcategory.name}</a></li>
+                            </c:forEach>
+                        </ul>
+                    </li>
+                </c:forEach>
+            </ul>
+        </div>
 
-<div class="container">
-    <div class="dropdown container-left-part-1">
-        <button id="choose-category-btn" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-            Choose category
-            <span class="caret"></span></button>
-        <ul class="dropdown-menu">
-            <c:forEach items="${categories}" var="category">
-                <li class="dropdown-submenu">
-                    <a id="${category.id}" class="test" tabindex="-1" href="#">${category.name}<span
-                            class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <c:forEach items="${category.categories}" var="subcategory">
-                            <li><a id="${subcategory.id}" class="test" href="#">${subcategory.name}</a></li>
-                        </c:forEach>
-                    </ul>
-                </li>
-            </c:forEach>
-        </ul>
-    </div>
-
-    <div class="container-right-part">
-        <table id="organizationTable" class="sortable table table-bordered">
-            <tr>
-                <th>Organization</th>
-                <th>Address</th>
-                <th>Telephone</th>
-            </tr>
-        </table>
-    </div>
-    <div class="dropdown container-left-part-2">
-        <button id="show-service-btn" class="btn btn-default" type="button" disabled>Show services</button>
-        <button id="choose-service-btn" class="btn btn-default dropdown-toggle" type="button"
-                data-toggle="dropdown">
-            Choose service
-            <span class="caret"></span></button>
-        <ul id="service-dropdown" class="dropdown-menu"/>
+        <div class="container-right-part">
+            <table id="organizationTable" class="sortable table table-bordered">
+                <tr>
+                    <th>Organization</th>
+                    <th>Address</th>
+                    <th>Telephone</th>
+                </tr>
+            </table>
+        </div>
+        <div class="dropdown container-left-part-2">
+            <button id="show-service-btn" class="btn btn-default" type="button" disabled>Show services</button>
+            <button id="choose-service-btn" class="btn btn-default dropdown-toggle" type="button"
+                    data-toggle="dropdown">
+                Choose service
+                <span class="caret"></span></button>
+            <ul id="service-dropdown" class="dropdown-menu"/>
+        </div>
     </div>
 </div>
 
@@ -62,17 +64,37 @@
 <script type="text/javascript">
     var categoryId;
 
-    if("${categoryId}" != "") {
+    if ("${categoryId}" != "") {
         categoryId = ${categoryId}
-        fillTable("${categoryId}", "${categoryName}");
+            fillTable("${categoryId}", "${categoryName}");
     }
 
-    $('.dropdown-submenu a.test').on("mouseenter", function (e) {
+    $("#search-service").on("keyup change", function () {
+
+        var string = $(this).val();
+        $.ajax({
+            type: "GET",
+            url: "/search-service",
+            data: "string=" + string,
+            dataType: 'json',
+            success: function (service) {
+                var table = document.getElementById("organizationTable");
+                createOrganizationTableTh(table);
+                for (i = 0; i < service.length; i++)
+                    fillOrganizationTable(table, service);
+            },
+            error: function (xhr, textStatus) {
+                alert([xhr.status, textStatus]);
+            }
+        })
+    });
+
+    $(".dropdown-submenu a.test").on("mouseenter", function (e) {
         $(this).next('ul').toggle();
         e.stopPropagation();
         e.preventDefault();
     });
-    $('.dropdown-submenu a.test').on("mouseleave", function (e) {
+    $(".dropdown-submenu a.test").on("mouseleave", function (e) {
         $('dropdown-menu a.test').on("mouseleave", function (e) {
             $(this).hide();
         });

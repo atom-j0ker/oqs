@@ -31,10 +31,10 @@ public class ServiceController {
     @RequestMapping(value = "/add-service/{organizationId}", method = RequestMethod.GET)
     @ResponseBody
     public Service serviceAdd(@PathVariable("organizationId") long organizationId,
-                           @RequestParam("subcategoryId") String subcategoryId,
-                           @RequestParam("serviceName") String serviceName,
-                           @RequestParam("priceValue") String priceValue,
-                           @RequestParam("duration") String duration) {
+                              @RequestParam("subcategoryId") String subcategoryId,
+                              @RequestParam("serviceName") String serviceName,
+                              @RequestParam("priceValue") String priceValue,
+                              @RequestParam("duration") String duration) {
         Service service = new Service();
         Price price = new Price();
         service.setName(serviceName);
@@ -47,4 +47,5 @@ public class ServiceController {
         service = serviceDAO.get(serviceDAO.saveOrUpdate(service));
         return service;
     }
+
 }

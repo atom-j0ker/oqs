@@ -41,4 +41,12 @@ public class ServiceDAO {
         List<Service> result = query.getResultList();
         return result;
     }
+
+    public List<Service> getServiceListByString(String string) {
+        TypedQuery<Service> query = entityManager.createQuery(
+                "select s from Service s where s.name like '%" + string + "%'", Service.class
+        );
+        List<Service> result = query.getResultList();
+        return result;
+    }
 }
