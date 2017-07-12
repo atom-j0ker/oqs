@@ -70,7 +70,6 @@ public class UserController {
     @RequestMapping(value = "/my-profile", method = RequestMethod.POST)
     public String myProfilePage(HttpServletRequest request) {
         long userId = userDAO.getId(request.getParameter("username"));
-        System.out.println(userId);
         return "redirect:/user/" + userId;
     }
 

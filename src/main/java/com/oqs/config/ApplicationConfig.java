@@ -2,6 +2,7 @@ package com.oqs.config;
 
 import com.oqs.crud.*;
 //import org.springframework.beans.factory.annotation.Value;
+import com.oqs.file.FileUpload;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -72,10 +73,22 @@ public class ApplicationConfig {
         return categoryDAO;
     }
 
+    @Bean(name = "fileUpload")
+    public FileUpload getFileUpload() {
+        FileUpload fileUpload = new FileUpload();
+        return fileUpload;
+    }
+
     @Bean(name = "masterDAO")
     public MasterDAO getMasterDAO() {
         MasterDAO masterDAO = new MasterDAO();
         return masterDAO;
+    }
+
+    @Bean(name = "photoDAO")
+    public PhotoDAO getPhotoDAO() {
+        PhotoDAO photoDAO = new PhotoDAO();
+        return photoDAO;
     }
 
     @Bean(name = "roleDAO")

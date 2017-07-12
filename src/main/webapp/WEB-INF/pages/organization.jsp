@@ -34,6 +34,12 @@
 </ul>
 
 <c:if test="${organization.id == user.business.id}">
+
+    <form action="/organization/${organization.id}/change-photo" method="post" enctype="multipart/form-data">
+        <input id="file" name="file" class="hidden-files" type="file" accept="image/*">
+        <input type="submit" value="Upload">
+    </form>
+
     <div class="add-service">
         <p id="add-service-btn">Add service:</p>
         <div class="add-service-form">

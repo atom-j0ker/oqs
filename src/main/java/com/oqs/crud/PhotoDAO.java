@@ -11,8 +11,8 @@ public class PhotoDAO {
     @PersistenceContext
     public EntityManager entityManager;
 
-    public void saveOrUpdate(Photo photo) {
-        entityManager.merge(photo);
+    public long saveOrUpdate(Photo photo) {
+        return entityManager.merge(photo).getId();
     }
 
     public void delete(long id) {
