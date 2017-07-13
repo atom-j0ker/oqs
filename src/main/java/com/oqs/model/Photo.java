@@ -1,7 +1,6 @@
 package com.oqs.model;
 
 import javax.persistence.*;
-import java.sql.Blob;
 
 @Entity
 @Table(name = "photo")

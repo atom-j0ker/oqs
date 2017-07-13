@@ -11,7 +11,7 @@ public class Price {
     private long id;
 
     @Column(name = "price_price")
-    private String price;
+    private int price;
 
     @OneToOne(mappedBy = "price")
     private Service service;
@@ -19,7 +19,7 @@ public class Price {
     public Price() {
     }
 
-    public Price(String price, Service service) {
+    public Price(int price, Service service) {
         this.price = price;
         this.service = service;
     }
@@ -32,11 +32,11 @@ public class Price {
         this.id = id;
     }
 
-    public String getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 
@@ -52,7 +52,7 @@ public class Price {
     public String toString() {
         return "Price{" +
                 "id=" + id +
-                ", price='" + price + '\'' +
+                ", price=" + price +
                 ", service=" + service +
                 '}';
     }

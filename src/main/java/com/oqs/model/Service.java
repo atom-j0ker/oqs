@@ -124,7 +124,7 @@ public class Service {
     public class ServiceTable {
 
         private String serviceName;
-        private String servicePrice;
+        private int servicePrice;
         private long organizationId;
         private String organizationName;
         private String organizationAddress;
@@ -147,11 +147,11 @@ public class Service {
             this.serviceName = serviceName;
         }
 
-        public String getServicePrice() {
+        public int getServicePrice() {
             return servicePrice;
         }
 
-        public void setServicePrice(String servicePrice) {
+        public void setServicePrice(int servicePrice) {
             this.servicePrice = servicePrice;
         }
 
