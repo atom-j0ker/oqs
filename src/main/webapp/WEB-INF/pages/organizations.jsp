@@ -16,10 +16,10 @@
 
 <jsp:include page="fragments/header.jsp"/>
 
-<div class="organization-content">
+<div class="content">
     <div class="container organization-search">
         <div class="dropdown container-left-part-1">
-            <input type="text" id="search-service" placeholder="Search service">
+            <input type="text" id="search-service" class="form-control" placeholder="Search service">
             <button id="choose-category-btn" class="btn btn-default dropdown-toggle" type="button"
                     data-toggle="dropdown">
                 Choose category
@@ -50,11 +50,6 @@
         </div>
         <div class="dropdown container-left-part-2">
             <button id="show-service-btn" class="btn btn-default" type="button" disabled>Show services</button>
-            <button id="choose-service-btn" class="btn btn-default dropdown-toggle" type="button"
-                    data-toggle="dropdown">
-                Choose service
-                <span class="caret"></span></button>
-            <ul id="service-dropdown" class="dropdown-menu"/>
         </div>
     </div>
 </div>
@@ -115,8 +110,6 @@
             success: function (data) {
                 document.getElementById("choose-category-btn").innerHTML =
                     categoryName + ' <span class="caret"></span>';
-                document.getElementById("choose-service-btn").innerHTML =
-                    "Choose service <span class='caret'></span>";
                 $("#organizationTable tr").remove();
                 var table = document.getElementById("organizationTable");
                 var tr = document.createElement('tr');
@@ -144,25 +137,6 @@
                 }
                 sorttable.makeSortable(table);
                 $('#show-service-btn').prop("disabled", false);
-
-                fillService(categoryId);
-            },
-            error: function (xhr, textStatus) {
-                alert([xhr.status, textStatus]);
-            }
-        });
-    }
-
-    function fillService(categoryId) {
-        $.ajax({
-            type: "GET",
-            url: "/fill-service",
-            data: "categoryId=" + categoryId,
-            dataType: 'json',
-            success: function (data) {
-                $("#service-dropdown li").remove();
-                for (i = 0; i < data.length; i++)
-                    $("#service-dropdown").append('<li><a id="' + data[i].id + '" class="service" href="#">' + data[i].name + '</a></li>');
             },
             error: function (xhr, textStatus) {
                 alert([xhr.status, textStatus]);
@@ -174,8 +148,6 @@
         var serviceId = e.target.id;
         var serviceName = e.target.text;
         var table = document.getElementById("organizationTable");
-        document.getElementById("choose-service-btn").innerHTML =
-            serviceName + ' <span class="caret"></span>';
         createOrganizationTableTh(table);
 
         $.ajax({
@@ -217,7 +189,7 @@
         var tr = document.createElement('tr');
         var thService, thName, thAddress, thTelephone;
         appendTh(tr, thService, "Service");
-        appendTh(tr, thName, "Price");
+        appendTh(tr, thName, "Price ( $ )");
         appendTh(tr, thName, "Organization");
         appendTh(tr, thAddress, "Address");
         appendTh(tr, thTelephone, "Telephone");

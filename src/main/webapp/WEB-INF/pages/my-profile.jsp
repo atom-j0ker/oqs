@@ -16,72 +16,62 @@
 
 <jsp:include page="fragments/header.jsp"/>
 
-<sec:authentication var="currentUser" property="principal"/>
-<h2>My profile</h2>
-<p>${user.email}</p>
-<sec:authorize access="isAuthenticated()">
-    <p>${currentUser.authorities}</p>
-</sec:authorize>
-<p>${user.firstname} ${user.lastname}</p>
+<div class="content">
+    <sec:authentication var="currentUser" property="principal"/>
+    <h2>My profile</h2>
+    <p>${user.email}</p>
+    <sec:authorize access="isAuthenticated()">
+        <p>${currentUser.authorities}</p>
+    </sec:authorize>
+    <p>${user.firstname} ${user.lastname}</p>
 
-<sec:authorize access="hasRole('ROLE_USER')">
-    <c:if test="${!empty schedule}">
-        <div class="my-bookings">
-            <p class="title">My bookings</p>
-            <table class="sortable table table-bordered">
-                <tr>
-                    <th>Organization</th>
-                    <th>Service</th>
-                    <th>Master</th>
-                    <th>Date</th>
-                    <th>Time</th>
-                </tr>
-                <c:forEach items="${schedule}" var="sch">
-                    <tr id="${sch.id}">
-                        <c:set value="${sch.id}" var="a"></c:set>
-                        <td>${sch.service.business.name}</td>
-                        <td>${sch.service.name}</td>
-                        <td>${sch.master.user.firstname} ${sch.master.user.lastname}</td>
-                        <td><fmt:formatDate value="${sch.date}" pattern="dd-MM-yyyy"/></td>
-                        <td>${sch.time}</td>
-                        <c:if test="${currentUser.username == user.email}">
-                            <td>
-                                <input type="button" class="delete-booking-btn" value="Delete">
-                            </td>
-                        </c:if>
+    <sec:authorize access="hasRole('ROLE_USER')">
+        <c:if test="${!empty schedule}">
+            <div class="my-bookings">
+                <p class="title">My bookings</p>
+                <table class="sortable table table-bordered">
+                    <tr>
+                        <th>Organization</th>
+                        <th>Service</th>
+                        <th>Master</th>
+                        <th>Date</th>
+                        <th>Time</th>
                     </tr>
-                </c:forEach>
-            </table>
-        </div>
-    </c:if>
-</sec:authorize>
-<sec:authorize access="hasRole('ROLE_MASTER')">
-</sec:authorize>
-<sec:authorize access="hasRole('ROLE_BUSINESS')">
-    <c:choose>
-    <c:when test="${empty user.business.id}">
-        <p><a href="/user/${user.id}/create-business">create business</a></p>
-    </c:when>
-    <c:otherwise>
-        <p><a href="/organization/${user.business.id}">my business</a></p>
-    </c:otherwise>
-    </c:choose>
-</sec:authorize>
+                    <c:forEach items="${schedule}" var="sch">
+                        <tr id="${sch.id}">
+                            <c:set value="${sch.id}" var="a"></c:set>
+                            <td>${sch.service.business.name}</td>
+                            <td>${sch.service.name}</td>
+                            <td>${sch.master.user.firstname} ${sch.master.user.lastname}</td>
+                            <td><fmt:formatDate value="${sch.date}" pattern="dd-MM-yyyy"/></td>
+                            <td>${sch.time}</td>
+                            <c:if test="${currentUser.username == user.email}">
+                                <td>
+                                    <input type="button" class="delete-booking-btn" value="Delete">
+                                </td>
+                            </c:if>
+                        </tr>
+                    </c:forEach>
+                </table>
+            </div>
+        </c:if>
+    </sec:authorize>
+    <sec:authorize access="hasRole('ROLE_MASTER')">
+    </sec:authorize>
+    <sec:authorize access="hasRole('ROLE_BUSINESS')">
+        <c:choose>
+            <c:when test="${empty user.business.id}">
+                <p><a href="/user/${user.id}/create-business">create business</a></p>
+            </c:when>
+            <c:otherwise>
+                <p><a href="/organization/${user.business.id}">my business</a></p>
+            </c:otherwise>
+        </c:choose>
+    </sec:authorize>
+</div>
 
 <jsp:include page="fragments/footer.jsp"/>
 
-<script>
-    $(".delete-booking-btn").click(function () {
-        var bookingId = $(this).closest('tr').attr('id');
-        $.ajax({
-            type: "GET",
-            url: "/delete-booking/" + bookingId,
-            success: $(this).closest("tr").remove(),
-            error: function (xhr, textStatus) {
-                alert([xhr.status, textStatus]);
-            }
-        })
-    });
-</script>
+<script src="<c:url value="/resources/js/my-profile.js" />"></script>
 </body>
 </html>

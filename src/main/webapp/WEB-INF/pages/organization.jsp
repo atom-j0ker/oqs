@@ -13,12 +13,13 @@
     <link rel="stylesheet" href="/resources/css/star-rating.css" media="all" type="text/css"/>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="/resources/js/star-rating.js" type="text/javascript"></script>
+    <script src="<c:url value="/resources/js/sortTable.js" />"></script>
 </head>
 <body>
 
 <jsp:include page="fragments/header.jsp"/>
 
-<div class="organization-content">
+<div class="content">
     <div class="organization-left-part">
         <img class="organization-photo" src="${organization.photo.photo}"/>
 
@@ -33,13 +34,30 @@
         </div>
     </div>
 
+    <%--<div class="organization-services">--%>
+        <%--<p>Organization services:</p>--%>
+        <%--<ul id="service-list">--%>
+            <%--<c:forEach items="${services}" var="service">--%>
+                <%--<li><a href="/organization/${organization.id}/service/${service.id}">${service.name}</a></li>--%>
+            <%--</c:forEach>--%>
+        <%--</ul>--%>
+    <%--</div>--%>
+
     <div class="organization-services">
-        <p>Organization services:</p>
-        <ul id="service-list">
+        <table id="service-list" class="sortable table">
+            <tr>
+                <th>Service</th>
+                <th>Price ( $ )</th>
+                <th>Duration ( min )</th>
+            </tr>
             <c:forEach items="${services}" var="service">
-                <li><a href="/organization/${organization.id}/service/${service.id}">${service.name}</a></li>
+                <tr>
+                    <td><a href="/organization/${organization.id}/service/${service.id}">${service.name}</a></td>
+                    <td>${service.price.price}</td>
+                    <td>${service.duration}</td>
+                </tr>
             </c:forEach>
-        </ul>
+        </table>
     </div>
 
     <c:if test="${organization.id == user.business.id}">

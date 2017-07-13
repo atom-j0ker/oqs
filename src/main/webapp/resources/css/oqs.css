@@ -100,7 +100,7 @@ fieldset[disabled] .btn-xl.active {
     background-color: white;
 }
 
-.organization-content {
+.content {
     float: left;
     margin-top: 50px;
     margin-bottom: 50px;
@@ -118,7 +118,17 @@ div.dropdown.container-left-part-2 {
     width: 200px;
 }
 
-.container-left-part-2 {
+#search-service {
+    width: 200px;
+}
+
+#choose-category-btn {
+    width: 200px;
+    margin-top: 10px;
+}
+
+#show-service-btn {
+    width: 200px;
 }
 
 .container-right-part {
@@ -188,12 +198,27 @@ section#services .section-heading {
 
 .organization-description {
     margin-top: 30px;
+    font-size: 16px;
+    text-align: justify;
+    padding-right: 15px;
 }
 
 .organization-services {
     width: 100%;
     float: left;
     padding-left: 50px;
+}
+
+#service-list {
+    width: 60%;
+}
+
+#service-list th {
+    border: none;
+}
+
+#service-list td {
+    border: none;
 }
 
 .booking-form {
