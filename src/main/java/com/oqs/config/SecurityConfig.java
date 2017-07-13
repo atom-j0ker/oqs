@@ -47,9 +47,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable();
     }
 
-    @Bean(name = "encoder")
+    @Bean(name = "encoder")//TODO use component annotation
     public BCryptPasswordEncoder passwordEncoder() {
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        return encoder;
+        return new BCryptPasswordEncoder();
     }
 }

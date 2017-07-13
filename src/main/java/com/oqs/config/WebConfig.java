@@ -1,13 +1,9 @@
 package com.oqs.config;
 
-import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
-import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
-
-import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
@@ -29,7 +25,7 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 
         DispatcherServlet dispatcherServlet = new DispatcherServlet(servletApplicationContext);
         // throw NoHandlerFoundException to controller ExceptionHandler.class. Used for <error-page> analogue
-        dispatcherServlet.setThrowExceptionIfNoHandlerFound(true);
+        dispatcherServlet.setThrowExceptionIfNoHandlerFound(true);//TODO set exception handler servlet
 
         //register and map the dispatcher servlet
         //note Dispatcher servlet with constructor arguments

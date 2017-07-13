@@ -1,29 +1,20 @@
 package com.oqs.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.*;
-import org.springframework.web.servlet.i18n.CookieLocaleResolver;
-import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
-import org.springframework.web.servlet.view.XmlViewResolver;
-import java.util.List;
-import java.util.Locale;
 
 @EnableWebMvc
 @Configuration
-@ComponentScan(basePackages = {"com.oqs.controllers"})
+@ComponentScan(basePackages = {"com.oqs"})
 @EnableTransactionManagement
 public class MVCConfig extends WebMvcConfigurerAdapter {
+
+    private static final int MAX_UPLOAD_SIZE = 5242880; //5 MB
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -38,10 +29,10 @@ public class MVCConfig extends WebMvcConfigurerAdapter {
         return viewResolver;
     }
 
-    @Bean(name = "multipartResolver")
-    public CommonsMultipartResolver getMultipartResolver() {
-        CommonsMultipartResolver cmr = new CommonsMultipartResolver();
-        cmr.setMaxUploadSize(1000000);
-        return cmr;
+    @Bean
+    public CommonsMultipartResolver multipartResolver() {
+        CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver();
+        commonsMultipartResolver.setMaxUploadSize(MAX_UPLOAD_SIZE);
+        return commonsMultipartResolver;
     }
 }
