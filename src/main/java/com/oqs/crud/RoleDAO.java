@@ -1,10 +1,13 @@
 package com.oqs.crud;
 
 import com.oqs.model.Role;
+import org.springframework.stereotype.Repository;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+@Repository
 public class RoleDAO {
     @PersistenceContext
     public EntityManager entityManager;

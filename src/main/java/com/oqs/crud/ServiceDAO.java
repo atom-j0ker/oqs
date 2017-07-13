@@ -1,6 +1,7 @@
 package com.oqs.crud;
 
 import com.oqs.model.Service;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -8,15 +9,17 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
-@Transactional
+@Repository
 public class ServiceDAO {
-    @PersistenceContext
+    @PersistenceContext//TODO read
     public EntityManager entityManager;
 
+    @Transactional
     public long saveOrUpdate(Service service) {
         return entityManager.merge(service).getId();
     }
 
+    @Transactional
     public void delete(long id) {
         entityManager.remove(entityManager.getReference(Service.class, id));
     }

@@ -1,6 +1,7 @@
 package com.oqs.crud;
 
 import com.oqs.model.Category;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -9,15 +10,17 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
-@Transactional
+@Repository
 public class CategoryDAO {
     @PersistenceContext
     public EntityManager entityManager;
 
+    @Transactional
     public void saveOrUpdate(Category category) {
         entityManager.merge(category);
     }
 
+    @Transactional
     public void delete(long id) {
         entityManager.remove(entityManager.getReference(Category.class, id));
     }

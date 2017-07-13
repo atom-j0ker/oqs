@@ -1,6 +1,7 @@
 package com.oqs.crud;
 
 import com.oqs.model.Business;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -8,15 +9,17 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
-@Transactional
-public class BusinessDAO {
+@Repository
+public class BusinessDAO {//TODO check singleton annotation (how many instances)
     @PersistenceContext
     public EntityManager entityManager;
 
+    @Transactional
     public void saveOrUpdate(Business business) {
         entityManager.merge(business);
     }
 
+    @Transactional
     public void delete(long id) {
         entityManager.remove(entityManager.getReference(Business.class, id));
     }

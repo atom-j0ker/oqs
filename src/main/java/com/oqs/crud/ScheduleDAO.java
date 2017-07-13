@@ -1,6 +1,7 @@
 package com.oqs.crud;
 
 import com.oqs.model.Schedule;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -8,15 +9,17 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
-@Transactional
+@Repository
 public class ScheduleDAO {
     @PersistenceContext
     public EntityManager entityManager;
 
+    @Transactional
     public void saveOrUpdate(Schedule schedule) {
         entityManager.merge(schedule);
     }
 
+    @Transactional
     public void delete(long id) {
         entityManager.remove(entityManager.getReference(Schedule.class, id));
     }

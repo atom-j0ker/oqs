@@ -1,6 +1,7 @@
 package com.oqs.crud;
 
 import com.oqs.model.Master;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -8,15 +9,17 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.List;
 
-@Transactional
+@Repository
 public class MasterDAO {
     @PersistenceContext
     public EntityManager entityManager;
 
+    @Transactional
     public void saveOrUpdate(Master master) {
         entityManager.merge(master);
     }
 
+    @Transactional
     public void delete(long id) {
         entityManager.remove(entityManager.getReference(Master.class, id));
     }

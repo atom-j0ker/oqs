@@ -1,6 +1,7 @@
 package com.oqs.crud;
 
 import com.oqs.model.Rating;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -8,15 +9,17 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
-@Transactional
+@Repository
 public class RatingDAO {
     @PersistenceContext
     public EntityManager entityManager;
 
+    @Transactional
     public void saveOrUpdate(Rating rating) {
         entityManager.merge(rating);
     }
 
+    @Transactional
     public void delete(long id) {
         entityManager.remove(entityManager.getReference(Rating.class, id));
     }
