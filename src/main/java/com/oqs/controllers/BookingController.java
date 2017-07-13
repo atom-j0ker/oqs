@@ -17,17 +17,17 @@ import java.util.List;
 @Controller
 public class BookingController {
     @Autowired
-    BusinessDAO businessDAO;
+    private BusinessDAO businessDAO;
     @Autowired
-    MasterDAO masterDAO;
+    private MasterDAO masterDAO;
     @Autowired
-    ServiceDAO serviceDAO;
+    private ServiceDAO serviceDAO;
     @Autowired
-    ScheduleDAO scheduleDAO;
+    private ScheduleDAO scheduleDAO;
     @Autowired
-    StatusDAO statusDAO;
+    private StatusDAO statusDAO;
     @Autowired
-    UserDAO userDAO;
+    private UserDAO userDAO;
 
     @RequestMapping(value = "/organization/{organizationId}/service/{serviceId}", method = RequestMethod.GET)
     public ModelAndView bookingPage(@PathVariable("organizationId") long organizationId,

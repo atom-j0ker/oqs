@@ -24,13 +24,13 @@ import java.util.Set;
 public class UserController {
 
     @Autowired
-    RoleDAO roleDAO;
+    private RoleDAO roleDAO;
     @Autowired
-    ScheduleDAO scheduleDAO;
+    private ScheduleDAO scheduleDAO;
     @Autowired
-    UserDAO userDAO;
+    private UserDAO userDAO;
     @Autowired
-    BCryptPasswordEncoder encoder;
+    private BCryptPasswordEncoder encoder;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String startPage() {

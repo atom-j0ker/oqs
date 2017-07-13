@@ -17,11 +17,11 @@ import org.springframework.web.multipart.MultipartFile;
 public class PhotoController {
 
     @Autowired
-    BusinessDAO businessDAO;
+    private BusinessDAO businessDAO;
     @Autowired
-    FileUpload fileUpload;
+    private FileUpload fileUpload;
     @Autowired
-    PhotoDAO photoDAO;
+    private PhotoDAO photoDAO;
 
     @RequestMapping(value = "/organization/{organizationId}/change-photo", method = RequestMethod.POST)
     public String changeOrganizationPhoto(@PathVariable("organizationId") long organizationId, @RequestParam("file") MultipartFile file) {

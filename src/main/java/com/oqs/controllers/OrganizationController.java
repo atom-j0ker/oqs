@@ -18,15 +18,15 @@ import java.util.List;
 public class OrganizationController {
 
     @Autowired
-    BusinessDAO businessDAO;
+    private BusinessDAO businessDAO;
     @Autowired
-    CategoryDAO categoryDAO;
+    private CategoryDAO categoryDAO;
     @Autowired
-    RatingDAO ratingDAO;
+    private RatingDAO ratingDAO;
     @Autowired
-    ServiceDAO serviceDAO;
+    private ServiceDAO serviceDAO;
     @Autowired
-    UserDAO userDAO;
+    private UserDAO userDAO;
 
     @RequestMapping(value = "/user/{userId}/create-business", method = RequestMethod.GET)
     public ModelAndView createBusinessPage(@PathVariable("userId") long userId) {
@@ -47,7 +47,7 @@ public class OrganizationController {
         modelAndView.setViewName("organizations");
         modelAndView.addObject("organizations", businessDAO.getBsnList());
         modelAndView.addObject("categories", categoryDAO.getCategories());
-        if (!categoryId.equals("")) {
+        if (!categoryId.isEmpty()) {
             modelAndView.addObject("categoryId", categoryId);
             modelAndView.addObject("categoryName", categoryName);
         }
@@ -66,15 +66,11 @@ public class OrganizationController {
     @RequestMapping(value = "/search-service", method = RequestMethod.GET)
     @ResponseBody
     public List<Service.ServiceTable> searchServices(@RequestParam("string") String string) {
-        System.out.println(string);
         List<Service> services = serviceDAO.getServiceListByString(string);
-        System.out.println(services.size());
         List<Service.ServiceTable> serviceList = new ArrayList<Service.ServiceTable>();
         for (Service s : services) {
-            System.out.println(s.getName());
             serviceList.add(s.getServiceTable(s));
         }
-        System.out.println(serviceList.size());
         return serviceList;
     }
 
@@ -83,13 +79,6 @@ public class OrganizationController {
     public List<Business> organizationsBySort(@RequestParam("categoryId") String categoryId) {
         List<Business> organizations = businessDAO.getBsnListByCategory(Long.valueOf(categoryId));
         return organizations;
-    }
-
-    @RequestMapping(value = "/fill-service", method = RequestMethod.GET)
-    @ResponseBody
-    public List<Service> findServices(@RequestParam("categoryId") String categoryId) {
-        List<Service> services = serviceDAO.getServiceListByCategory(Long.valueOf(categoryId));
-        return services;
     }
 
     @RequestMapping(value = "/fill-choosed-service-table", method = RequestMethod.GET)

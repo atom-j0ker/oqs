@@ -22,11 +22,11 @@ import java.util.List;
 public class ServiceController {
 
     @Autowired
-    BusinessDAO businessDAO;
+    private BusinessDAO businessDAO;
     @Autowired
-    CategoryDAO categoryDAO;
+    private CategoryDAO categoryDAO;
     @Autowired
-    ServiceDAO serviceDAO;
+    private ServiceDAO serviceDAO;
 
     @RequestMapping(value = "/add-service/{organizationId}", method = RequestMethod.GET)
     @ResponseBody
@@ -40,7 +40,7 @@ public class ServiceController {
         service.setName(serviceName);
         service.setBusiness(businessDAO.get(organizationId));
         service.setCategory(categoryDAO.get(Long.valueOf(subcategoryId)));
-        price.setPrice(priceValue);
+        price.setPrice(Integer.valueOf(priceValue));
         service.setPrice(price);
         service.setDuration(Short.valueOf(duration));
 
