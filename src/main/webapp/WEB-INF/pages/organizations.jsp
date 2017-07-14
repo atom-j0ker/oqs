@@ -77,6 +77,7 @@
                 createOrganizationTableTh(table);
                 for (i = 0; i < service.length; i++)
                     fillOrganizationTable(table, service);
+                sorttable.makeSortable(table);
             },
             error: function (xhr, textStatus) {
                 alert([xhr.status, textStatus]);
@@ -112,28 +113,13 @@
                     categoryName + ' <span class="caret"></span>';
                 $("#organizationTable tr").remove();
                 var table = document.getElementById("organizationTable");
-                var tr = document.createElement('tr');
-                var thName, thAddress, thTelephone;
-                appendTh(tr, thName, "Organization");
-                appendTh(tr, thAddress, "Address");
-                appendTh(tr, thTelephone, "Telephone");
-                table.tHead.appendChild(tr);
+                $("#organizationTable thead").append("<tr><th>Organization</th><th>Address</th><th>Telephone</th></tr>");
                 for (var i = 0; i < data.length; i++) {
-                    tr = document.createElement('tr');
-                    var a = document.createElement('a');
-                    var td = document.createElement('td');
-                    a.innerHTML = data[i].name;
-                    a.style.color = "blue";
-                    td.appendChild(a);
-                    a.href = "/organization/" + data[i].id;
-                    tr.appendChild(td);
-                    var tdAddress = document.createElement('td');
-                    tdAddress.innerHTML = data[i].address;
-                    tr.appendChild(tdAddress);
-                    var tdPhone = document.createElement('td');
-                    tdPhone.innerHTML = data[i].phone;
-                    tr.appendChild(tdPhone);
-                    table.tBodies[0].appendChild(tr);
+                    $("#organizationTable tbody").append("<tr>" +
+                        "<td><a href='/organization/" + data[i].id + "'>" + data[i].name + "</a></td>" +
+                        "<td>" + data[i].address + "</td>" +
+                        "<td>" + data[i].phone + "</td>" +
+                        "</tr>");
                 }
                 sorttable.makeSortable(table);
                 $('#show-service-btn').prop("disabled", false);
@@ -158,6 +144,7 @@
             success: function (data) {
                 for (i = 0; i < data.length; i++)
                     fillOrganizationTable(table, data);
+                sorttable.makeSortable(table);
             },
             error: function (xhr, textStatus) {
                 alert([xhr.status, textStatus]);
@@ -174,9 +161,9 @@
             data: "categoryId=" + categoryId,
             dataType: 'json',
             success: function (data) {
-                for (i = 0; i < data.length; i++) {
+                for (i = 0; i < data.length; i++)
                     fillOrganizationTable(table, data);
-                }
+                sorttable.makeSortable(table);
             },
             error: function (xhr, textStatus) {
                 alert([xhr.status, textStatus]);
@@ -184,47 +171,21 @@
         });
     });
 
+    function fillOrganizationTable(table, data) {
+        $("#organizationTable tbody").append("<tr>" +
+            "<td><a href='/organization/" + data[i].organizationId + "/service/" + data[i].serviceId + "'>" + data[i].serviceName + "</a></td>" +
+            "<td>" + data[i].servicePrice + "</td>" +
+            "<td><a href='/organization/" + data[i].organizationId + "'>" + data[i].organizationName + "</a></td>" +
+            "<td>" + data[i].organizationAddress + "</td>" +
+            "<td>" + data[i].organizationTelephone + "</td>" +
+            "</tr>");
+    }
+
     function createOrganizationTableTh(table) {
         $("#organizationTable tr").remove();
-        var tr = document.createElement('tr');
-        var thService, thName, thAddress, thTelephone;
-        appendTh(tr, thService, "Service");
-        appendTh(tr, thName, "Price ( $ )");
-        appendTh(tr, thName, "Organization");
-        appendTh(tr, thAddress, "Address");
-        appendTh(tr, thTelephone, "Telephone");
-        table.tHead.appendChild(tr);
-    }
-
-    function fillOrganizationTable(table, data) {
-        tr = document.createElement('tr');
-        var tdService = document.createElement('td');
-        tdService.innerHTML = data[i].serviceName;
-        tr.appendChild(tdService);
-        var tdPrice = document.createElement('td');
-        tdPrice.innerHTML = data[i].servicePrice;
-        tr.appendChild(tdPrice);
-        var a = document.createElement('a');
-        var td = document.createElement('td');
-        a.innerHTML = data[i].organizationName;
-        a.style.color = "blue";
-        td.appendChild(a);
-        a.href = "/organization/" + data[i].organizationId;
-        tr.appendChild(td);
-        var tdAddress = document.createElement('td');
-        tdAddress.innerHTML = data[i].organizationAddress;
-        tr.appendChild(tdAddress);
-        var tdPhone = document.createElement('td');
-        tdPhone.innerHTML = data[i].organizationTelephone;
-        tr.appendChild(tdPhone);
-        table.tBodies[0].appendChild(tr);
-        sorttable.makeSortable(table);
-    }
-
-    function appendTh(tr, th, name) {
-        th = document.createElement('th');
-        th.innerHTML = name;
-        tr.appendChild(th);
+        $("#organizationTable thead").append(
+            "<tr><th>Service</th><th>Price ( $ )</th><th>Organization</th><th>Address</th><th>Telephone</th></tr>"
+        );
     }
 </script>
 

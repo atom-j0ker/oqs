@@ -123,6 +123,7 @@ public class Service {
 
     public class ServiceTable {
 
+        private long serviceId;
         private String serviceName;
         private int servicePrice;
         private long organizationId;
@@ -131,12 +132,21 @@ public class Service {
         private String organizationTelephone;
 
         public ServiceTable(Service service) {
+            this.serviceId = service.getId();
             this.serviceName = service.getName();
             this.servicePrice = service.getPrice().getPrice();
             this.organizationId = service.getBusiness().getId();
             this.organizationName = service.getBusiness().getName();
             this.organizationAddress = service.getBusiness().getAddress();
             this.organizationTelephone = service.getBusiness().getPhone();
+        }
+
+        public long getServiceId() {
+            return serviceId;
+        }
+
+        public void setServiceId(long serviceId) {
+            this.serviceId = serviceId;
         }
 
         public String getServiceName() {
