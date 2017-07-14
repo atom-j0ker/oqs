@@ -55,7 +55,7 @@ public class BookingController {
         sdf.applyPattern(NEW_FORMAT);
         java.sql.Date sqlDate = new java.sql.Date(date.getTime());
 
-        schedule.setUser(userDAO.get(userDAO.getId(username)));
+        schedule.setUser(userDAO.get(username));
         schedule.setService(serviceDAO.get(serviceId));
         schedule.setMaster(masterDAO.get(Long.valueOf(request.getParameter("mastersListName"))));
         schedule.setDate(sqlDate);

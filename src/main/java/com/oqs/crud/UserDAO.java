@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 @Repository
 public class UserDAO {
@@ -24,6 +25,13 @@ public class UserDAO {
 
     public User get(long id) {
         return entityManager.find(User.class, id);
+    }
+
+    public User get(String email) {
+        TypedQuery<User> query = entityManager.createQuery(
+                "select u from User u where u.email = :email", User.class
+        ).setParameter("email", email);
+        return query.getSingleResult();
     }
 
     public long getId(String email) {

@@ -112,7 +112,7 @@ public class OrganizationController {
         if (auth.isAuthenticated()) {
             String username = auth.getName();
             if (!username.equals("anonymousUser"))
-                modelAndView.addObject("user", userDAO.get(userDAO.getId(username)));
+                modelAndView.addObject("user", userDAO.get(username));
         }
         return modelAndView;
     }
