@@ -183,6 +183,27 @@ section#services .section-heading {
     margin-top: 20px;
 }
 
+#table-info {
+    font-size: 18px;
+}
+
+.search-by {
+    float: right;
+    font-size: 16px;
+    display: none;
+}
+
+.search-by-text {
+    margin: 10px;
+}
+
+.search-form {
+    float: right;
+    width: 150px;
+    margin-top: -5px;
+    margin-bottom: 10px;
+}
+
 .organization-photo {
     width: 800px;
     height: 600px;

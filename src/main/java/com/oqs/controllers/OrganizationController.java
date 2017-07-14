@@ -81,15 +81,6 @@ public class OrganizationController {
         return organizations;
     }
 
-    @RequestMapping(value = "/fill-choosed-service-table", method = RequestMethod.GET)
-    @ResponseBody
-    public List<Service.ServiceTable> fillChoosedServiceTable(@RequestParam("serviceId") String serviceId) {
-        Service service = serviceDAO.get(Long.valueOf(serviceId));
-        List<Service.ServiceTable> serviceList = new ArrayList<Service.ServiceTable>();
-        serviceList.add(service.getServiceTable(service));
-        return serviceList;
-    }
-
     @RequestMapping(value = "/fill-service-table", method = RequestMethod.GET)
     @ResponseBody
     public List<Service.ServiceTable> fillServiceTable(@RequestParam("categoryId") String categoryId) {
