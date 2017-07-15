@@ -36,7 +36,7 @@ public class BusinessDAO {//TODO check singleton annotation (how many instances)
         return result;
     }
 
-    public List<Business> getBsnListByCategory(Long categoryId) {
+    public List<Business> getBsnListByCategory(long categoryId) {
         TypedQuery<Business> query = entityManager.createQuery(
                 "select distinct b from Business b, Service s, Category c " +
                         "where b.id = s.business.id and s.category.id = c.id " +

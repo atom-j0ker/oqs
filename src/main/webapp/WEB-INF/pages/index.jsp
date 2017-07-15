@@ -30,7 +30,7 @@
 <section id="services">
     <h2 class="section-heading">Organization Categories</h2>
     <div class="container">
-        <form class="organization-types" action="/organizations-sort-by" method="post">
+        <form class="organization-types" action="/organizationsSortByCategory" method="post">
             <input type="hidden" value="2" name="categoryId"/>
             <input type="hidden" value="Beauty" name="categoryName"/>
             <input class="organization-types-image" type="image"
@@ -47,7 +47,7 @@
             </p>
         </form>
 
-        <form class="organization-types" action="/organizations-sort-by" method="post">
+        <form class="organization-types" action="/organizationsSortByCategory" method="post">
             <input type="hidden" value="3" name="categoryId"/>
             <input type="hidden" value="Service" name="categoryName"/>
             <input class="organization-types-image" style="float: right" type="image"
@@ -63,7 +63,7 @@
             </p>
         </form>
 
-        <form class="organization-types" action="/organizations-sort-by" method="post">
+        <form class="organization-types" action="/organizationsSortByCategory" method="post">
             <input type="hidden" value="1" name="categoryId"/>
             <input type="hidden" value="Medicine" name="categoryName"/>
             <input class="organization-types-image" type="image"

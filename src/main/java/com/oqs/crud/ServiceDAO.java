@@ -36,19 +36,18 @@ public class ServiceDAO {
         return result;
     }
 
-    public List<Service> getServiceListByCategory(long categoryId) {
+    public List<Service> getServiceListByParams(String sortBy, String categoryId, String string) {
+        String categorySearch = "1=1";
+        String stringSearch = "1=1";
+        if(!categoryId.equals("undefined"))
+            categorySearch = "(s.category.id in " +
+                    "(select c.id from Category c where c.category.id = " + Long.valueOf(categoryId) + ") or " +
+                    "s.category.id = " + Long.valueOf(categoryId) + ")";
+        if(!string.equals("undefined"))
+            stringSearch = "s.name like '%" + string + "%'";
         TypedQuery<Service> query = entityManager.createQuery(
-                "select s from Service s where s.category.id in " +
-                        "(select c.id from Category c where c.category.id = :categoryId) or s.category.id = :categoryId", Service.class
-        ).setParameter("categoryId", categoryId);
-        List<Service> result = query.getResultList();
-        return result;
-    }
-
-    public List<Service> getServiceListByString(String string) {
-        TypedQuery<Service> query = entityManager.createQuery(
-                "select s from Service s where s.name like '%" + string + "%'", Service.class
-        );
+                "select s from Service s where " + categorySearch + " and " + stringSearch +
+                        " order by " + sortBy, Service.class);
         List<Service> result = query.getResultList();
         return result;
     }

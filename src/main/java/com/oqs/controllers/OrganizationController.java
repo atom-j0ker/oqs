@@ -42,7 +42,8 @@ public class OrganizationController {
     }
 
     @RequestMapping(value = "/organizations", method = RequestMethod.GET)
-    public ModelAndView organizationsPage(@ModelAttribute("categoryId") String categoryId, @ModelAttribute("categoryName") String categoryName) {
+    public ModelAndView organizationsPage(@ModelAttribute("categoryId") String categoryId,
+                                          @ModelAttribute("categoryName") String categoryName) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("organizations");
         modelAndView.addObject("organizations", businessDAO.getBsnList());
@@ -54,37 +55,27 @@ public class OrganizationController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/organizations-sort-by", method = RequestMethod.POST)
-    public String organizationsSortBy(@RequestParam("categoryId") String categoryId,
-                                      @RequestParam("categoryName") String categoryName,
-                                      RedirectAttributes redirectAttributes) {
+    @RequestMapping(value = "/organizationsSortByCategory", method = RequestMethod.POST)
+    public String organizationsSortByCategory(@RequestParam("categoryId") String categoryId,
+                                              @RequestParam("categoryName") String categoryName,
+                                              RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("categoryId", categoryId);
         redirectAttributes.addFlashAttribute("categoryName", categoryName);
         return "redirect:/organizations";
     }
 
-    @RequestMapping(value = "/search-service", method = RequestMethod.GET)
+    @RequestMapping(value = "/fillOrganizationTableByCategory", method = RequestMethod.GET)
     @ResponseBody
-    public List<Service.ServiceTable> searchServices(@RequestParam("string") String string) {
-        List<Service> services = serviceDAO.getServiceListByString(string);
-        List<Service.ServiceTable> serviceList = new ArrayList<Service.ServiceTable>();
-        for (Service s : services) {
-            serviceList.add(s.getServiceTable(s));
-        }
-        return serviceList;
+    public List<Business> organizationsByCategorySort(@RequestParam("categoryId") String categoryId) {
+        return businessDAO.getBsnListByCategory(Long.valueOf(categoryId));
     }
 
-    @RequestMapping(value = "/create-organization-table", method = RequestMethod.GET)
+    @RequestMapping(value = "/fillServiceTable", method = RequestMethod.GET)
     @ResponseBody
-    public List<Business> organizationsBySort(@RequestParam("categoryId") String categoryId) {
-        List<Business> organizations = businessDAO.getBsnListByCategory(Long.valueOf(categoryId));
-        return organizations;
-    }
-
-    @RequestMapping(value = "/fill-service-table", method = RequestMethod.GET)
-    @ResponseBody
-    public List<Service.ServiceTable> fillServiceTable(@RequestParam("categoryId") String categoryId) {
-        List<Service> services = serviceDAO.getServiceListByCategory(Long.valueOf(categoryId));
+    public List<Service.ServiceTable> servicesSortBy(@RequestParam("sortBy") String sortBy,
+                                                     @RequestParam("categoryId") String categoryId,
+                                                     @RequestParam("string") String string) {
+        List<Service> services = serviceDAO.getServiceListByParams(sortBy, categoryId, string);
         List<Service.ServiceTable> serviceList = new ArrayList<Service.ServiceTable>();
         for (Service s : services)
             serviceList.add(s.getServiceTable(s));
@@ -111,7 +102,6 @@ public class OrganizationController {
     @RequestMapping(value = "/fill-subcategories", method = RequestMethod.GET)
     @ResponseBody
     public List<Category> fillCategories(@RequestParam("categoryId") String categoryId) {
-        List<Category> categories = categoryDAO.getSubcategories(Long.valueOf(categoryId));
-        return categories;
+        return categoryDAO.getSubcategories(Long.valueOf(categoryId));
     }
 }

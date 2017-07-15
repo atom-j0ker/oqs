@@ -41,15 +41,16 @@
 
         <div class="container-right-part">
             <span id="table-info">Here you will see organizations, services and more details...</span>
-            <div class="search-by">
-                <span class="search-by-text">Search by: </span>
-                <select class="form-control search-form"></select>
+            <div class="sort-by">
+                <span class="sort-by-text">Sort by: </span>
+                <select class="form-control sort-form"></select>
             </div>
             <table id="organizationTable" class="table table-bordered"></table>
             <p id="pages"></p>
         </div>
         <div class="dropdown container-left-part-2">
-            <button id="show-service-btn" class="btn btn-default" type="button" disabled>Show services</button>
+            <button id="show-service-btn" class="btn btn-default" disabled>Show services</button>
+            <button id="reset-btn" class="btn btn-default">Reset params</button>
         </div>
     </div>
 </div>
@@ -57,35 +58,27 @@
 <jsp:include page="fragments/footer.jsp"/>
 
 <script type="text/javascript">
+    var sortByCheck;
+    var string;
     var categoryId;
-    var services;
+    var categoryName;
     var totalPages;
     var currentPage;
 
-    if ("${categoryId}" != "") {
+    if ("${categoryId}" !== "") {
         categoryId = ${categoryId}
             fillTable("${categoryId}", "${categoryName}");
     }
 
+    //Search service
     $("#search-service").on("keyup change", function () {
-        var string = $(this).val();
-        $.ajax({
-            type: "GET",
-            url: "/search-service",
-            data: "string=" + string,
-            dataType: 'json',
-            success: function (service) {
-                $("#table-info").remove();
-                searchByForServices();
-                var table = document.getElementById("organizationTable");
-                createServiceTableTh(table);
-                for (i = 0; i < service.length; i++)
-                    fillServiceTable(table, service);
-            },
-            error: function (xhr, textStatus) {
-                alert([xhr.status, textStatus]);
-            }
-        })
+        string = $(this).val();
+        if (string !== "") {
+            if (!categoryId)
+                fillServiceTableByString(string);
+            else
+                fillServiceTableByCategoryAndString(categoryId, string);
+        }
     });
 
     $(".dropdown-submenu a.test").on("mouseenter", function (e) {
@@ -99,49 +92,98 @@
         });
     });
 
-    $('a.test').on("click", function (e) {
+    //Choose category
+    $("a.test").on("click", function (e) {
         categoryId = e.target.id;
-        var categoryName = e.target.text;
-        searchByForOrganizations();
-        fillTable(categoryId, categoryName);
+        categoryName = e.target.text;
+        sortByForOrganizationsForm();
+        if (!$("#search-service").val())
+            fillTable(categoryId, categoryName);
+        else {
+            $("#choose-category-btn").html(categoryName + ' <span class="caret"></span>');
+            $('#show-service-btn').prop("disabled", false);
+            fillServiceTableByCategoryAndString(categoryId, string)
+        }
+
     });
 
-    $('#show-service-btn').on("click", function (e) {
-        var table = document.getElementById("organizationTable");
-        searchByForServices();
-        createServiceTableTh(table);
+    //Show service
+    $("#show-service-btn").on("click", function (e) {
+        $("#search-service").val("");
+        string = undefined;
+        sortByForServicesForm();
+        createServiceTableTh();
+        fillServiceTableByCategory(categoryId);
+    });
+
+    //Reset params
+    $("#reset-btn").on("click", function () {
+        $("#search-service").val("");
+        string = undefined;
+        $("#choose-category-btn").html('Choose category <span class="caret"></span>');
+        categoryId = undefined;
+        categoryName = undefined;
+        $("#show-service-btn").prop("disabled", true);
+        $("#table-info").css("display", "block");
+        $(".sort-by").css("display", "none")
+        $("#organizationTable tr").remove();
+    });
+
+    //Sort by
+    $(".sort-form").on("change", function (e) {
+        var sortBy = this.value;
+        if (sortByCheck === "service") {
+            $.ajax({
+                type: "GET",
+                url: "/fillServiceTable",
+                data: "sortBy=" + sortBy + "&categoryId=" + categoryId + "&string=" + string,
+                dataType: 'json',
+                success: function (service) {
+                    createServiceTableTh();
+                    for (i = 0; i < service.length; i++)
+                        fillServiceTable(service);
+                },
+                error: function (xhr, textStatus) {
+                    alert([xhr.status, textStatus]);
+                }
+            });
+        }
+
+    });
+
+    function fillServiceTableByCategoryAndString(categoryId, string) {
         $.ajax({
             type: "GET",
-            url: "/fill-service-table",
-            data: "categoryId=" + categoryId,
+            url: "/fillServiceTable",
+            data: "sortBy=s.name&categoryId=" + categoryId + "&string=" + string,
             dataType: 'json',
-            success: function (data) {
-                for (i = 0; i < data.length; i++)
-                    fillServiceTable(table, data);
+            success: function (service) {
+                sortByForServicesForm();
+                createServiceTableTh();
+                for (i = 0; i < service.length; i++)
+                    fillServiceTable(service);
             },
             error: function (xhr, textStatus) {
                 alert([xhr.status, textStatus]);
             }
         });
-    });
+    }
 
     function fillTable(categoryId, categoryName) {
         $.ajax({
             type: "GET",
-            url: "/create-organization-table",
+            url: "/fillOrganizationTableByCategory",
             data: "categoryId=" + categoryId,
             dataType: 'json',
-            success: function (data) {
-                document.getElementById("choose-category-btn").innerHTML =
-                    categoryName + ' <span class="caret"></span>';
-                $("#table-info").remove();
-                var table = document.getElementById("organizationTable");
-                createTableTh();
-                for (var i = 0; i < data.length; i++) {
+            success: function (business) {
+                $("#choose-category-btn").html(categoryName + ' <span class="caret"></span>');
+                $("#table-info").css("display", "none");
+                createOrganizationTableTh();
+                for (var i = 0; i < business.length; i++) {
                     $("#organizationTable").append("<tr>" +
-                        "<td><a href='/organization/" + data[i].id + "'>" + data[i].name + "</a></td>" +
-                        "<td>" + data[i].address + "</td>" +
-                        "<td>" + data[i].phone + "</td>" +
+                        "<td><a href='/organization/" + business[i].id + "'>" + business[i].name + "</a></td>" +
+                        "<td>" + business[i].address + "</td>" +
+                        "<td>" + business[i].phone + "</td>" +
                         "</tr>");
                 }
                 $('#show-service-btn').prop("disabled", false);
@@ -152,42 +194,81 @@
         });
     }
 
-    function fillServiceTable(table, data) {
+    function fillServiceTable(service) {
         $("#organizationTable").append("<tr>" +
-            "<td><a href='/organization/" + data[i].organizationId + "/service/" + data[i].serviceId + "'>" + data[i].serviceName + "</a></td>" +
-            "<td>" + data[i].servicePrice + "</td>" +
-            "<td><a href='/organization/" + data[i].organizationId + "'>" + data[i].organizationName + "</a></td>" +
-            "<td>" + data[i].organizationAddress + "</td>" +
-            "<td>" + data[i].organizationTelephone + "</td>" +
+            "<td><a href='/organization/" + service[i].organizationId +
+            "/service/" + service[i].serviceId + "'>" + service[i].serviceName + "</a></td>" +
+            "<td>" + service[i].servicePrice + "</td>" +
+            "<td><a href='/organization/" + service[i].organizationId + "'>" + service[i].organizationName + "</a></td>" +
+            "<td>" + service[i].organizationAddress + "</td>" +
+            "<td>" + service[i].organizationTelephone + "</td>" +
             "</tr>");
     }
 
-    function createTableTh(table) {
-        $("#organizationTable tr").remove();
+    function fillServiceTableByCategory(categoryId) {
+        $.ajax({
+            type: "GET",
+            url: "/fillServiceTable",
+            data: "sortBy=s.name&categoryId=" + categoryId + "&string=undefined",
+            dataType: 'json',
+            success: function (service) {
+                for (i = 0; i < service.length; i++)
+                    fillServiceTable(service);
+            },
+            error: function (xhr, textStatus) {
+                alert([xhr.status, textStatus]);
+            }
+        });
+    }
+
+    function fillServiceTableByString(string) {
+        $.ajax({
+            type: "GET",
+            url: "/fillServiceTable",
+            data: "sortBy=s.name&categoryId=undefined&string=" + string,
+            dataType: 'json',
+            success: function (service) {
+                $("#table-info").css("display", "none")
+                sortByForServicesForm();
+                createServiceTableTh();
+                for (i = 0; i < service.length; i++)
+                    fillServiceTable(service);
+            },
+            error: function (xhr, textStatus) {
+                alert([xhr.status, textStatus]);
+            }
+        })
+    }
+
+    function createOrganizationTableTh() {
+        $("#organizationTable").find("tr").remove();
         $("#organizationTable").append("<tr><th>Organization</th><th>Address</th><th>Telephone</th></tr>");
     }
 
-    function createServiceTableTh(table) {
-        $("#organizationTable tr").remove();
+    function createServiceTableTh() {
+        $("#organizationTable").find("tr").remove();
         $("#organizationTable").append(
             "<tr><th>Service</th><th>Price ( $ )</th><th>Organization</th><th>Address</th><th>Telephone</th></tr>"
         );
     }
 
-    function searchByForOrganizations() {
-        $(".search-form option").remove();
-        $(".search-form").append("<option value='name'>name</option>");
-        $(".search-by").css("display", "block");
+    function sortByForOrganizationsForm() {
+        sortByCheck = "organization";
+        $(".sort-form option").remove();
+        $(".sort-form").append("<option value='name'>name</option>");
+        $(".sort-by").css("display", "block");
     }
 
-    function searchByForServices() {
-        $(".search-form option").remove();
-        $(".search-form").append(
-            "<option value='name'>name</option>" +
-            "<option value='price (ascending)'>price (ascending)</option>" +
-            "<option value='price (descending)'>price (descending)</option>"
+    function sortByForServicesForm() {
+        sortByCheck = "service";
+        $(".sort-form option").remove();
+        $(".sort-form").append(
+            "<option value='s.name'>name (service)</option>" +
+            "<option value='s.business.name'>name (organization)</option>" +
+            "<option value='s.price.price asc'>price (ascending)</option>" +
+            "<option value='s.price.price desc'>price (descending)</option>"
         );
-        $(".search-by").css("display", "block");
+        $(".sort-by").css("display", "block");
     }
 </script>
 

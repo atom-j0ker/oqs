@@ -131,6 +131,11 @@ div.dropdown.container-left-part-2 {
     width: 200px;
 }
 
+#reset-btn {
+    margin-top: 10px;
+    width: 200px;
+}
+
 .container-right-part {
     width: 80%;
     float: left;
@@ -185,21 +190,22 @@ section#services .section-heading {
 
 #table-info {
     font-size: 18px;
+    display: block;
 }
 
-.search-by {
+.sort-by {
     float: right;
     font-size: 16px;
     display: none;
 }
 
-.search-by-text {
+.sort-by-text {
     margin: 10px;
 }
 
-.search-form {
+.sort-form {
     float: right;
-    width: 150px;
+    width: 170px;
     margin-top: -5px;
     margin-bottom: 10px;
 }
