@@ -125,30 +125,15 @@
         categoryName = undefined;
         $("#show-service-btn").prop("disabled", true);
         $("#table-info").css("display", "block");
-        $(".sort-by").css("display", "none")
-        $("#organizationTable tr").remove();
+        $(".sort-by").css("display", "none");
+        $("#organizationTable").find("tr").remove();
     });
 
     //Sort by
     $(".sort-form").on("change", function (e) {
         var sortBy = this.value;
-        if (sortByCheck === "service") {
-            $.ajax({
-                type: "GET",
-                url: "/fillServiceTable",
-                data: "sortBy=" + sortBy + "&categoryId=" + categoryId + "&string=" + string,
-                dataType: 'json',
-                success: function (service) {
-                    createServiceTableTh();
-                    for (i = 0; i < service.length; i++)
-                        fillServiceTable(service);
-                },
-                error: function (xhr, textStatus) {
-                    alert([xhr.status, textStatus]);
-                }
-            });
-        }
-
+        if (sortByCheck === "service")
+            sortByParams(sortBy, categoryId, string);
     });
 
     function fillServiceTableByCategoryAndString(categoryId, string) {
@@ -228,7 +213,7 @@
             data: "sortBy=s.name&categoryId=undefined&string=" + string,
             dataType: 'json',
             success: function (service) {
-                $("#table-info").css("display", "none")
+                $("#table-info").css("display", "none");
                 sortByForServicesForm();
                 createServiceTableTh();
                 for (i = 0; i < service.length; i++)
@@ -240,6 +225,23 @@
         })
     }
 
+    function sortByParams(sortBy, categoryId, string) {
+        $.ajax({
+            type: "GET",
+            url: "/fillServiceTable",
+            data: "sortBy=" + sortBy + "&categoryId=" + categoryId + "&string=" + string,
+            dataType: 'json',
+            success: function (service) {
+                createServiceTableTh();
+                for (i = 0; i < service.length; i++)
+                    fillServiceTable(service);
+            },
+            error: function (xhr, textStatus) {
+                alert([xhr.status, textStatus]);
+            }
+        });
+    }
+
     function createOrganizationTableTh() {
         $("#organizationTable").find("tr").remove();
         $("#organizationTable").append("<tr><th>Organization</th><th>Address</th><th>Telephone</th></tr>");
@@ -247,9 +249,8 @@
 
     function createServiceTableTh() {
         $("#organizationTable").find("tr").remove();
-        $("#organizationTable").append(
-            "<tr><th>Service</th><th>Price ( $ )</th><th>Organization</th><th>Address</th><th>Telephone</th></tr>"
-        );
+        $("#organizationTable").append("<tr><th>Service</th><th>Price ( $ )</th><th>Organization</th>" +
+            "<th>Address</th><th>Telephone</th></tr>");
     }
 
     function sortByForOrganizationsForm() {
