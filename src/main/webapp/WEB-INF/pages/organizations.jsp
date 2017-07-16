@@ -68,8 +68,9 @@
     var rowsOnPage = 5;
 
     if ("${categoryId}" !== "") {
-        categoryId = ${categoryId}
-            fillTable("${categoryId}", "${categoryName}");
+        categoryId = "${categoryId}";
+        categoryName = "${categoryName}";
+        fillTable(categoryId, categoryName, startPage, rowsOnPage);
     }
 
     $(".dropdown-submenu a.test").on("mouseenter", function (e) {
@@ -100,7 +101,7 @@
         categoryName = e.target.text;
         sortByForOrganizationsForm();
         if (!$("#search-service").val())
-            fillTable(categoryId, categoryName);
+            fillTable(categoryId, categoryName, startPage, rowsOnPage);
         else {
             $("#choose-category-btn").html(categoryName + ' <span class="caret"></span>');
             $('#show-service-btn').prop("disabled", false);
@@ -141,7 +142,10 @@
     //Page
     $("#pages").on('click', 'a', function () {
         var page = $(this).closest('a').text();
-        fillServiceTableByParams(string, categoryId, sortBy, page, rowsOnPage);
+        if (sortByCheck === "service")
+            fillServiceTableByParams(string, categoryId, sortBy, page, rowsOnPage);
+        else
+            fillTable(categoryId, categoryName, page, rowsOnPage);
     });
 
     function fillServiceTableByParams(string, categoryId, sortBy, page, rowsOnPage) {
@@ -155,7 +159,7 @@
                 createServiceTableTh();
                 for (i = 0; i < service.second.length; i++)
                     fillServiceTable(service.second);
-                fillPages(service.first)
+                fillPages(service.first);
             },
             error: function (xhr, textStatus) {
                 alert([xhr.status, textStatus]);
@@ -163,23 +167,25 @@
         });
     }
 
-    function fillTable(categoryId, categoryName) {
+    function fillTable(categoryId, categoryName, page, rowsOnPage) {
         $.ajax({
             type: "GET",
-            url: "/fillOrganizationTableByCategory",
-            data: "categoryId=" + categoryId,
+            url: "/fillOrganizationTable",
+            data: "categoryId=" + categoryId + "&page=" + page + "&rowsOnPage=" + rowsOnPage,
             dataType: 'json',
             success: function (business) {
                 $("#choose-category-btn").html(categoryName + ' <span class="caret"></span>');
                 $("#table-info").css("display", "none");
                 createOrganizationTableTh();
-                for (var i = 0; i < business.length; i++) {
+                for (var j = 0; j < business.second.length; j++) {
                     $("#organizationTable").append("<tr>" +
-                        "<td><a href='/organization/" + business[i].id + "'>" + business[i].name + "</a></td>" +
-                        "<td>" + business[i].address + "</td>" +
-                        "<td>" + business[i].phone + "</td>" +
+                        "<td><a href='/organization/" + business.second[j].id + "'>" +
+                        business.second[j].name + "</a></td>" +
+                        "<td>" + business.second[j].address + "</td>" +
+                        "<td>" + business.second[j].phone + "</td>" +
                         "</tr>");
                 }
+                fillPages(business.first);
                 $('#show-service-btn').prop("disabled", false);
             },
             error: function (xhr, textStatus) {
@@ -231,9 +237,9 @@
     }
 
     function fillPages(rows) {
-        totalPages = parseInt(rows / 5);
-        if (rows % 5 !== 0)
-            totalPages += 1;
+        totalPages = parseInt(rows / rowsOnPage);
+        if (rows % rowsOnPage !== 0)
+            totalPages++;
         $("#pages").find("a").remove();
         for (i = 1; i <= totalPages; i++)
             $("#pages").append("<a href='#' class='page'>" + i + "</a>");

@@ -65,10 +65,13 @@ public class OrganizationController {
         return "redirect:/organizations";
     }
 
-    @RequestMapping(value = "/fillOrganizationTableByCategory", method = RequestMethod.GET)
+    @RequestMapping(value = "/fillOrganizationTable", method = RequestMethod.GET)
     public @ResponseBody
-    List<Business> organizationsByCategorySort(@RequestParam("categoryId") String categoryId) {
-        return businessDAO.getBsnListByCategory(Long.valueOf(categoryId));
+    Pair<Integer, List<Business>> organizationsByCategorySort(@RequestParam("categoryId") String categoryId,
+                                               @RequestParam("page") String page,
+                                               @RequestParam("rowsOnPage") String rowsOnPage) {
+        return businessDAO.getBsnListByCategory(Long.valueOf(categoryId),
+                Integer.valueOf(page), Integer.valueOf(rowsOnPage));
     }
 
     @RequestMapping(value = "/fillServiceTable", method = RequestMethod.GET)
