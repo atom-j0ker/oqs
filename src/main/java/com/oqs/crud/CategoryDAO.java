@@ -33,16 +33,14 @@ public class CategoryDAO {
         TypedQuery<Category> query = entityManager.createQuery(
                 "select c from Category c where c.category is null", Category.class
         );
-        List<Category> result = query.getResultList();
-        return result;
+        return query.getResultList();
     }
 
     public List<Category> getSubcategories(long categoryId) {
         TypedQuery<Category> query = entityManager.createQuery(
                 "select c from Category c where c.category.id = :categoryId", Category.class
         ).setParameter("categoryId", categoryId);
-        List<Category> result = query.getResultList();
-        return result;
+        return query.getResultList();
     }
 
 }

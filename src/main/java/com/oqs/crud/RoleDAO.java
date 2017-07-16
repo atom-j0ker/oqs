@@ -19,7 +19,6 @@ public class RoleDAO {
     public long getId(String role) {
         Query query = entityManager.createQuery(
                 "select r.id from Role r where r.role= :role").setParameter("role", role);
-        long result = (Long)query.getSingleResult();
-        return result;
+        return (Long)query.getSingleResult();
     }
 }

@@ -32,7 +32,6 @@ public class ScheduleDAO {
         TypedQuery<Schedule> query = entityManager.createQuery(
                 "select s from Schedule s where s.user.id=" + userId, Schedule.class
         );
-        List<Schedule> result = query.getResultList();
-        return result;
+        return query.getResultList();
     }
 }
