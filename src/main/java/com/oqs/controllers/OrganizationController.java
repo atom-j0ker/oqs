@@ -1,5 +1,6 @@
 package com.oqs.controllers;
 
+import com.oqs.pair.Pair;
 import com.oqs.crud.*;
 import com.oqs.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,12 +29,12 @@ public class OrganizationController {
     @Autowired
     private UserDAO userDAO;
 
-    @RequestMapping(value = "/user/{userId}/create-business", method = RequestMethod.GET)
+    @RequestMapping(value = "/user/{userId}/createBusiness", method = RequestMethod.GET)
     public ModelAndView createBusinessPage(@PathVariable("userId") long userId) {
-        return new ModelAndView("create-business", "user", userDAO.get(userId));
+        return new ModelAndView("createBusiness", "user", userDAO.get(userId));
     }
 
-    @RequestMapping(value = "/user/{userId}/create-business", method = RequestMethod.POST)
+    @RequestMapping(value = "/user/{userId}/createBusiness", method = RequestMethod.POST)
     public String createBusiness(Business business, @PathVariable("userId") long userId, BindingResult result) {
         User user = userDAO.get(userId);
         user.setBusiness(business);
@@ -65,21 +66,27 @@ public class OrganizationController {
     }
 
     @RequestMapping(value = "/fillOrganizationTableByCategory", method = RequestMethod.GET)
-    @ResponseBody
-    public List<Business> organizationsByCategorySort(@RequestParam("categoryId") String categoryId) {
+    public @ResponseBody
+    List<Business> organizationsByCategorySort(@RequestParam("categoryId") String categoryId) {
         return businessDAO.getBsnListByCategory(Long.valueOf(categoryId));
     }
 
     @RequestMapping(value = "/fillServiceTable", method = RequestMethod.GET)
-    @ResponseBody
-    public List<Service.ServiceTable> servicesSortBy(@RequestParam("sortBy") String sortBy,
-                                                     @RequestParam("categoryId") String categoryId,
-                                                     @RequestParam("string") String string) {
-        List<Service> services = serviceDAO.getServiceListByParams(sortBy, categoryId, string);
+    public @ResponseBody
+    Pair<Integer, List<Service.ServiceTable>> servicesSortBy(@RequestParam("string") String string,
+                                                             @RequestParam("categoryId") String categoryId,
+                                                             @RequestParam("sortBy") String sortBy,
+                                                             @RequestParam("page") String page,
+                                                             @RequestParam("rowsOnPage") String rowsOnPage) {
+        Pair<Integer, List<Service>> services = serviceDAO.getServiceListByParams(
+                string, categoryId, sortBy, Integer.valueOf(page), Integer.valueOf(rowsOnPage));
+        Pair<Integer, List<Service.ServiceTable>> pair =
+                new Pair<Integer, List<Service.ServiceTable>>(services.getFirst(), null);
         List<Service.ServiceTable> serviceList = new ArrayList<Service.ServiceTable>();
-        for (Service s : services)
+        for (Service s : services.getSecond())
             serviceList.add(s.getServiceTable(s));
-        return serviceList;
+        pair.setSecond(serviceList);
+        return pair;
     }
 
     @RequestMapping(value = "/organization/{organizationId}", method = RequestMethod.GET)
@@ -99,9 +106,9 @@ public class OrganizationController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/fill-subcategories", method = RequestMethod.GET)
-    @ResponseBody
-    public List<Category> fillCategories(@RequestParam("categoryId") String categoryId) {
+    @RequestMapping(value = "/fillSubcategories", method = RequestMethod.GET)
+    public @ResponseBody
+    List<Category> fillCategories(@RequestParam("categoryId") String categoryId) {
         return categoryDAO.getSubcategories(Long.valueOf(categoryId));
     }
 }

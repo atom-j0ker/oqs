@@ -59,37 +59,39 @@
 
 <script type="text/javascript">
     var sortByCheck;
+    var sortBy;
     var string;
     var categoryId;
     var categoryName;
     var totalPages;
-    var currentPage;
+    var startPage = 1;
+    var rowsOnPage = 5;
 
     if ("${categoryId}" !== "") {
         categoryId = ${categoryId}
             fillTable("${categoryId}", "${categoryName}");
     }
 
-    //Search service
-    $("#search-service").on("keyup change", function () {
-        string = $(this).val();
-        if (string !== "") {
-            if (!categoryId)
-                fillServiceTableByString(string);
-            else
-                fillServiceTableByCategoryAndString(categoryId, string);
-        }
-    });
-
     $(".dropdown-submenu a.test").on("mouseenter", function (e) {
         $(this).next('ul').toggle();
         e.stopPropagation();
         e.preventDefault();
     });
+
     $(".dropdown-submenu a.test").on("mouseleave", function (e) {
         $('dropdown-menu a.test').on("mouseleave", function (e) {
             $(this).hide();
         });
+    });
+
+    //Search service
+    $("#search-service").on("keyup change", function () {
+        string = $(this).val();
+        if (string !== "") {
+            $("#table-info").css("display", "none");
+            sortByForServicesForm();
+            fillServiceTableByParams(string, categoryId, sortBy, startPage, rowsOnPage);
+        }
     });
 
     //Choose category
@@ -102,18 +104,17 @@
         else {
             $("#choose-category-btn").html(categoryName + ' <span class="caret"></span>');
             $('#show-service-btn').prop("disabled", false);
-            fillServiceTableByCategoryAndString(categoryId, string)
+            sortByForServicesForm();
+            fillServiceTableByParams(string, categoryId, sortBy, startPage, rowsOnPage);
         }
-
     });
 
-    //Show service
+    //Show services
     $("#show-service-btn").on("click", function (e) {
         $("#search-service").val("");
         string = undefined;
         sortByForServicesForm();
-        createServiceTableTh();
-        fillServiceTableByCategory(categoryId);
+        fillServiceTableByParams(string, categoryId, sortBy, startPage, rowsOnPage);
     });
 
     //Reset params
@@ -127,26 +128,34 @@
         $("#table-info").css("display", "block");
         $(".sort-by").css("display", "none");
         $("#organizationTable").find("tr").remove();
+        $("#pages").find("a").remove();
     });
 
     //Sort by
     $(".sort-form").on("change", function (e) {
-        var sortBy = this.value;
+        sortBy = this.value;
         if (sortByCheck === "service")
-            sortByParams(sortBy, categoryId, string);
+            fillServiceTableByParams(string, categoryId, sortBy, startPage, rowsOnPage);
     });
 
-    function fillServiceTableByCategoryAndString(categoryId, string) {
+    //Page
+    $("#pages").on('click', 'a', function () {
+        var page = $(this).closest('a').text();
+        fillServiceTableByParams(string, categoryId, sortBy, page, rowsOnPage);
+    });
+
+    function fillServiceTableByParams(string, categoryId, sortBy, page, rowsOnPage) {
         $.ajax({
             type: "GET",
             url: "/fillServiceTable",
-            data: "sortBy=s.name&categoryId=" + categoryId + "&string=" + string,
+            data: "string=" + string + "&categoryId=" + categoryId + "&sortBy=" + sortBy + "&page=" +
+            page + "&rowsOnPage=" + rowsOnPage,
             dataType: 'json',
             success: function (service) {
-                sortByForServicesForm();
                 createServiceTableTh();
-                for (i = 0; i < service.length; i++)
-                    fillServiceTable(service);
+                for (i = 0; i < service.second.length; i++)
+                    fillServiceTable(service.second);
+                fillPages(service.first)
             },
             error: function (xhr, textStatus) {
                 alert([xhr.status, textStatus]);
@@ -190,58 +199,6 @@
             "</tr>");
     }
 
-    function fillServiceTableByCategory(categoryId) {
-        $.ajax({
-            type: "GET",
-            url: "/fillServiceTable",
-            data: "sortBy=s.name&categoryId=" + categoryId + "&string=undefined",
-            dataType: 'json',
-            success: function (service) {
-                for (i = 0; i < service.length; i++)
-                    fillServiceTable(service);
-            },
-            error: function (xhr, textStatus) {
-                alert([xhr.status, textStatus]);
-            }
-        });
-    }
-
-    function fillServiceTableByString(string) {
-        $.ajax({
-            type: "GET",
-            url: "/fillServiceTable",
-            data: "sortBy=s.name&categoryId=undefined&string=" + string,
-            dataType: 'json',
-            success: function (service) {
-                $("#table-info").css("display", "none");
-                sortByForServicesForm();
-                createServiceTableTh();
-                for (i = 0; i < service.length; i++)
-                    fillServiceTable(service);
-            },
-            error: function (xhr, textStatus) {
-                alert([xhr.status, textStatus]);
-            }
-        })
-    }
-
-    function sortByParams(sortBy, categoryId, string) {
-        $.ajax({
-            type: "GET",
-            url: "/fillServiceTable",
-            data: "sortBy=" + sortBy + "&categoryId=" + categoryId + "&string=" + string,
-            dataType: 'json',
-            success: function (service) {
-                createServiceTableTh();
-                for (i = 0; i < service.length; i++)
-                    fillServiceTable(service);
-            },
-            error: function (xhr, textStatus) {
-                alert([xhr.status, textStatus]);
-            }
-        });
-    }
-
     function createOrganizationTableTh() {
         $("#organizationTable").find("tr").remove();
         $("#organizationTable").append("<tr><th>Organization</th><th>Address</th><th>Telephone</th></tr>");
@@ -269,7 +226,17 @@
             "<option value='s.price.price asc'>price (ascending)</option>" +
             "<option value='s.price.price desc'>price (descending)</option>"
         );
+        sortBy = "s.name";
         $(".sort-by").css("display", "block");
+    }
+
+    function fillPages(rows) {
+        totalPages = parseInt(rows / 5);
+        if (rows % 5 !== 0)
+            totalPages += 1;
+        $("#pages").find("a").remove();
+        for (i = 1; i <= totalPages; i++)
+            $("#pages").append("<a href='#' class='page'>" + i + "</a>");
     }
 </script>
 

@@ -1,13 +1,17 @@
 package com.oqs.crud;
 
+import com.oqs.pair.Pair;
 import com.oqs.model.Service;
+//import com.sun.tools.javac.util.Pair;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 @Repository
 public class ServiceDAO {
@@ -32,23 +36,33 @@ public class ServiceDAO {
         TypedQuery<Service> query = entityManager.createQuery(
                 "select s from Service s where s.business.id = :business", Service.class
         ).setParameter("business", organizationId);
-        List<Service> result = query.getResultList();
-        return result;
+        return query.getResultList();
     }
 
-    public List<Service> getServiceListByParams(String sortBy, String categoryId, String string) {
+    public Pair<Integer, List<Service>> getServiceListByParams(String string, String categoryId, String sortBy,
+                                                               int page, int rowsOnPage) {
         String categorySearch = "1=1";
         String stringSearch = "1=1";
-        if(!categoryId.equals("undefined"))
+        if (!categoryId.equals("undefined"))
             categorySearch = "(s.category.id in " +
                     "(select c.id from Category c where c.category.id = " + Long.valueOf(categoryId) + ") or " +
                     "s.category.id = " + Long.valueOf(categoryId) + ")";
-        if(!string.equals("undefined"))
+        if (!string.equals("undefined"))
             stringSearch = "s.name like '%" + string + "%'";
         TypedQuery<Service> query = entityManager.createQuery(
                 "select s from Service s where " + categorySearch + " and " + stringSearch +
                         " order by " + sortBy, Service.class);
         List<Service> result = query.getResultList();
-        return result;
+        List<Service> serviceList = new ArrayList<Service>();
+        Pair<Integer, List<Service>> pair = new Pair<Integer, List<Service>>(result.size(), null);
+        ListIterator<Service> listIterator = result.listIterator(page * rowsOnPage - rowsOnPage);
+        for (int i = 0; i < rowsOnPage; i++) {
+            if (listIterator.hasNext())
+                serviceList.add(listIterator.next());
+            else
+                break;
+        }
+        pair.setSecond(serviceList);
+        return pair;
     }
 }
