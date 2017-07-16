@@ -68,15 +68,13 @@ public class BookingController {
     }
 
     @RequestMapping(value = "/delete-booking/{scheduleId}", method = RequestMethod.GET)
-    @ResponseBody
-    public void bookingDelete(@PathVariable("scheduleId") long scheduleId) {
+    public @ResponseBody void bookingDelete(@PathVariable("scheduleId") long scheduleId) {
         scheduleDAO.delete(scheduleId);
     }
 
 
     @RequestMapping(value = "/fill-time-list", method = RequestMethod.GET)
-    @ResponseBody
-    public List<List<Time>> scheduleByMaster(@RequestParam("masterId") long masterId,
+    public @ResponseBody List<List<Time>> scheduleByMaster(@RequestParam("masterId") long masterId,
                                              @RequestParam("date") String dateString) throws ParseException {
         final String OLD_FORMAT = "dd-MM-yyyy";
         final String NEW_FORMAT = "yyyy-MM-dd";

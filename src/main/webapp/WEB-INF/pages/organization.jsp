@@ -110,7 +110,7 @@
         var categoryId = $(this).children(":selected").attr("id");
         $.ajax({
             type: "GET",
-            url: "/fill-subcategories",
+            url: "/fillSubcategories",
             data: "categoryId=" + categoryId,
             dataType: 'json',
             success: function (data) {

@@ -61,7 +61,7 @@
     <sec:authorize access="hasRole('ROLE_BUSINESS')">
         <c:choose>
             <c:when test="${empty user.business.id}">
-                <p><a href="/user/${user.id}/create-business">create business</a></p>
+                <p><a href="/user/${user.id}/createBusiness">create business</a></p>
             </c:when>
             <c:otherwise>
                 <p><a href="/organization/${user.business.id}">my business</a></p>

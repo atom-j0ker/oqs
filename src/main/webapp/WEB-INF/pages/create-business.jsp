@@ -12,7 +12,7 @@
 <jsp:include page="fragments/header.jsp"/>
 
 <div class="content">
-    <form action="create-business" method="post">
+    <form action="createBusiness" method="post">
         <p><input type="text" name="name" placeholder="name"/></p>
         <p><input type="text" name="address" placeholder="address"/></p>
         <p><input type="text" name="description" placeholder="description"/></p>

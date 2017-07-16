@@ -29,8 +29,7 @@ public class ServiceController {
     private ServiceDAO serviceDAO;
 
     @RequestMapping(value = "/add-service/{organizationId}", method = RequestMethod.GET)
-    @ResponseBody
-    public Service serviceAdd(@PathVariable("organizationId") long organizationId,
+    public @ResponseBody Service serviceAdd(@PathVariable("organizationId") long organizationId,
                               @RequestParam("subcategoryId") String subcategoryId,
                               @RequestParam("serviceName") String serviceName,
                               @RequestParam("priceValue") String priceValue,
