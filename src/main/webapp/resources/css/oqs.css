@@ -210,6 +210,14 @@ section#services .section-heading {
     margin-bottom: 10px;
 }
 
+#pages {
+    text-align: center;
+}
+
+#pages a {
+    margin: 5px;
+}
+
 .organization-photo {
     width: 800px;
     height: 600px;
