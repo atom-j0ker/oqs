@@ -1,5 +1,6 @@
 package com.oqs.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -15,9 +16,12 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 public class MVCConfig extends WebMvcConfigurerAdapter {
 
     private static final int MAX_UPLOAD_SIZE = 5242880; //5 MB
+    @Value("${directory}")
+    private String directory;
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler(directory + "/**").addResourceLocations("file:" + directory);
         registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
     }
 

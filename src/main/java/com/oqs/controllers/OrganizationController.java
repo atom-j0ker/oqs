@@ -4,6 +4,7 @@ import com.oqs.pair.Pair;
 import com.oqs.crud.*;
 import com.oqs.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +30,8 @@ public class OrganizationController {
     private ServiceDAO serviceDAO;
     @Autowired
     private UserDAO userDAO;
+    @Value("${directory}")
+    private String directory;
 
     @RequestMapping(value = "/user/{userId}/createBusiness", method = RequestMethod.GET)
     public ModelAndView createBusinessPage(@PathVariable("userId") long userId) {
@@ -95,9 +99,12 @@ public class OrganizationController {
     @RequestMapping(value = "/organization/{organizationId}", method = RequestMethod.GET)
     public ModelAndView organization(@PathVariable("organizationId") long organizationId) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Business business = businessDAO.get(organizationId);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("organization");
-        modelAndView.addObject("organization", businessDAO.get(organizationId));
+        modelAndView.addObject("organization", business);
+        if (business.getPhoto() != null)
+            modelAndView.addObject("photo", directory + business.getPhoto().getPhoto());
         modelAndView.addObject("services", serviceDAO.getServiceListByOrganization(organizationId));
         modelAndView.addObject("categories", categoryDAO.getCategories());
         modelAndView.addObject("rating", ratingDAO.getRating(organizationId));

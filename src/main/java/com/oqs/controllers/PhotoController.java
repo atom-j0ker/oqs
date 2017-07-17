@@ -6,6 +6,7 @@ import com.oqs.file.FileUpload;
 import com.oqs.model.Business;
 import com.oqs.model.Photo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,16 +24,23 @@ public class PhotoController {
     @Autowired
     private PhotoDAO photoDAO;
 
+    @Value("${directory}")
+    private String directory;
+    @Value("${business}")
+    private String business;
+    @Value("${format.jpg}")
+    private String formatJPG;
+
     @RequestMapping(value = "/organization/{organizationId}/change-photo", method = RequestMethod.POST)
     public String changeOrganizationPhoto(@PathVariable("organizationId") long organizationId, @RequestParam("file") MultipartFile file) {
-        fileUpload.fileUpload(file, organizationId);
+        String fileName = business + organizationId + formatJPG;
+        fileUpload.fileUpload(file, fileName);
         Business business = businessDAO.get(organizationId);
         Photo photo = new Photo();
-        photo.setPhoto("/resources/photos/organizations/bsn-" + organizationId + ".jpg");
+        photo.setPhoto(directory + fileName);
         long photoId = photoDAO.saveOrUpdate(photo);
         business.setPhoto(photoDAO.get(photoId));
         businessDAO.saveOrUpdate(business);
-
         return "redirect:/organization/{organizationId}";
     }
 }

@@ -21,8 +21,7 @@
 
 <div class="content">
     <div class="organization-left-part">
-        <img class="organization-photo" src="${organization.photo.photo}"/>
-
+        <img class="organization-photo" src="${photo}"/>
     </div>
     <div class="organization-right-part">
         <p class="organization-name">${organization.name}</p>
@@ -33,15 +32,6 @@
             <p>${organization.description}</p>
         </div>
     </div>
-
-    <%--<div class="organization-services">--%>
-        <%--<p>Organization services:</p>--%>
-        <%--<ul id="service-list">--%>
-            <%--<c:forEach items="${services}" var="service">--%>
-                <%--<li><a href="/organization/${organization.id}/service/${service.id}">${service.name}</a></li>--%>
-            <%--</c:forEach>--%>
-        <%--</ul>--%>
-    <%--</div>--%>
 
     <div class="organization-services">
         <table id="service-list" class="sortable table">
