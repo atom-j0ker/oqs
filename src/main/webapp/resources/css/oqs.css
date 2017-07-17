@@ -16,7 +16,7 @@
 }
 
 header {
-    background: url("/resources/photos/space.jpg") no-repeat scroll center center;
+    background: url("/resources/img/space.jpg") no-repeat scroll center center;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;

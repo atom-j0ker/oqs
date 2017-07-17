@@ -34,7 +34,7 @@
             <input type="hidden" value="2" name="categoryId"/>
             <input type="hidden" value="Beauty" name="categoryName"/>
             <input class="organization-types-image" type="image"
-                   src="/resources/photos/categories/beauty-salon.png"/>
+                   src="/resources/img/categories/beauty-salon.png"/>
             <p class="organization-types-description"><strong>BEAUTY</strong><br>
                 A beauty salon is an establishment dealing with cosmetic treatments for men and women.
                 Other variations of this type of business include hair salons and spas.
@@ -51,7 +51,7 @@
             <input type="hidden" value="3" name="categoryId"/>
             <input type="hidden" value="Service" name="categoryName"/>
             <input class="organization-types-image" style="float: right" type="image"
-                   src="/resources/photos/categories/service-station.png"/>
+                   src="/resources/img/categories/service-station.png"/>
             <p class="organization-types-description"><strong>SERVICE</strong><br>
                 A service station is a repair shop where automobiles are repaired by auto mechanics
                 and technicians. Specialty automobile repair shops are shops specializing in certain
@@ -67,7 +67,7 @@
             <input type="hidden" value="1" name="categoryId"/>
             <input type="hidden" value="Medicine" name="categoryName"/>
             <input class="organization-types-image" type="image"
-                   src="/resources/photos/categories/medicine-center.png"/>
+                   src="/resources/img/categories/medicine-center.png"/>
             <p class="organization-types-description"><strong>MEDICINE</strong><br>
                 A medical center or a clinic is a healthcare facility that is primarily focused on
                 the care of outpatients. Clinics can be privately operated or publicly managed and funded.
