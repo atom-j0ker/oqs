@@ -6,7 +6,6 @@
 <head>
     <title>my-profile</title>
     <script src="<c:url value="/resources/js/jquery.js" />"></script>
-    <script src="<c:url value="/resources/js/sortTable.js" />"></script>
     <style>
         <%@ include file="/resources/css/oqs.css" %>
         <%@ include file="/resources/css/bootstrap.css" %>
@@ -18,33 +17,41 @@
 
 <div class="content">
     <sec:authentication var="currentUser" property="principal"/>
-    <h2>My profile</h2>
-    <p>${user.email}</p>
-    <sec:authorize access="isAuthenticated()">
-        <p>${currentUser.authorities}</p>
-    </sec:authorize>
-    <p>${user.firstname} ${user.lastname}</p>
+
+    <div class="user-info">
+        <h2>My profile</h2>
+        <p>${user.email}</p>
+        <sec:authorize access="isAuthenticated()">
+            <p>${currentUser.authorities}</p>
+        </sec:authorize>
+        <p>${user.firstname} ${user.lastname}</p>
+        <p>phone: ${user.phone}</p>
+    </div>
 
     <sec:authorize access="hasRole('ROLE_USER')">
         <c:if test="${!empty schedule}">
             <div class="my-bookings">
-                <p class="title">My bookings</p>
-                <table class="sortable table table-bordered">
+                <h4 style="text-align: center">My bookings</h4>
+                <table id="schedule-table" class="table schedule-table">
                     <tr>
-                        <th>Organization</th>
                         <th>Service</th>
+                        <th>Organization</th>
                         <th>Master</th>
                         <th>Date</th>
                         <th>Time</th>
+                        <th>Status</th>
                     </tr>
                     <c:forEach items="${schedule}" var="sch">
                         <tr id="${sch.id}">
-                            <c:set value="${sch.id}" var="a"></c:set>
+                            <td>${sch.service.name} <img class="info-img" src="/resources/img/information.png"
+                                                         title="${sch.comment}"/>
+
+                            </td>
                             <td>${sch.service.business.name}</td>
-                            <td>${sch.service.name}</td>
                             <td>${sch.master.user.firstname} ${sch.master.user.lastname}</td>
                             <td><fmt:formatDate value="${sch.date}" pattern="dd-MM-yyyy"/></td>
                             <td>${sch.time}</td>
+                            <td>${sch.status.name}</td>
                             <c:if test="${currentUser.username == user.email}">
                                 <td>
                                     <input type="button" class="delete-booking-btn" value="Delete">

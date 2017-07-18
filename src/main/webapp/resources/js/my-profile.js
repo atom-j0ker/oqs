@@ -8,4 +8,4 @@ $(".delete-booking-btn").click(function () {
             alert([xhr.status, textStatus]);
         }
     })
-})
+});

@@ -30,7 +30,7 @@ public class ScheduleDAO {
 
     public List<Schedule> getScheduleListByUserId(long userId) {
         TypedQuery<Schedule> query = entityManager.createQuery(
-                "select s from Schedule s where s.user.id=" + userId, Schedule.class
+                "select s from Schedule s where s.user.id=" + userId + " order by s.date, s.time", Schedule.class
         );
         return query.getResultList();
     }
