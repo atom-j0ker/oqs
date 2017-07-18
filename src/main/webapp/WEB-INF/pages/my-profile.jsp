@@ -20,10 +20,13 @@
 
     <div class="user-info">
         <h2>My profile</h2>
-        <p>${user.email}</p>
-        <sec:authorize access="isAuthenticated()">
-            <p>${currentUser.authorities}</p>
-        </sec:authorize>
+        <img class="user-photo" src="${photo}"/>
+        <div class="user-image-form">
+            <form action="/user/${user.id}/change-photo" method="post" enctype="multipart/form-data">
+                <input type="file" id="file" name="file" class="hidden-files" accept="image/*">
+                <input type="submit" value="Upload" class="btn btn-default">
+            </form>
+        </div>
         <p>${user.firstname} ${user.lastname}</p>
         <p>phone: ${user.phone}</p>
     </div>
@@ -43,10 +46,8 @@
                     </tr>
                     <c:forEach items="${schedule}" var="sch">
                         <tr id="${sch.id}">
-                            <td>${sch.service.name} <img class="info-img" src="/resources/img/information.png"
-                                                         title="${sch.comment}"/>
-
-                            </td>
+                            <td><img class="info-img" src="/resources/img/information.png"
+                                     title="${sch.comment}"/> ${sch.service.name}</td>
                             <td>${sch.service.business.name}</td>
                             <td>${sch.master.user.firstname} ${sch.master.user.lastname}</td>
                             <td><fmt:formatDate value="${sch.date}" pattern="dd-MM-yyyy"/></td>

@@ -33,7 +33,7 @@
     </div>
 
     <c:if test="${organization.id == user.business.id}">
-        <div class="add-image-form">
+        <div class="user-image-form">
             <form action="/organization/${organization.id}/change-photo" method="post" enctype="multipart/form-data">
                 <input type="file" id="file" name="file" class="hidden-files" accept="image/*">
                 <input type="submit" value="Upload" class="btn btn-default">

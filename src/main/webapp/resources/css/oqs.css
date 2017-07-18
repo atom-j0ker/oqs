@@ -322,8 +322,25 @@ section#services .section-heading {
     font-size: 16px;
 }
 
+.user-photo {
+    width: 320px;
+    height: 400px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
 .info-img {
     width: 20px;
+    margin-right: 10px;
+}
+
+.user-image-form {
+    margin-left: 40%;
+    width: 20%;
+}
+
+.my-bookings {
+    margin-top: 30px;
 }
 
 .schedule-table {

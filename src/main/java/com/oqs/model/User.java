@@ -36,7 +36,7 @@ public class User {
     private String phone;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "photo_id")
+    @JoinColumn(name = "user_photo")
     private Photo photo;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

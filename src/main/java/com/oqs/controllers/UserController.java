@@ -8,6 +8,7 @@ import com.oqs.model.Master;
 import com.oqs.model.Role;
 import com.oqs.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -31,6 +32,8 @@ public class UserController {
     private UserDAO userDAO;
     @Autowired
     private BCryptPasswordEncoder encoder;
+    @Value("${directory}")
+    private String directory;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String startPage() {
@@ -75,11 +78,13 @@ public class UserController {
 
     @RequestMapping(value = "/user/{userId}", method = RequestMethod.GET)
     public ModelAndView myProfilePage(@PathVariable("userId") long userId) {
+        User user = userDAO.get(userId);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("my-profile");
-        modelAndView.addObject("user", userDAO.get(userId));
+        modelAndView.addObject("user", user);
         modelAndView.addObject("schedule", scheduleDAO.getScheduleListByUserId(userId));
-
+        if (user.getPhoto() != null)
+            modelAndView.addObject("photo", directory + user.getPhoto().getPhoto());
         return modelAndView;
     }
 }
