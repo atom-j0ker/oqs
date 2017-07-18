@@ -275,12 +275,14 @@ section#services .section-heading {
     margin-top: -1px;
 }
 
-.add-service {
-    margin: 50px;
+.add-image-form {
+    float: left;
+    width: 100%;
+    padding-left: 50px;
 }
 
-.add-service-form {
-    display: none;
+.change-service-btn {
+    width: 100px;
 }
 
 .authorization-form {
@@ -290,11 +292,7 @@ section#services .section-heading {
     width: 300px;
 }
 
-.authorization-title {
-    font-size: 26px;
-}
-
-.authorization-btn {
+.submit-btn {
     width: 150px;
 }
 
@@ -305,12 +303,42 @@ section#services .section-heading {
     text-align: center;
 }
 
-.registration-title {
-    font-size: 26px;
+.service-add-form {
+    margin-top: 200px;
+    margin-left: 40%;
+    width: 300px;
+    text-align: center;
 }
 
-.registration-btn {
-    width: 150px;
+.create-business-form {
+    margin-top: 200px;
+    margin-left: 40%;
+    width: 300px;
+    text-align: center;
+}
+
+.user-info {
+    text-align: center;
+    font-size: 16px;
+}
+
+.info-img {
+    width: 20px;
+}
+
+.schedule-table {
+    width: 80%;
+    margin-left: 10%;
+    border-collapse: collapse;
+    border:none !important;
+}
+
+#schedule-table th{
+    border: none;
+}
+
+#schedule-table td{
+    border: none;
 }
 
 .footer {

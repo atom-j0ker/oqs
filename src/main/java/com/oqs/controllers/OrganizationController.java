@@ -72,8 +72,8 @@ public class OrganizationController {
     @RequestMapping(value = "/fillOrganizationTable", method = RequestMethod.GET)
     public @ResponseBody
     Pair<Integer, List<Business>> organizationsByCategorySort(@RequestParam("categoryId") String categoryId,
-                                               @RequestParam("page") String page,
-                                               @RequestParam("rowsOnPage") String rowsOnPage) {
+                                                              @RequestParam("page") String page,
+                                                              @RequestParam("rowsOnPage") String rowsOnPage) {
         return businessDAO.getBsnListByCategory(Long.valueOf(categoryId),
                 Integer.valueOf(page), Integer.valueOf(rowsOnPage));
     }

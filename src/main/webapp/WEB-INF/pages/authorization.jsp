@@ -11,11 +11,11 @@
 
 <jsp:include page="fragments/header.jsp"/>
 
-<form class="authorization-form" action="login" method="post">
-    <p class="authorization-title">Authorization</p>
+<form class="authorization-form" action="/login" method="post">
+    <h2>Authorization</h2>
     <p><input class="form-control" type="email" name="email" placeholder="Enter email"></p>
     <p><input class="form-control" type="password" name="password" placeholder="Enter password"></p>
-    <input class="btn btn-primary authorization-btn" type="submit" value="Sign in">
+    <input class="btn btn-primary submit-btn" type="submit" value="Sign in">
 </form>
 
 <jsp:include page="fragments/footer.jsp"/>

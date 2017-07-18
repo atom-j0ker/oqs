@@ -33,7 +33,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-//                .anyRequest().authenticated() //all requests will checked
                 .and()
                 .formLogin().loginPage("/authorization").permitAll().usernameParameter("email")
                 .passwordParameter("password").loginProcessingUrl("/login").defaultSuccessUrl("/")
