@@ -257,12 +257,17 @@ section#services .section-heading {
 }
 
 .booking-form {
-    width: 40%;
-    margin-left: 30%;
+    width: 30%;
+    margin-left: 35%;
     margin-top: 100px;
-    padding: 5%;
+    padding: 20px 80px 20px 80px;
     border: 2px solid black;
     text-align: center;
+    font-size: 16px;
+}
+
+.master-info-img {
+    width: 30px;
 }
 
 .dropdown-submenu {
@@ -339,6 +344,11 @@ section#services .section-heading {
     width: 20%;
 }
 
+.role-sense {
+    text-align: center;
+    font-size: 16px;
+}
+
 .my-bookings {
     margin-top: 30px;
 }
@@ -358,6 +368,11 @@ section#services .section-heading {
     border: none;
 }
 
+.master-info {
+    text-align: center;
+    font-size: 16px;
+}
+
 .footer {
     background-color: rgba(5, 2, 76, 0.65);
     color: white;
@@ -366,4 +381,57 @@ section#services .section-heading {
     bottom: 0;
     left: 0;
     width: 100%;
+}
+
+#modal-form {
+    width: 600px;
+    height: 500px;
+    border-radius: 5px;
+    border: 3px #000 solid;
+    background: #fff;
+    position: fixed;
+    top: 45%;
+    left: 50%;
+    margin-top: -250px;
+    margin-left: -300px;
+    display: none;
+    opacity: 0;
+    z-index: 5;
+    padding: 20px 10px;
+}
+
+#modal-form #modal-close {
+    width: 21px;
+    height: 21px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    display: block;
+}
+
+#overlay {
+    z-index:3;
+    position:fixed;
+    background-color:#000;
+    opacity:0.8;
+    -moz-opacity:0.8;
+    filter:alpha(opacity=80);
+    width:100%;
+    height:100%;
+    top:0;
+    left:0;
+    cursor:pointer;
+    display:none;
+}
+
+.popup-left-part {
+    float: left;
+    margin-left: 20px;
+    margin-top: 0px;
+}
+
+.popup-right-part {
+    font-size: 18px;
+    margin-top: 25px;
 }

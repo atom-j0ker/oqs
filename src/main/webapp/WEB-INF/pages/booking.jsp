@@ -22,59 +22,71 @@
     <sec:authentication var="user" property="principal.username"/>
 </sec:authorize>
 
-<div class="booking-form">
-    <h2>${organization.name}</h2>
-    <form action="/booking-add/${organization.id}/${user}/${service.id}" method="post"
-          onsubmit="return confirmBooking();">
+<div class="content">
+    <div class="booking-form">
+        <h2>${organization.name}</h2>
+        <form action="/booking-add/${organization.id}/${user}/${service.id}" method="post"
+              onsubmit="return confirmBooking();">
 
-        <h4>${service.name}</h4>
+            <h4>${service.name}</h4>
 
-        <select id="mastersListId" name="mastersListName">
-            <option value="0" disabled selected>-- Choose master --</option>
-            <c:forEach items="${masters}" var="master">
-                <option value="${master.id}">${master.user.firstname} ${master.user.lastname}</option>
-            </c:forEach>
-        </select>
-        <p>
-            <form class="form-horizontal" role="form">
-                <fieldset>
+            <select class="form-control" id="mastersListId" name="mastersListName">
+                <option value="0" disabled selected>-- Choose master --</option>
+                <c:forEach items="${masters}" var="master">
+                    <option id="${master.id}">${master.user.firstname} ${master.user.lastname}</option>
+                </c:forEach>
+            </select>
+            <img class="master-info-img" src="/resources/img/information.png"/>
 
-        <p>Choose Date:</p>
-        <div class="input-group date form_date" data-date="" data-date-format="dd-mm-yyyy"
-             data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
-            <input id="datepicker" name="dateName" class="form-control" size="16" type="text" value=""
-                   readonly>
-            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-        </div>
-        <input type="hidden" id="dtp_input2" value=""/><br/>
-        <span class="error-msg" id="invalid-date"></span>
-
-        <p>Choose time:</p>
-        <p><select class="form-control input-lg" id="timeListId" name="timeListName">
-            <option value="0" disabled selected>-- Time --</option>
-        </select>
-        </p>
-        <span class="error-msg" id="invalid-time"></span>
-        </fieldset>
-
-        <p><textarea class="form-control input-lg" name="bookingComment"
-                     rows="3" placeholder="Write your wishes here"></textarea></p>
-
-        <c:choose>
-            <c:when test="${pageContext.request.isUserInRole('USER')}">
-                <input type="submit" value="Booked">
-            </c:when>
-            <c:otherwise>
-                <input type="submit" value="Booked" title="please, sign in" disabled>
-            </c:otherwise>
-        </c:choose>
+            <%--//////////////////////////////////////////////////////////////--%>
 
 
-    </form>
-    </form>
+            <div id="modal-form">
+                <span id="modal-close">X</span>
+            </div>
+            <div id="overlay"></div>
+
+            <%--//////////////////////////////////////////////////////////////--%>
+
+
+            <p>
+                <form class="form-horizontal" role="form">
+                    <fieldset>
+            <p>Choose Date:</p>
+            <div class="input-group date form_date" data-date="" data-date-format="dd-mm-yyyy"
+                 data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                <input id="datepicker" name="dateName" class="form-control" size="16" type="text" value=""
+                       readonly>
+                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+            </div>
+            <input type="hidden" id="dtp_input2" value=""/><br/>
+            <span class="error-msg" id="invalid-date"></span>
+
+            <p>Choose time:</p>
+            <p><select class="form-control" id="timeListId" name="timeListName">
+                <option value="0" disabled selected>-- Time --</option>
+            </select>
+            </p>
+            <span class="error-msg" id="invalid-time"></span>
+            </fieldset>
+
+            <p><textarea class="form-control input-lg" name="bookingComment"
+                         rows="5" placeholder="Write your wishes here"></textarea></p>
+
+            <c:choose>
+                <c:when test="${pageContext.request.isUserInRole('USER')}">
+                    <input type="submit" value="Booked" id="booked-btn" class="btn btn-primary submit-btn">
+                </c:when>
+                <c:otherwise>
+                    <input type="submit" value="Booked" class="btn btn-primary submit-btn" title="please, sign in"
+                           disabled>
+                </c:otherwise>
+            </c:choose>
+
+        </form>
+    </div>
 </div>
-
 <jsp:include page="fragments/footer.jsp"/>
 
 <script type="text/javascript">
@@ -100,14 +112,14 @@
         time = $(this).val();
     });
 
-    function confirmBooking() {
+    $("#booked-btn").on("click", function confirmbooking() {
         var masterElement = document.getElementById("masterListId");
         var masterName = masterElement.options[masterElement.selectedIndex].text;
         if (confirm("Your booking:\n" + "master: " + masterName + "\ndate: " + date + "\ntime: " + time))
             return true;
         else
             return false;
-    }
+    });
 
     function fillTimeDropDownList() {
         $.ajax({
@@ -153,7 +165,56 @@
         maxView: 1,
         forceParse: 0
     });
+
+    $('.master-info-img').on("click", function (event) {
+        if ($('#mastersListId').val()) {
+            var masterId = $('#mastersListId').children(":selected").attr("id");
+
+            $.ajax({
+                type: "GET",
+                url: "/masterPopup",
+                data: "masterId=" + masterId,
+                dataType: 'json',
+                success: function (master) {
+                    $("#modal-form").append(
+                        '<div id="master-info"><img class="user-photo popup-left-part" src="' + master.photo + '"/>' +
+                        '<div class="popup-right-part">' +
+                        '<p>' + master.firstname + ' ' + master.lastname + '</p>' +
+                        'Organization:<br><p>' + master.business + '</p>' +
+                        '<p>Working time:<br>' + master.starttime + ':00 - ' + (master.starttime + 9) + ':00</p>' +
+                        '<p>Phone: ' + master.phone + '</p>' +
+                        '<p>Experience: ' + master.experience + ' years</p>' +
+                        '<p>' + master.description + '</p></div></div>'
+                    );
+                },
+                error: function (xhr, textStatus) {
+                    alert([xhr.status, textStatus]);
+                }
+            });
+
+            event.preventDefault();
+            $('#overlay').fadeIn(400,
+                function () {
+                    $('#modal-form')
+                        .css('display', 'block')
+                        .animate({opacity: 1, top: '50%'}, 200);
+                });
+        }
+    });
+
+    $('#modal-close, #overlay').on("click", function () {
+        $('#modal-form').find("#master-info").remove();
+        $('#modal-form')
+            .animate({opacity: 0, top: '45%'}, 200,
+                function () {
+                    $(this).css('display', 'none');
+                    $('#overlay').fadeOut(400);
+                }
+            );
+    });
+
 </script>
+
 
 </body>
 </html>

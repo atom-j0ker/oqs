@@ -64,7 +64,7 @@
     var categoryName;
     var totalPages;
     var startPage = 1;
-    var rowsOnPage = 5;
+    var rowsOnPage = 10;
 
     if ("${categoryId}" !== "") {
         categoryId = "${categoryId}";

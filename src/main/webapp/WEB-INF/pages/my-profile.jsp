@@ -65,14 +65,20 @@
         </c:if>
     </sec:authorize>
     <sec:authorize access="hasRole('ROLE_MASTER')">
+        <div class="master-info">
+            <p>Organization: ${user.master.business.name}</p>
+            <p>Description: ${user.master.description}</p>
+            <p>Start working at: ${user.master.starttime}:00</p>
+            <p>Working experience: ${user.master.experience} (years)</p>
+        </div>
     </sec:authorize>
     <sec:authorize access="hasRole('ROLE_BUSINESS')">
         <c:choose>
             <c:when test="${empty user.business.id}">
-                <p><a href="/user/${user.id}/createBusiness">create business</a></p>
+                <p class="role-sense"><a href="/user/${user.id}/createBusiness">create business</a></p>
             </c:when>
             <c:otherwise>
-                <p><a href="/organization/${user.business.id}">my business</a></p>
+                <p class="role-sense"><a href="/organization/${user.business.id}">my business</a></p>
             </c:otherwise>
         </c:choose>
     </sec:authorize>
