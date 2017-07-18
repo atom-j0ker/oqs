@@ -13,7 +13,6 @@
     <link rel="stylesheet" href="/resources/css/star-rating.css" media="all" type="text/css"/>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="/resources/js/star-rating.js" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/sortTable.js" />"></script>
 </head>
 <body>
 
@@ -33,13 +32,25 @@
         </div>
     </div>
 
+    <c:if test="${organization.id == user.business.id}">
+        <div class="add-image-form">
+            <form action="/organization/${organization.id}/change-photo" method="post" enctype="multipart/form-data">
+                <input type="file" id="file" name="file" class="hidden-files" accept="image/*">
+                <input type="submit" value="Upload" class="btn btn-default">
+            </form>
+        </div>
+    </c:if>
+
     <div class="organization-services">
-        <table id="service-list" class="sortable table">
+        <table id="service-list" class="table">
+            <thead>
             <tr>
                 <th>Service</th>
                 <th>Price ( $ )</th>
                 <th>Duration ( min )</th>
             </tr>
+            </thead>
+            <tbody>
             <c:forEach items="${services}" var="service">
                 <tr>
                     <td><a href="/organization/${organization.id}/service/${service.id}">${service.name}</a></td>
@@ -47,35 +58,9 @@
                     <td>${service.duration}</td>
                 </tr>
             </c:forEach>
+            </tbody>
         </table>
     </div>
-
-    <c:if test="${organization.id == user.business.id}">
-
-        <form action="/organization/${organization.id}/change-photo" method="post" enctype="multipart/form-data">
-            <input id="file" name="file" class="hidden-files" type="file" accept="image/*">
-            <input type="submit" value="Upload">
-        </form>
-
-        <div class="add-service">
-            <p id="add-service-btn">Add service:</p>
-            <div class="add-service-form">
-                <select id="categoryListId">
-                    <option value="0" selected disabled> -- Choose category --</option>
-                    <c:forEach items="${categories}" var="category">
-                        <option id="${category.id}" value="${category.name}">${category.name}</option>
-                    </c:forEach>
-                </select><br>
-                <select id="subcategoryListId">
-                    <option value="0" selected disabled> -- Choose subcategory --</option>
-                </select><br>
-                <input type="text" id="newService" placeholder="Service"><br>
-                <input type="text" id="newPrice" placeholder="Price (E.g. 10-15$)"><br>
-                <input type="text" id="newDuration" placeholder="Duration (E.g. 60 min)"><br>
-                <input type="button" id="add-service" value="Add service">
-            </div>
-        </div>
-    </c:if>
 </div>
 
 <jsp:include page="fragments/footer.jsp"/>
@@ -84,58 +69,22 @@
 
 <script type="text/javascript">
 
+    $(function () {
+        if (${user.business.id} == ${organization.id}) {
+            $("#service-list > thead > tr").append(
+                '<th><form action="/organization/${organization.id}/serviceAdd" method="get">' +
+                '<input type="submit" class="btn btn-default change-service-btn" value="Add service"/>' +
+                '</form></th>');
+            $("#service-list > tbody > tr").append(
+                '<td><form action="/2" method="get"><input type="submit" class="btn btn-default change-service-btn" value="Edit"/></form></td>' +
+                '<td><form action="/3" method="get"><input type="submit" class="btn btn-danger change-service-btn" value="Delete"/></form></td>');
+        }
+    });
+
     $('.kv-fa').rating({
         filledStar: '<i class="fa fa-star"></i>',
         emptyStar: '<i class="fa fa-star-o"></i>'
     });
 
-    $("#add-service-btn").click(function () {
-        if ($('.add-service-form').css('display') === 'none')
-            $(".add-service-form").css('display', 'block');
-        else
-            $(".add-service-form").css('display', 'none');
-    });
-
-    $("#categoryListId").change(function () {
-        var categoryId = $(this).children(":selected").attr("id");
-        $.ajax({
-            type: "GET",
-            url: "/fillSubcategories",
-            data: "categoryId=" + categoryId,
-            dataType: 'json',
-            success: function (data) {
-                $("#subcategoryListId option").remove();
-                if (data.length != 0) {
-                    $("#subcategoryListId").append("<option value='0' disabled selected> -- Choose subcategory -- </option>");
-                }
-                for (var i = 0; i < data.length; i++) {
-                    $("#subcategoryListId").append("<option id='" + data[i].id + "' value='" + data[i].name + "'>" + data[i].name + "</option>");
-                }
-            },
-            error: function (xhr, textStatus) {
-                alert([xhr.status, textStatus]);
-            }
-        })
-    });
-
-
-    $("#add-service").click(function () {
-        var subcategoryId = $("#subcategoryListId").children(":selected").attr("id");
-        var serviceName = $("#newService").val();
-        var priceValue = $("#newPrice").val();
-        var duration = $("#newDuration").val();
-
-        $.ajax({
-            type: "GET",
-            url: "/add-service/" + ${organization.id},
-            data: "subcategoryId=" + subcategoryId + "&serviceName=" + serviceName + "&priceValue=" + priceValue + "&duration=" + duration,
-            success: function (service) {
-                $("#service-list").append("<li><a href='/organization/" + ${organization.id} +"/service/" + service.id + "'>" + service.name + "</a></li>");
-            },
-            error: function (xhr, textStatus) {
-                alert([xhr.status, textStatus]);
-            }
-        })
-    });
 </script>
 </html>
