@@ -31,9 +31,16 @@ public class ScheduleDAO {
         return entityManager.find(Schedule.class, id);
     }
 
-    public List<Schedule> getScheduleListByUserId(long userId) {
+    public List<Schedule> getScheduleListByUser(long userId) {
         TypedQuery<Schedule> query = entityManager.createQuery(
                 "select s from Schedule s where s.user.id=" + userId + " order by s.date, s.time", Schedule.class
+        );
+        return query.getResultList();
+    }
+
+    public List<Schedule> getScheduleListByBusiness(long businessId) {
+        TypedQuery<Schedule> query = entityManager.createQuery(
+                "select s from Schedule s where s.service.business.id=" + businessId + " order by s.date, s.time", Schedule.class
         );
         return query.getResultList();
     }

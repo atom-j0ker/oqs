@@ -366,18 +366,18 @@ section#services .section-heading {
     margin-top: 30px;
 }
 
-.schedule-table {
+#user-schedule-table {
     width: 80%;
     margin-left: 10%;
     border-collapse: collapse;
     border:none !important;
 }
 
-#schedule-table th{
+#user-schedule-table th{
     border: none;
 }
 
-#schedule-table td{
+#user-schedule-table td{
     border: none;
 }
 
@@ -447,4 +447,16 @@ section#services .section-heading {
 .popup-right-part {
     font-size: 18px;
     margin-top: 25px;
+}
+
+#business-schedule-table {
+
+}
+
+#business-schedule-table th {
+    border: none;
+}
+
+#business-schedule-table td {
+    border: none;
 }

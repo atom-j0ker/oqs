@@ -1,6 +1,5 @@
 package com.oqs.controllers;
 
-import com.oqs.crud.MasterDAO;
 import com.oqs.crud.RoleDAO;
 import com.oqs.crud.ScheduleDAO;
 import com.oqs.crud.UserDAO;
@@ -82,7 +81,7 @@ public class UserController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("my-profile");
         modelAndView.addObject("user", user);
-        modelAndView.addObject("schedule", scheduleDAO.getScheduleListByUserId(userId));
+        modelAndView.addObject("schedule", scheduleDAO.getScheduleListByUser(userId));
         if (user.getPhoto() != null)
             modelAndView.addObject("photo", directory + user.getPhoto().getPhoto());
         return modelAndView;

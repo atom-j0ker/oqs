@@ -38,6 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordParameter("password").loginProcessingUrl("/login").defaultSuccessUrl("/")
                 .and()
                 .authorizeRequests()
+                .antMatchers("/**/schedule", "/**/mastersSchedule").hasRole("BUSINESS")
                 .antMatchers("/user/**").hasAnyRole("USER", "BUSINESS", "MASTER")
                 .antMatchers("/**").permitAll()
                 .and()

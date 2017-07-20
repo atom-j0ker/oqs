@@ -35,7 +35,7 @@
         <c:if test="${!empty schedule}">
             <div class="my-bookings">
                 <h4 style="text-align: center">My bookings</h4>
-                <table id="schedule-table" class="table schedule-table">
+                <table id="user-schedule-table" class="table">
                     <tr>
                         <th>Service</th>
                         <th>Organization</th>
@@ -78,7 +78,7 @@
                 <p class="role-sense"><a href="/user/${user.id}/createBusiness">create business</a></p>
             </c:when>
             <c:otherwise>
-                <p class="role-sense"><a href="/organization/${user.business.id}">my business</a></p>
+                <p class="role-sense">Go to <a href="/organization/${user.business.id}">${user.business.name}</a></p>
             </c:otherwise>
         </c:choose>
     </sec:authorize>
