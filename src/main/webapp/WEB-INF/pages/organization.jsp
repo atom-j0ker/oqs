@@ -33,12 +33,30 @@
     </div>
 
     <c:if test="${organization.id == user.business.id}">
-        <div class="add-image-form">
-            <form action="/organization/${organization.id}/change-photo" method="post" enctype="multipart/form-data">
-                <input type="file" id="file" name="file" class="hidden-files" accept="image/*">
-                <input type="submit" value="Upload" class="btn btn-default">
-            </form>
-        </div>
+        <table id="organization-functions" class="table">
+            <tr>
+                <td>
+                    <div class="add-image-form">
+                        <form action="/organization/${organization.id}/change-photo" method="post"
+                              enctype="multipart/form-data">
+                            <input type="file" id="file" name="file" class="hidden-files" accept="image/*">
+                            <input type="submit" value="Upload" class="btn btn-default">
+                        </form>
+
+                    </div>
+                </td>
+                <td>
+                    <form action="/organization/${organization.id}/mastersSchedule" method="get">
+                        <input type="submit" value="Master's schedule" class="btn btn-default">
+                    </form>
+                </td>
+                <td>
+                    <form action="/organization/${organization.id}/schedule" method="get">
+                        <input type="submit" value="Schedule" class="btn btn-default">
+                    </form>
+                </td>
+            </tr>
+        </table>
     </c:if>
 
     <div class="organization-services">
@@ -74,7 +92,7 @@
     });
 </script>
 <script type="text/javascript">
-    
+
     $(function () {
         if (${user.business.id} == ${organization.id}) {
             $("#service-list > thead > tr").append(

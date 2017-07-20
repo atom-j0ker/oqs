@@ -244,6 +244,19 @@ section#services .section-heading {
     padding-left: 50px;
 }
 
+#organization-functions {
+    width: 60%;
+    padding-left: 50px;
+}
+
+#organization-functions th {
+    border: none;
+}
+
+#organization-functions td{
+    border: none;
+}
+
 #service-list {
     width: 60%;
 }

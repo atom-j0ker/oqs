@@ -2,6 +2,7 @@ package com.oqs.controllers;
 
 import com.oqs.crud.*;
 import com.oqs.model.Schedule;
+import com.oqs.pair.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -73,9 +74,10 @@ public class BookingController {
     }
 
 
-    @RequestMapping(value = "/fill-time-list", method = RequestMethod.GET)
-    public @ResponseBody List<List<Time>> scheduleByMaster(@RequestParam("masterId") long masterId,
-                                             @RequestParam("date") String dateString) throws ParseException {
+    @RequestMapping(value = "/fillTimeList", method = RequestMethod.GET)
+    public @ResponseBody
+    Pair<List<Time>, List<Time>> scheduleByMaster(@RequestParam("masterId") long masterId,
+                          @RequestParam("date") String dateString) throws ParseException {
         final String OLD_FORMAT = "dd-MM-yyyy";
         final String NEW_FORMAT = "yyyy-MM-dd";
 
@@ -84,19 +86,12 @@ public class BookingController {
         sdf.applyPattern(NEW_FORMAT);
         java.sql.Date sqlDate = new java.sql.Date(date.getTime());
 
-        List<Time> timeList = new ArrayList<Time>();
-
+        List<Time> timeListFree = new ArrayList<>();
         for (int i = 8; i < 20; i++) {
-            timeList.add(java.sql.Time.valueOf(i + ":00:00"));
-            timeList.add(java.sql.Time.valueOf(i + ":30:00"));
+            timeListFree.add(java.sql.Time.valueOf(i + ":00:00"));
+            timeListFree.add(java.sql.Time.valueOf(i + ":30:00"));
         }
-
-//        List<Time> timeListByMasterAndDate = scheduleDAO.getTimeListByMasterAndDate(masterId, sqlDate);
-
-        List<List<Time>> listOfTimeLists = new ArrayList<List<Time>>();
-        listOfTimeLists.add(timeList);
-//        listOfTimeLists.add(timeListByMasterAndDate);
-
-        return listOfTimeLists;
+        List<Time> timeListBusy = scheduleDAO.getTimeListBusy(masterId, sqlDate);
+        return new Pair<>(timeListFree, timeListBusy);
     }
 }

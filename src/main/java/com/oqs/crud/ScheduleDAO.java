@@ -6,7 +6,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import java.sql.Date;
+import java.sql.Time;
 import java.util.List;
 
 @Repository
@@ -32,6 +35,12 @@ public class ScheduleDAO {
         TypedQuery<Schedule> query = entityManager.createQuery(
                 "select s from Schedule s where s.user.id=" + userId + " order by s.date, s.time", Schedule.class
         );
+        return query.getResultList();
+    }
+
+    public List<Time> getTimeListBusy(long masterId, Date date) {
+        Query query = entityManager.createQuery(
+                "select s.time from Schedule s where s.master.id=" + masterId + " and s.date='" + date + "'");
         return query.getResultList();
     }
 }

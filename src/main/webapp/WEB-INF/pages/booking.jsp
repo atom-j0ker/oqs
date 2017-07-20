@@ -89,7 +89,7 @@
     var time;
 
     $("#mastersListId").change(function () {
-        masterId = $(this).val();
+        masterId = $(this).children(":selected").attr("id");
         if (document.getElementById('datepicker').value != "") {
             fillTimeDropDownList();
         }
@@ -118,17 +118,17 @@
     function fillTimeDropDownList() {
         $.ajax({
             type: "GET",
-            url: '/fill-time-list',
+            url: '/fillTimeList',
             data: {"masterId": masterId, "date": date},
             success: function (data) {
                 var timeElement = document.getElementById("timeListId");
                 timeElement.length = 1;
-                for (var i = 0; i < data[0].length; i++) {
-                    var option = new Option(data[0][i], data[0][i]);
-//                    for (var j = 0; j < data[1].length; j++) {
-//                        if (data[0][i] == data[1][j])
-//                            option.disabled = true;
-//                    }
+                for (var i = 0; i < data.first.length; i++) {
+                    var option = new Option(data.first[i], data.first[i]);
+                    for (var j = 0; j < data.second.length; j++) {
+                        if (data.first[i] === data.second[j])
+                            option.disabled = true;
+                    }
                     timeElement.options[timeElement.length] = option;
                 }
             },
