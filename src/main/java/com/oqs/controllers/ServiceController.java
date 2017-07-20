@@ -22,20 +22,27 @@ public class ServiceController {
     private ServiceDAO serviceDAO;
 
     @RequestMapping(value = "/organization/{organizationId}/serviceAdd", method = RequestMethod.GET)
-    public ModelAndView createBusinessPage(@PathVariable("organizationId") long organizationId) {
+    public ModelAndView serviceAddPage(@PathVariable("organizationId") long organizationId) {
         return new ModelAndView("serviceAdd", "categories", categoryDAO.getCategories());
     }
 
     @RequestMapping(value = "/organization/{organizationId}/serviceAdd", method = RequestMethod.POST)
-    public String createBusiness(Service service, BindingResult result,
-                                 @PathVariable("organizationId") long organizationId,
-                                 HttpServletRequest request) {
+    public String serviceAdd(Service service, BindingResult result,
+                             @PathVariable("organizationId") long organizationId,
+                             HttpServletRequest request) {
         Price price = new Price();
         service.setBusiness(businessDAO.get(organizationId));
         service.setCategory(categoryDAO.get(Long.valueOf(request.getParameter("subcategory"))));
         price.setPrice(Integer.valueOf(request.getParameter(("price"))));
         service.setPrice(price);
         service = serviceDAO.get(serviceDAO.saveOrUpdate(service));
-        return "redirect:/";
+        return "redirect:/organization/" + organizationId;
     }
+
+    @RequestMapping(value = "/organization/deleteService", method = RequestMethod.GET)
+    public @ResponseBody
+    void serviceDelete(@RequestParam("serviceId") String serviceId) {
+        serviceDAO.delete(Long.valueOf(serviceId));
+    }
+
 }

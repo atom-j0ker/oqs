@@ -52,7 +52,7 @@
             </thead>
             <tbody>
             <c:forEach items="${services}" var="service">
-                <tr>
+                <tr id="${service.id}">
                     <td><a href="/organization/${organization.id}/service/${service.id}">${service.name}</a></td>
                     <td>${service.price.price}</td>
                     <td>${service.duration}</td>
@@ -68,7 +68,13 @@
 </body>
 
 <script type="text/javascript">
-
+    $('.kv-fa').rating({
+        filledStar: '<i class="fa fa-star"></i>',
+        emptyStar: '<i class="fa fa-star-o"></i>'
+    });
+</script>
+<script type="text/javascript">
+    
     $(function () {
         if (${user.business.id} == ${organization.id}) {
             $("#service-list > thead > tr").append(
@@ -76,14 +82,30 @@
                 '<input type="submit" class="btn btn-default change-service-btn" value="Add service"/>' +
                 '</form></th>');
             $("#service-list > tbody > tr").append(
-                '<td><form action="/2" method="get"><input type="submit" class="btn btn-default change-service-btn" value="Edit"/></form></td>' +
-                '<td><form action="/3" method="get"><input type="submit" class="btn btn-danger change-service-btn" value="Delete"/></form></td>');
+                '<td><input type="submit" class="btn btn-default change-service-btn" value="Edit"/></form></td>' +
+                '<td><input type="button" id="service-delete-btn" class="btn btn-danger change-service-btn" value="Delete"/></form></td>');
         }
     });
 
-    $('.kv-fa').rating({
-        filledStar: '<i class="fa fa-star"></i>',
-        emptyStar: '<i class="fa fa-star-o"></i>'
+    $('#service-list').on('click', '#service-edit-btn', function () {
+
+    });
+
+
+    $('#service-list').on('click', '#service-delete-btn', function () {
+        var serviceId = $(this).closest('tr').attr('id');
+
+        $.ajax({
+            type: "GET",
+            url: "/organization/deleteService",
+            data: "serviceId=" + serviceId,
+            success: function () {
+                $("#service-list tr#" + serviceId).remove();
+            },
+            error: function (xhr, textStatus) {
+                alert([xhr.status, textStatus]);
+            }
+        });
     });
 
 </script>

@@ -38,16 +38,10 @@
             </select>
             <img class="master-info-img" src="/resources/img/information.png"/>
 
-            <%--//////////////////////////////////////////////////////////////--%>
-
-
             <div id="modal-form">
                 <span id="modal-close">X</span>
             </div>
             <div id="overlay"></div>
-
-            <%--//////////////////////////////////////////////////////////////--%>
-
 
             <p>
                 <form class="form-horizontal" role="form">
