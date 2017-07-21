@@ -196,8 +196,8 @@
     function fillServiceTable(service) {
         $("#organizationTable").append("<tr>" +
             "<td><a href='/organization/" + service[i].organizationId +
-            "/service/" + service[i].serviceId + "'>" + service[i].serviceName + "</a></td>" +
-            "<td>" + service[i].servicePrice + "</td>" +
+            "/service/" + service[i].id + "'>" + service[i].name + "</a></td>" +
+            "<td>" + service[i].price + "</td>" +
             "<td><a href='/organization/" + service[i].organizationId + "'>" + service[i].organizationName + "</a></td>" +
             "<td>" + service[i].organizationAddress + "</td>" +
             "<td>" + service[i].organizationTelephone + "</td>" +

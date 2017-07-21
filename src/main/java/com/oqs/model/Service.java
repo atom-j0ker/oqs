@@ -123,46 +123,56 @@ public class Service {
 
     public class ServiceTable {
 
-        private long serviceId;
-        private String serviceName;
-        private int servicePrice;
+        private long id;
+        private String name;
+        private int price;
+        private short duration;
         private long organizationId;
         private String organizationName;
         private String organizationAddress;
         private String organizationTelephone;
 
         public ServiceTable(Service service) {
-            this.serviceId = service.getId();
-            this.serviceName = service.getName();
-            this.servicePrice = service.getPrice().getPrice();
+            this.id = service.getId();
+            this.name = service.getName();
+            this.price = service.getPrice().getPrice();
+            this.duration = service.getDuration();
             this.organizationId = service.getBusiness().getId();
             this.organizationName = service.getBusiness().getName();
             this.organizationAddress = service.getBusiness().getAddress();
             this.organizationTelephone = service.getBusiness().getPhone();
         }
 
-        public long getServiceId() {
-            return serviceId;
+        public long getId() {
+            return id;
         }
 
-        public void setServiceId(long serviceId) {
-            this.serviceId = serviceId;
+        public void setId(long id) {
+            this.id = id;
         }
 
-        public String getServiceName() {
-            return serviceName;
+        public String getName() {
+            return name;
         }
 
-        public void setServiceName(String serviceName) {
-            this.serviceName = serviceName;
+        public void setName(String name) {
+            this.name = name;
         }
 
-        public int getServicePrice() {
-            return servicePrice;
+        public int getPrice() {
+            return price;
         }
 
-        public void setServicePrice(int servicePrice) {
-            this.servicePrice = servicePrice;
+        public void setPrice(int price) {
+            this.price = price;
+        }
+
+        public short getDuration() {
+            return duration;
+        }
+
+        public void setDuration(short duration) {
+            this.duration = duration;
         }
 
         public long getOrganizationId() {

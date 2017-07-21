@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
@@ -37,6 +38,28 @@ public class ServiceController {
         service.setPrice(price);
         service = serviceDAO.get(serviceDAO.saveOrUpdate(service));
         return "redirect:/organization/" + organizationId;
+    }
+
+    @RequestMapping(value = "/organization/updateService/{serviceId}", method = RequestMethod.GET)
+    public @ResponseBody
+    void serviceUpdate(@PathVariable("serviceId") long serviceId,
+                       @RequestParam("newName") String newName,
+                       @RequestParam("newPrice") String newPrice,
+                       @RequestParam("newDuration") String newDuration) {
+        Price price = new Price();
+        Service service = serviceDAO.get(serviceId);
+        service.setName(newName);
+        price.setPrice(Integer.valueOf(newPrice));
+        service.setPrice(price);
+        service.setDuration(Short.valueOf(newDuration));
+        serviceDAO.saveOrUpdate(service);
+    }
+
+    @RequestMapping(value = "/organization/cancelService/{serviceId}", method = RequestMethod.GET)
+    public @ResponseBody
+    Service.ServiceTable serviceCancel(@PathVariable("serviceId") long serviceId) {
+        Service service = serviceDAO.get(serviceId);
+        return service.getServiceTable(service);
     }
 
     @RequestMapping(value = "/organization/deleteService", method = RequestMethod.GET)

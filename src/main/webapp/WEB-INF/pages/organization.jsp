@@ -46,8 +46,8 @@
                     </div>
                 </td>
                 <td>
-                    <form action="/organization/${organization.id}/mastersSchedule" method="get">
-                        <input type="submit" value="Master's schedule" class="btn btn-default">
+                    <form action="/organization/${organization.id}/mastersSettings" method="get">
+                        <input type="submit" value="Master's settings" class="btn btn-default">
                     </form>
                 </td>
                 <td>
@@ -100,19 +100,81 @@
                 '<input type="submit" class="btn btn-default change-service-btn" value="Add service"/>' +
                 '</form></th>');
             $("#service-list > tbody > tr").append(
-                '<td><input type="submit" class="btn btn-default change-service-btn" value="Edit"/></form></td>' +
-                '<td><input type="button" id="service-delete-btn" class="btn btn-danger change-service-btn" value="Delete"/></form></td>');
+                '<td><input type="button" id="service-edit-btn" class="btn btn-default change-service-btn" value="Edit"/>' +
+                '<input type="button" id="service-save-btn" class="btn btn-success change-service-btn" value="Save"/>' +
+                '<input type="button" id="service-cancel-btn" class="btn btn-warning change-service-btn" value="Cancel"/></td>' +
+                '<td><input type="button" id="service-delete-btn" class="btn btn-danger change-service-btn" value="Delete"/></td>');
         }
     });
 
     $('#service-list').on('click', '#service-edit-btn', function () {
-
+        var tr = $(this).closest('tr');
+        var serviceId = tr.attr('id');
+        var name = $(this).closest('tr').find('td a').text();
+        var price = tr.find('td:nth-child(2)').html();
+        var duration = tr.find('td:nth-child(3)').html();
+        for (var i = 0; i < 3; i++)
+            tr.find('td:first').remove();
+        tr.find('#service-edit-btn').css("display", "none");
+        tr.find('#service-save-btn').css("display", "block");
+        tr.find('#service-cancel-btn').css("display", "block");
+        tr.prepend('<td><input type="text" value="' + name + '"/></td>' +
+            '<td><input type="text" value="' + price + '"/></td>' +
+            '<td><input type="text" value="' + duration + '"/></td>');
     });
 
+    $('#service-list').on('click', '#service-save-btn', function () {
+        var tr = $(this).closest('tr');
+        var serviceId = tr.attr('id');
+        var newName = tr.find('td:first input').val();
+        var newPrice = tr.find('td:nth-child(2) input').val();
+        var newDuration = tr.find('td:nth-child(3) input').val();
+        $.ajax({
+            type: "GET",
+            url: "/organization/updateService/" + serviceId,
+            data: "newName=" + newName + "&newPrice=" + newPrice + "&newDuration=" + newDuration,
+            success: function () {
+                for (var i = 0; i < 3; i++)
+                    tr.find('td:first').remove();
+                tr.find('#service-edit-btn').css("display", "block");
+                tr.find('#service-save-btn').css("display", "none");
+                tr.find('#service-cancel-btn').css("display", "none");
+                tr.prepend('<td><a href="/organization/' + ${organization.id} +'/service/' + serviceId + '">' + newName + '</a></td>' +
+                    '<td>' + newPrice + '</td>' +
+                    '<td>' + newDuration + '</td>');
+            },
+            error: function (xhr, textStatus) {
+                alert([xhr.status, textStatus]);
+            }
+        })
+        ;
+    });
+
+    $('#service-list').on('click', '#service-cancel-btn', function () {
+        var tr = $(this).closest('tr');
+        var serviceId = tr.attr('id');
+        $.ajax({
+            type: "GET",
+            url: "/organization/cancelService/" + serviceId,
+            dataType: 'json',
+            success: function (service) {
+                for (var i = 0; i < 3; i++)
+                    tr.find('td:first').remove();
+                tr.find('#service-edit-btn').css("display", "block");
+                tr.find('#service-save-btn').css("display", "none");
+                tr.find('#service-cancel-btn').css("display", "none");
+                tr.prepend('<td><a href="/organization/' + service.organizationId +'/service/' + serviceId + '">' + service.name + '</a></td>' +
+                    '<td>' + service.price + '</td>' +
+                    '<td>' + service.duration + '</td>');
+            },
+            error: function (xhr, textStatus) {
+                alert([xhr.status, textStatus]);
+            }
+        });
+    });
 
     $('#service-list').on('click', '#service-delete-btn', function () {
         var serviceId = $(this).closest('tr').attr('id');
-
         $.ajax({
             type: "GET",
             url: "/organization/deleteService",
