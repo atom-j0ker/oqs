@@ -45,6 +45,19 @@ public class ScheduleDAO {
         return query.getResultList();
     }
 
+    public List<Schedule> getScheduleListByDateAndMaster(Date date, String masterId) {
+        String dateSearch = "1=1";
+        String masterSearch = "1=1";
+        if (!(date == null))
+            dateSearch = "s.date='" + date + "'";
+        if (!masterId.equals("undefined"))
+            masterSearch = "s.master.id=" + masterId;
+        TypedQuery<Schedule> query = entityManager.createQuery(
+                "select s from Schedule s where " + dateSearch + " and " + masterSearch +
+                        " order by s.date, s.time", Schedule.class);
+        return query.getResultList();
+    }
+
     public List<Time> getTimeListBusy(long masterId, Date date) {
         Query query = entityManager.createQuery(
                 "select s.time from Schedule s where s.master.id=" + masterId + " and s.date='" + date + "'");

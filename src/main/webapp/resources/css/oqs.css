@@ -23,10 +23,12 @@ header {
     -o-background-size: cover;
     color: white;
 }
+
 @media (min-width: 768px) {
     header .intro-text {
         padding-top: 200px;
-        padding-bottom: 100px;    }
+        padding-bottom: 100px;
+    }
 
     header .intro-text .intro-lead-in {
         font-style: italic;
@@ -63,6 +65,7 @@ header {
     padding: 20px 40px;
     margin-left: 300px;
 }
+
 .btn-xl:hover,
 .btn-xl:focus,
 .btn-xl:active,
@@ -72,11 +75,13 @@ header {
     background-color: rgba(8, 0, 199, 0.68);
     border-color: white;
 }
+
 .btn-xl:active,
 .btn-xl.active,
 .open .dropdown-toggle.btn-xl {
     background-image: none;
 }
+
 .btn-xl.disabled,
 .btn-xl[disabled],
 fieldset[disabled] .btn-xl,
@@ -95,6 +100,7 @@ fieldset[disabled] .btn-xl.active {
     background-color: rgba(8, 0, 199, 0.68);
     border-color: white;
 }
+
 .btn-xl .badge {
     color: #fed136;
     background-color: white;
@@ -253,7 +259,7 @@ section#services .section-heading {
     border: none;
 }
 
-#organization-functions td{
+#organization-functions td {
     border: none;
 }
 
@@ -370,14 +376,14 @@ section#services .section-heading {
     width: 80%;
     margin-left: 10%;
     border-collapse: collapse;
-    border:none !important;
+    border: none !important;
 }
 
-#user-schedule-table th{
+#user-schedule-table th {
     border: none;
 }
 
-#user-schedule-table td{
+#user-schedule-table td {
     border: none;
 }
 
@@ -424,18 +430,18 @@ section#services .section-heading {
 }
 
 #overlay {
-    z-index:3;
-    position:fixed;
-    background-color:#000;
-    opacity:0.8;
-    -moz-opacity:0.8;
-    filter:alpha(opacity=80);
-    width:100%;
-    height:100%;
-    top:0;
-    left:0;
-    cursor:pointer;
-    display:none;
+    z-index: 3;
+    position: fixed;
+    background-color: #000;
+    opacity: 0.8;
+    -moz-opacity: 0.8;
+    filter: alpha(opacity=80);
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+    display: none;
 }
 
 .popup-left-part {
@@ -447,10 +453,30 @@ section#services .section-heading {
 .popup-right-part {
     font-size: 18px;
     margin-top: 25px;
+    text-align: center;
 }
 
-#business-schedule-table {
+.schedule-params {
+    margin-left: 30%;
+    width: 40%;
+}
 
+.schedule-text {
+    float: left;
+    font-size: 18px;
+    margin-top: 20px
+}
+
+.schedule-date {
+    float: left;
+    width: 200px;
+    margin: 20px 10px 10px 10px;
+}
+
+.schedule-master-list {
+    float: left;
+    width: 200px;
+    margin-right: 10px
 }
 
 #business-schedule-table th {

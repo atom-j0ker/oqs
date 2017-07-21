@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Repository
@@ -26,6 +27,13 @@ public class MasterDAO {
 
     public Master get(long id) {
         return entityManager.find(Master.class, id);
+    }
+
+    public List<Master> getMasterListByOrganization(long organizationId) {
+        TypedQuery<Master> query = entityManager.createQuery(
+                "select m from Master m where m.business='" + organizationId + "'", Master.class
+        );
+        return query.getResultList();
     }
 
     public List<Master> getMasterListByServiceAndOrganization(long serviceId, long businessId) {
