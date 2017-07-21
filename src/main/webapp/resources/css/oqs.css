@@ -275,6 +275,14 @@ section#services .section-heading {
     border: none;
 }
 
+#service-save-btn {
+    display: none;
+}
+
+#service-cancel-btn {
+    display: none;
+}
+
 .booking-form {
     width: 30%;
     margin-left: 35%;

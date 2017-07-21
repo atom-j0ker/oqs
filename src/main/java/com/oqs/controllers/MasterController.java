@@ -5,10 +5,8 @@ import com.oqs.model.Master;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class MasterController {
@@ -17,6 +15,15 @@ public class MasterController {
     MasterDAO masterDAO;
     @Value("${directory}")
     private String directory;
+
+
+    @RequestMapping(value = "/organization/{organizationId}/mastersSettings", method = RequestMethod.GET)
+    public ModelAndView mastersSettings(@PathVariable("organizationId") long organizationId) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("mastersSettings");
+        modelAndView.addObject("masters", masterDAO.getMasterListByOrganization(organizationId));
+        return modelAndView;
+    }
 
     @RequestMapping(value = "/masterPopup", method = RequestMethod.GET)
     public @ResponseBody
