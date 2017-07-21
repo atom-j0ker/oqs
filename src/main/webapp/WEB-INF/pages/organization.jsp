@@ -118,9 +118,9 @@
         tr.find('#service-edit-btn').css("display", "none");
         tr.find('#service-save-btn').css("display", "block");
         tr.find('#service-cancel-btn').css("display", "block");
-        tr.prepend('<td><input type="text" value="' + name + '"/></td>' +
-            '<td><input type="text" value="' + price + '"/></td>' +
-            '<td><input type="text" value="' + duration + '"/></td>');
+        tr.prepend('<td><input class="form-control" type="text" value="' + name + '"/></td>' +
+            '<td><input class="form-control" type="text" value="' + price + '"/></td>' +
+            '<td><input class="form-control" type="text" value="' + duration + '"/></td>');
     });
 
     $('#service-list').on('click', '#service-save-btn', function () {

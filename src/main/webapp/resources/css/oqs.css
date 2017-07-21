@@ -494,3 +494,32 @@ section#services .section-heading {
 #business-schedule-table td {
     border: none;
 }
+
+.master-settings-info {
+    float: left;
+    padding: 30px;
+    width: 50%;
+}
+
+#mastersSettingsListId {
+    width: 200px;
+    margin-left: 20px;
+}
+
+.master-settings-description {
+    width: 100%;
+    margin-top: 30px;
+    float: left;
+}
+
+.change-masters-data {
+    width: 100%;
+    margin: 20px 0 0 20px;
+    display: none;
+}
+
+.change-masters-data-btn {
+    margin: 20px;
+    width: 100%;
+    float: left;
+}

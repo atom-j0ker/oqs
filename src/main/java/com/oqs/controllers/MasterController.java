@@ -25,6 +25,19 @@ public class MasterController {
         return modelAndView;
     }
 
+    @RequestMapping(value = "/mastersDataChange/{masterId}", method = RequestMethod.GET)
+    public @ResponseBody
+    void mastersDataChange(@PathVariable("masterId") long masterId,
+                           @RequestParam("starttime") String starttime,
+                           @RequestParam("experience") String experience,
+                           @RequestParam("description") String description) {
+        Master master = masterDAO.get(masterId);
+        master.setStarttime(Short.valueOf(starttime));
+        master.setExperience(Short.valueOf(experience));
+        master.setDescription(description);
+        masterDAO.saveOrUpdate(master);
+    }
+
     @RequestMapping(value = "/masterPopup", method = RequestMethod.GET)
     public @ResponseBody
     Master.MasterInfo scheduleByMaster(@RequestParam("masterId") long masterId) {
