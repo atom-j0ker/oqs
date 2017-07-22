@@ -523,3 +523,9 @@ section#services .section-heading {
     width: 100%;
     float: left;
 }
+
+.master-service {
+    width: 50%;
+    float: left;
+    padding:30px;
+}

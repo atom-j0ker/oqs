@@ -31,6 +31,9 @@
             <button id="master-data-cancel-btn" class="btn btn-warning">Cancel</button>
         </div>
     </div>
+    <div class="master-service">
+
+    </div>
 </div>
 <jsp:include page="fragments/footer.jsp"/>
 
@@ -51,6 +54,8 @@
                 starttime = master.starttime;
                 experience = master.experience;
                 description = master.description;
+                $(".master-settings-description").children().remove();
+                clearMastersData();
                 $(".master-settings-description").append('<img class="user-photo popup-left-part" src="' + master.photo + '"/>' +
                     '<div class="popup-right-part">' +
                     '<p>' + master.firstname + ' ' + master.lastname + '</p>' +
@@ -68,7 +73,7 @@
     });
 
     $(".master-settings-description").on("click", "#change-data", function () {
-        $(this).css("display", "block");
+        $(this).css("display", "none");
         $("#master-starttime").val(starttime);
         $("#master-experience").val(experience);
         $("#master-description").val(description);

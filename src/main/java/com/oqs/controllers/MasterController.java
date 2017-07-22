@@ -16,7 +16,6 @@ public class MasterController {
     @Value("${directory}")
     private String directory;
 
-
     @RequestMapping(value = "/organization/{organizationId}/mastersSettings", method = RequestMethod.GET)
     public ModelAndView mastersSettings(@PathVariable("organizationId") long organizationId) {
         ModelAndView modelAndView = new ModelAndView();
@@ -42,9 +41,9 @@ public class MasterController {
     public @ResponseBody
     Master.MasterInfo scheduleByMaster(@RequestParam("masterId") long masterId) {
         Master master = masterDAO.get(masterId);
+        String photo = null;
         Master.MasterInfo masterInfo = master.getMasterInfo(master);
-        if (masterInfo.getPhoto() != null)
-            masterInfo.setPhoto(directory + masterInfo.getPhoto());
+        masterInfo.setPhoto(directory + masterInfo.getPhoto());
         return masterInfo;
     }
 }

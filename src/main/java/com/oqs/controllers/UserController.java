@@ -1,9 +1,11 @@
 package com.oqs.controllers;
 
+import com.oqs.crud.PhotoDAO;
 import com.oqs.crud.RoleDAO;
 import com.oqs.crud.ScheduleDAO;
 import com.oqs.crud.UserDAO;
 import com.oqs.model.Master;
+import com.oqs.model.Photo;
 import com.oqs.model.Role;
 import com.oqs.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,8 @@ import java.util.Set;
 @Controller
 public class UserController {
 
+    @Autowired
+    PhotoDAO photoDAO;
     @Autowired
     private RoleDAO roleDAO;
     @Autowired
@@ -58,10 +62,10 @@ public class UserController {
         Set<Role> roles = new HashSet<Role>();
         roles.add(role);
         user.setRoles(roles);
+        user.setPhoto(photoDAO.get(9)); //no photo
 
         if(role.getRole().equals(ROLE_MASTER)) {
             Master master = new Master();
-//            masterDAO.saveOrUpdate(master);
             user.setMaster(master);
         }
         userDAO.saveOrUpdate(user);
@@ -78,12 +82,13 @@ public class UserController {
     @RequestMapping(value = "/user/{userId}", method = RequestMethod.GET)
     public ModelAndView myProfilePage(@PathVariable("userId") long userId) {
         User user = userDAO.get(userId);
+        String photo = null;
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("my-profile");
         modelAndView.addObject("user", user);
         modelAndView.addObject("schedule", scheduleDAO.getScheduleListByUser(userId));
-        if (user.getPhoto() != null)
-            modelAndView.addObject("photo", directory + user.getPhoto().getPhoto());
+            photo = directory + user.getPhoto().getPhoto();
+        modelAndView.addObject("photo", photo);
         return modelAndView;
     }
 }

@@ -48,7 +48,7 @@ public class ScheduleDAO {
     public List<Schedule> getScheduleListByDateAndMaster(Date date, String masterId) {
         String dateSearch = "1=1";
         String masterSearch = "1=1";
-        if (!(date == null))
+        if (date != null)
             dateSearch = "s.date='" + date + "'";
         if (!masterId.equals("undefined"))
             masterSearch = "s.master.id=" + masterId;
