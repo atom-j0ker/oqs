@@ -525,7 +525,17 @@ section#services .section-heading {
 }
 
 .master-service {
+    display: none;
     width: 50%;
     float: left;
-    padding:30px;
+    padding: 30px;
+}
+
+.services-for-master {
+    display: none;
+}
+
+.label-for-checkbox {
+    font-weight: normal;
+    font-size: 18px;
 }

@@ -27,12 +27,17 @@
             <p>Working start time: <input id="master-starttime" type="text" class="form-control"/></p>
             <p>Working experience: <input id="master-experience" type="text" class="form-control"/></p>
             <p>Description: <textarea id="master-description" class="form-control" rows="5"></textarea></p>
-            <button id="master-data-save-btn" class="btn btn-success">Save</button>
+            <button id="master-data-save-btn" class="btn btn-success">Save changes</button>
             <button id="master-data-cancel-btn" class="btn btn-warning">Cancel</button>
         </div>
     </div>
     <div class="master-service">
-
+        <button id="service-master-btn" class="btn btn-default">Change services for master</button>
+        <div class="services-for-master">
+            <div id="service-checkboxes"></div>
+            <input type="button" id="save-master-service" class="btn btn-success" value="Save changes">
+            <input type="button" id="cancel-master-service" class="btn btn-warning" value="Cancel">
+        </div>
     </div>
 </div>
 <jsp:include page="fragments/footer.jsp"/>
@@ -65,6 +70,8 @@
                     '<p id="master-experience-p"><span>Experience: ' + experience + ' years</span></p>' +
                     '<p id="master-description-p"><span>' + description + '<span></p></div>' +
                     '<div class="change-masters-data-btn"><button id="change-data" class="btn btn-default">Change data</button></div>');
+                $(".master-service").css("display", "block");
+                clearMasterService();
             },
             error: function (xhr, textStatus) {
                 alert([xhr.status, textStatus]);
@@ -110,12 +117,70 @@
         clearMastersData();
     });
 
+    $("#service-master-btn").on("click", function () {
+        $("#service-master-btn").css("display", "none");
+        $(".services-for-master").css("display", "block");
+        var checkboxes = $("#service-checkboxes");
+        checkboxes.children().remove();
+        $.ajax({
+            type: "GET",
+            url: "/serviceCheckBoxes/${organizationId}/" + masterId,
+            dataType: 'json',
+            success: function (service) {
+                for (var i = 0; i < service.first.length; i++) {
+                    checkboxes.append('<p><input type="checkbox" id="checkbox' + service.first[i].id +
+                        '" value="' + service.first[i].id + '"/>' +
+                        '<label for="checkbox' + service.first[i].id + '" class="label-for-checkbox">' +
+                        '&nbsp;' + service.first[i].name + '</label></p>');
+                    for (var j = 0; j < service.second.length; j++)
+                        if (service.first[i].id === service.second[j].id)
+                            $("#checkbox" + service.first[i].id).prop('checked', true);
+                }
+            },
+            error: function (xhr, textStatus) {
+                alert([xhr.status, textStatus]);
+            }
+        });
+
+    });
+
+    $("#save-master-service").on("click", function () {
+        var selected = [];
+        var nonSelected = [];
+        $('#service-checkboxes').find('input:checked').each(function () {
+            selected.push($(this).val());
+        });
+        $('#service-checkboxes').find('input:not(:checked)').each(function () {
+            nonSelected.push($(this).val());
+        });
+        $.ajax({
+            type: "GET",
+            url: "/changeMasterService/" + masterId,
+            data: "selected=" + selected + "&nonSelected=" + nonSelected,
+            success: function () {
+                clearMasterService();
+            },
+            error: function (xhr, textStatus) {
+                alert([xhr.status, textStatus]);
+            }
+        })
+    });
+
+    $("#cancel-master-service").on("click", function () {
+        clearMasterService();
+    });
+
     function clearMastersData() {
         $("#master-starttime").val('');
         $("#master-experience").val('');
         $("#master-description").val('');
         $("#change-data").css("display", "block");
         $(".change-masters-data").css("display", "none");
+    }
+
+    function clearMasterService() {
+        $("#service-master-btn").css("display", "block");
+        $(".services-for-master").css("display", "none");
     }
 </script>
 

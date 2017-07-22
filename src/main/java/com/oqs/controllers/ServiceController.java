@@ -3,6 +3,7 @@ package com.oqs.controllers;
 import com.oqs.crud.*;
 import com.oqs.model.Price;
 import com.oqs.model.Service;
+import com.oqs.pair.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Controller
 public class ServiceController {
@@ -67,5 +69,15 @@ public class ServiceController {
     void serviceDelete(@RequestParam("serviceId") String serviceId) {
         serviceDAO.delete(Long.valueOf(serviceId));
     }
+
+    @RequestMapping(value = "/serviceCheckBoxes/{organizationId}/{masterId}", method = RequestMethod.GET)
+    public @ResponseBody
+    Pair<List<Service>, List<Service>> serviceCheckBoxes(@PathVariable("organizationId") long organizationId,
+                                                         @PathVariable("masterId") long masterId) {
+        List<Service> serviceListByOrganization = serviceDAO.getServiceListByOrganization(organizationId);
+        List<Service> serviceListByMaster = serviceDAO.getServiceListByMaster(masterId);
+        return new Pair<>(serviceListByOrganization, serviceListByMaster);
+    }
+
 
 }

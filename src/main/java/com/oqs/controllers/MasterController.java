@@ -1,18 +1,25 @@
 package com.oqs.controllers;
 
 import com.oqs.crud.MasterDAO;
+import com.oqs.crud.ServiceDAO;
 import com.oqs.model.Master;
+import com.oqs.model.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Controller
 public class MasterController {
 
     @Autowired
     MasterDAO masterDAO;
+    @Autowired
+    ServiceDAO serviceDAO;
     @Value("${directory}")
     private String directory;
 
@@ -20,6 +27,7 @@ public class MasterController {
     public ModelAndView mastersSettings(@PathVariable("organizationId") long organizationId) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("mastersSettings");
+        modelAndView.addObject("organizationId", organizationId);
         modelAndView.addObject("masters", masterDAO.getMasterListByOrganization(organizationId));
         return modelAndView;
     }
@@ -34,6 +42,19 @@ public class MasterController {
         master.setStarttime(Short.valueOf(starttime));
         master.setExperience(Short.valueOf(experience));
         master.setDescription(description);
+        masterDAO.saveOrUpdate(master);
+    }
+
+    @RequestMapping(value = "/changeMasterService/{masterId}", method = RequestMethod.GET)
+    @ResponseBody
+    public void changeMasterService(@PathVariable("masterId") long masterId,
+                                    @RequestParam("selected") long[] selected,
+                                    @RequestParam("nonSelected") long[] nonSelected) {
+        Master master = masterDAO.get(masterId);
+        Set<Service> services = new HashSet<>();
+        for (long serviceId : selected)
+            services.add(serviceDAO.get(serviceId));
+        master.setServices(services);
         masterDAO.saveOrUpdate(master);
     }
 

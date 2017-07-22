@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,12 @@ public class ServiceDAO {
         TypedQuery<Service> query = entityManager.createQuery(
                 "select s from Service s where s.business.id = :business", Service.class
         ).setParameter("business", organizationId);
+        return query.getResultList();
+    }
+
+    public List<Service> getServiceListByMaster(long masterId) {
+        Query query = entityManager.createNativeQuery("select s.* from service s, service_master sm " +
+                "where s.service_id = sm.sm_service and sm.sm_master=" + masterId, Service.class);
         return query.getResultList();
     }
 

@@ -34,12 +34,9 @@ public class Service {
     private short duration;
 
     @JsonIgnore
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "service_master",
-            joinColumns = @JoinColumn(name = "sm_service"),
-            inverseJoinColumns = @JoinColumn(name = "sm_master"))
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "services")
     private Set<Master> masters = new HashSet<Master>();
-
+    
     public Service() {
     }
 

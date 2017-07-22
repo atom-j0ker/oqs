@@ -25,7 +25,10 @@ public class Master {
     @Column(name = "master_experience")
     private short experience;
 
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "masters")
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "service_master",
+            joinColumns = @JoinColumn(name = "sm_master"),
+            inverseJoinColumns = @JoinColumn(name = "sm_service"))
     private Set<Service> services = new HashSet<Service>();
 
     @OneToOne(mappedBy = "master")
