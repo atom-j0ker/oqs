@@ -36,6 +36,13 @@ public class MasterDAO {
         return query.getResultList();
     }
 
+    public List<Master> getFreeMasters() {
+        TypedQuery<Master> query = entityManager.createQuery(
+                "select m from Master m where m.business=null", Master.class
+        );
+        return query.getResultList();
+    }
+
     public List<Master> getMasterListByServiceAndOrganization(long serviceId, long businessId) {
         Query query = entityManager.createNativeQuery("select m.* from master m, service_master sm  " +
                 "where sm.sm_service = " + serviceId + " and m.master_id = sm.sm_master and m.master_business=" + businessId, Master.class);

@@ -1,5 +1,6 @@
 package com.oqs.controllers;
 
+import com.oqs.crud.BusinessDAO;
 import com.oqs.crud.MasterDAO;
 import com.oqs.crud.ServiceDAO;
 import com.oqs.model.Master;
@@ -17,6 +18,8 @@ import java.util.Set;
 public class MasterController {
 
     @Autowired
+    BusinessDAO businessDAO;
+    @Autowired
     MasterDAO masterDAO;
     @Autowired
     ServiceDAO serviceDAO;
@@ -29,7 +32,17 @@ public class MasterController {
         modelAndView.setViewName("mastersSettings");
         modelAndView.addObject("organizationId", organizationId);
         modelAndView.addObject("masters", masterDAO.getMasterListByOrganization(organizationId));
+        modelAndView.addObject("mastersFree", masterDAO.getFreeMasters());
         return modelAndView;
+    }
+
+    @RequestMapping(value = "/addFreeMaster/{organizationId}/{masterFreeId}", method = RequestMethod.GET)
+    public @ResponseBody
+    void addFreeMaster(@PathVariable("organizationId") long organizationId,
+                       @PathVariable("masterFreeId") long masterId) {
+        Master master = masterDAO.get(masterId);
+        master.setBusiness(businessDAO.get(organizationId));
+        masterDAO.saveOrUpdate(master);
     }
 
     @RequestMapping(value = "/mastersDataChange/{masterId}", method = RequestMethod.GET)

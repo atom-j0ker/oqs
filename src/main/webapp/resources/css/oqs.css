@@ -501,9 +501,23 @@ section#services .section-heading {
     width: 50%;
 }
 
-#mastersSettingsListId {
+#masters-settings-list {
     width: 200px;
     margin-left: 20px;
+    float: left;
+}
+
+#add-masters-list {
+    width: 200px;
+    margin-left: 70px;
+    float: left;
+}
+
+#add-master-btn {
+    display: none;
+    margin-left: 10px;
+    width: 150px;
+    float: left;
 }
 
 .master-settings-description {

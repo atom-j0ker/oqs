@@ -15,12 +15,19 @@
 <div class="content">
 
     <div class="master-settings-info">
-        <select id="mastersSettingsListId" class="form-control">
-            <option value="0" disabled selected>-- Choose master --</option>
+        <select id="masters-settings-list" class="form-control">
+            <option disabled selected>-- Choose master --</option>
             <c:forEach items="${masters}" var="master">
                 <option id="${master.id}">${master.user.firstname} ${master.user.lastname}</option>
             </c:forEach>
         </select>
+        <select id="add-masters-list" class="form-control">
+            <option id="0" value="not selected" selected>-- Add new master --</option>
+            <c:forEach items="${mastersFree}" var="master">
+                <option id="${master.id}">${master.user.firstname} ${master.user.lastname}</option>
+            </c:forEach>
+        </select>
+        <button id="add-master-btn" class="btn btn-default">Add master</button>
 
         <div class="master-settings-description"></div>
         <div class="change-masters-data">
@@ -44,11 +51,13 @@
 
 <script type="text/javascript">
     var masterId;
+    var masterFreeId;
+    var masterName;
     var starttime;
     var experience;
     var description;
 
-    $("#mastersSettingsListId").change(function () {
+    $("#masters-settings-list").change(function () {
         masterId = $(this).children(":selected").attr("id");
         $.ajax({
             type: "GET",
@@ -77,6 +86,32 @@
                 alert([xhr.status, textStatus]);
             }
         });
+    });
+
+    $("#add-masters-list").on("change", function () {
+        masterFreeId = $(this).children(":selected").attr("id");
+        masterName = $(this).children(":selected").html();
+        if (masterFreeId !== "0")
+            $("#add-master-btn").css("display", "block");
+        else
+            $("#add-master-btn").css("display", "none");
+    });
+
+    $("#add-master-btn").on("click", function () {
+        $.ajax({
+            type: "GET",
+            url: "/addFreeMaster/${organizationId}/" + masterFreeId,
+            success: function (master) {
+                $("#add-masters-list").val("not selected");
+                $("#add-master-btn").css("display", "none");
+                $("#add-masters-list").find("option[id=" + masterFreeId + "]").remove();
+                $("#masters-settings-list").append('<option id="' + masterFreeId + '">' + masterName + '</option>');
+            },
+            error: function (xhr, textStatus) {
+                alert([xhr.status, textStatus]);
+            }
+        });
+
     });
 
     $(".master-settings-description").on("click", "#change-data", function () {
