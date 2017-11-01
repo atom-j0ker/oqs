@@ -3,11 +3,10 @@ package com.oqs.controllers;
 import com.oqs.crud.*;
 import com.oqs.model.Schedule;
 import com.oqs.pair.Pair;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Time;
 import java.text.ParseException;
@@ -17,17 +16,15 @@ import java.util.List;
 
 @Controller
 public class BookingController {
-    @Autowired
-    private BusinessDAO businessDAO;
-    @Autowired
+    @Inject
     private MasterDAO masterDAO;
-    @Autowired
+    @Inject
     private ServiceDAO serviceDAO;
-    @Autowired
+    @Inject
     private ScheduleDAO scheduleDAO;
-    @Autowired
+    @Inject
     private StatusDAO statusDAO;
-    @Autowired
+    @Inject
     private UserDAO userDAO;
 
     @RequestMapping(value = "/organization/{organizationId}/service/{serviceId}", method = RequestMethod.GET)
@@ -35,7 +32,6 @@ public class BookingController {
                                 @PathVariable("serviceId") long serviceId) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("booking");
-        modelAndView.addObject("organization", businessDAO.get(organizationId));
         modelAndView.addObject("service", serviceDAO.get(serviceId));
         modelAndView.addObject("masters", masterDAO.getMasterListByServiceAndOrganization(serviceId, organizationId));
         return modelAndView;

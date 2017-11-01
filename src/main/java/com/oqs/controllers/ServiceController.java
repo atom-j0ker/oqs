@@ -4,24 +4,23 @@ import com.oqs.crud.*;
 import com.oqs.model.Price;
 import com.oqs.model.Service;
 import com.oqs.pair.Pair;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
 public class ServiceController {
 
-    @Autowired
+    @Inject
     private BusinessDAO businessDAO;
-    @Autowired
+    @Inject
     private CategoryDAO categoryDAO;
-    @Autowired
+    @Inject
     private ServiceDAO serviceDAO;
 
     @RequestMapping(value = "/organization/{organizationId}/serviceAdd", method = RequestMethod.GET)

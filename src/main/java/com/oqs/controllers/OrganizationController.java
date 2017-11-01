@@ -3,7 +3,6 @@ package com.oqs.controllers;
 import com.oqs.pair.Pair;
 import com.oqs.crud.*;
 import com.oqs.model.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,7 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
+import javax.inject.Inject;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,15 +19,15 @@ import java.util.List;
 @Controller
 public class OrganizationController {
 
-    @Autowired
+    @Inject
     private BusinessDAO businessDAO;
-    @Autowired
+    @Inject
     private CategoryDAO categoryDAO;
-    @Autowired
+    @Inject
     private RatingDAO ratingDAO;
-    @Autowired
+    @Inject
     private ServiceDAO serviceDAO;
-    @Autowired
+    @Inject
     private UserDAO userDAO;
     @Value("${directory}")
     private String directory;

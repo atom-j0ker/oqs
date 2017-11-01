@@ -7,7 +7,6 @@ import com.oqs.file.FileUpload;
 import com.oqs.model.Business;
 import com.oqs.model.Photo;
 import com.oqs.model.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,16 +15,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.inject.Inject;
+
 @Controller
 public class PhotoController {
 
-    @Autowired
+    @Inject
     private BusinessDAO businessDAO;
-    @Autowired
+    @Inject
     private FileUpload fileUpload;
-    @Autowired
+    @Inject
     private PhotoDAO photoDAO;
-    @Autowired
+    @Inject
     private UserDAO userDAO;
 
     @Value("${directory}")

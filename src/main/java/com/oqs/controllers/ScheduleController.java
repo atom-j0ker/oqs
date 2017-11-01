@@ -4,11 +4,10 @@ import com.oqs.crud.MasterDAO;
 import com.oqs.crud.ScheduleDAO;
 import com.oqs.crud.StatusDAO;
 import com.oqs.model.Schedule;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
+import javax.inject.Inject;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -17,11 +16,11 @@ import java.util.List;
 @Controller
 public class ScheduleController {
 
-    @Autowired
+    @Inject
     private MasterDAO masterDAO;
-    @Autowired
+    @Inject
     private ScheduleDAO scheduleDAO;
-    @Autowired
+    @Inject
     private StatusDAO statusDAO;
 
 

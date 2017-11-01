@@ -4,20 +4,18 @@ import com.oqs.crud.PhotoDAO;
 import com.oqs.crud.RoleDAO;
 import com.oqs.crud.ScheduleDAO;
 import com.oqs.crud.UserDAO;
+import com.oqs.email.GoogleMail;
 import com.oqs.model.Master;
-import com.oqs.model.Photo;
 import com.oqs.model.Role;
 import com.oqs.model.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
+import javax.inject.Inject;
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashSet;
 import java.util.Set;
@@ -25,15 +23,15 @@ import java.util.Set;
 @Controller
 public class UserController {
 
-    @Autowired
-    PhotoDAO photoDAO;
-    @Autowired
+    @Inject
+    private PhotoDAO photoDAO;
+    @Inject
     private RoleDAO roleDAO;
-    @Autowired
+    @Inject
     private ScheduleDAO scheduleDAO;
-    @Autowired
+    @Inject
     private UserDAO userDAO;
-    @Autowired
+    @Inject
     private BCryptPasswordEncoder encoder;
     @Value("${directory}")
     private String directory;
@@ -90,5 +88,16 @@ public class UserController {
             photo = directory + user.getPhoto().getPhoto();
         modelAndView.addObject("photo", photo);
         return modelAndView;
+    }
+
+    @RequestMapping(value = "/send-message-to-us", method = RequestMethod.POST)
+    @ResponseBody
+    public void sendMessageToUs(@RequestParam("name") String name,
+                                @RequestParam("email") String email,
+                                @RequestParam("phone") String phone,
+                                @RequestParam("message") String message) throws MessagingException {
+        GoogleMail.Send("online.queue.system", "Password1234567890", "online.queue.system@gmail.com",
+                "from " + email + " to online.queue.system@gmail.com",
+                "name: " + name + "\nphone: " + phone + "\n" + message);
     }
 }

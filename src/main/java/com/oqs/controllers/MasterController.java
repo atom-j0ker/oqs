@@ -5,23 +5,23 @@ import com.oqs.crud.MasterDAO;
 import com.oqs.crud.ServiceDAO;
 import com.oqs.model.Master;
 import com.oqs.model.Service;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.inject.Inject;
 import java.util.HashSet;
 import java.util.Set;
 
 @Controller
 public class MasterController {
 
-    @Autowired
+    @Inject
     BusinessDAO businessDAO;
-    @Autowired
+    @Inject
     MasterDAO masterDAO;
-    @Autowired
+    @Inject
     ServiceDAO serviceDAO;
     @Value("${directory}")
     private String directory;
