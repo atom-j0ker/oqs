@@ -62,10 +62,8 @@ public class ServiceDAO {
         Pair<Integer, List<Service>> pair = new Pair<Integer, List<Service>>(result.size(), null);
         ListIterator<Service> listIterator = result.listIterator(page * rowsOnPage - rowsOnPage);
         for (int i = 0; i < rowsOnPage; i++) {
-            if (listIterator.hasNext())
-                serviceList.add(listIterator.next());
-            else
-                break;
+            if (listIterator.hasNext()) serviceList.add(listIterator.next());
+            else break;
         }
         pair.setSecond(serviceList);
         return pair;

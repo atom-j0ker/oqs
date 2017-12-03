@@ -6,6 +6,7 @@ import com.oqs.pair.Pair;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Time;
@@ -34,7 +35,7 @@ public class BookingController {
 
     @RequestMapping(value = "/organization/{organizationId}/service/{serviceId}", method = RequestMethod.GET)
     public ModelAndView bookingPage(@PathVariable("organizationId") long organizationId,
-                                @PathVariable("serviceId") long serviceId) {
+                                    @PathVariable("serviceId") long serviceId) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("booking");
         modelAndView.addObject("service", serviceDAO.get(serviceId));
@@ -70,7 +71,8 @@ public class BookingController {
     }
 
     @RequestMapping(value = "/delete-booking/{scheduleId}", method = RequestMethod.GET)
-    public @ResponseBody void bookingDelete(@PathVariable("scheduleId") long scheduleId) {
+    public @ResponseBody
+    void bookingDelete(@PathVariable("scheduleId") long scheduleId) {
         scheduleDAO.delete(scheduleId);
     }
 
@@ -78,7 +80,7 @@ public class BookingController {
     @RequestMapping(value = "/fillTimeList", method = RequestMethod.GET)
     public @ResponseBody
     Pair<List<Time>, List<Time>> scheduleByMaster(@RequestParam("masterId") long masterId,
-                          @RequestParam("date") String dateString) throws ParseException {
+                                                  @RequestParam("date") String dateString) throws ParseException {
         final String OLD_FORMAT = "dd-MM-yyyy";
         final String NEW_FORMAT = "yyyy-MM-dd";
 

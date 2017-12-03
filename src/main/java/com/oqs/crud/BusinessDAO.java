@@ -48,10 +48,8 @@ public class BusinessDAO {//TODO check singleton annotation (how many instances)
         Pair<Integer, List<Business>> pair = new Pair<Integer, List<Business>>(result.size(), null);
         ListIterator<Business> listIterator = result.listIterator(page * rowsOnPage - rowsOnPage);
         for (int i = 0; i < rowsOnPage; i++) {
-            if (listIterator.hasNext())
-                businessList.add(listIterator.next());
-            else
-                break;
+            if (listIterator.hasNext()) businessList.add(listIterator.next());
+            else break;
         }
         pair.setSecond(businessList);
         return pair;

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
 import javax.inject.Inject;
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
@@ -66,7 +67,7 @@ public class UserController {
         user.setRoles(roles);
         user.setPhoto(photoDAO.get(9)); //no photo
 
-        if(role.getRole().equals(ROLE_MASTER)) {
+        if (role.getRole().equals(ROLE_MASTER)) {
             Master master = new Master();
             user.setMaster(master);
         }
@@ -89,7 +90,7 @@ public class UserController {
         modelAndView.setViewName("my-profile");
         modelAndView.addObject("user", user);
         modelAndView.addObject("schedule", scheduleDAO.getScheduleListByUser(userId));
-            photo = directory + user.getPhoto().getPhoto();
+        photo = directory + user.getPhoto().getPhoto();
         modelAndView.addObject("photo", photo);
         return modelAndView;
     }

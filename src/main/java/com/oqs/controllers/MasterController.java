@@ -3,6 +3,7 @@ package com.oqs.controllers;
 import com.oqs.crud.BusinessDAO;
 import com.oqs.crud.MasterDAO;
 import com.oqs.crud.ServiceDAO;
+import com.oqs.dto.MasterInfo;
 import com.oqs.model.Master;
 import com.oqs.model.Service;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,9 +18,9 @@ import java.util.Set;
 @Controller
 public class MasterController {
 
-    final BusinessDAO businessDAO;
-    final MasterDAO masterDAO;
-    final ServiceDAO serviceDAO;
+    private final BusinessDAO businessDAO;
+    private final MasterDAO masterDAO;
+    private final ServiceDAO serviceDAO;
     @Value("${directory}")
     private String directory;
 
@@ -77,10 +78,10 @@ public class MasterController {
 
     @RequestMapping(value = "/masterPopup", method = RequestMethod.GET)
     public @ResponseBody
-    Master.MasterInfo scheduleByMaster(@RequestParam("masterId") long masterId) {
+    MasterInfo scheduleByMaster(@RequestParam("masterId") long masterId) {
         Master master = masterDAO.get(masterId);
         String photo = null;
-        Master.MasterInfo masterInfo = master.getMasterInfo(master);
+        MasterInfo masterInfo = new MasterInfo(master);
         masterInfo.setPhoto(directory + masterInfo.getPhoto());
         return masterInfo;
     }
