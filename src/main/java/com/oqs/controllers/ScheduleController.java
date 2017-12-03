@@ -3,10 +3,12 @@ package com.oqs.controllers;
 import com.oqs.crud.MasterDAO;
 import com.oqs.crud.ScheduleDAO;
 import com.oqs.crud.StatusDAO;
+import com.oqs.dto.BusinessSchedule;
 import com.oqs.model.Schedule;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
 import javax.inject.Inject;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -39,8 +41,8 @@ public class ScheduleController {
 
     @RequestMapping(value = "/fillScheduleTable", method = RequestMethod.GET)
     public @ResponseBody
-    List<Schedule.BusinessSchedule> scheduleByDateAndMaster(@RequestParam("date") String dateString,
-                                                            @RequestParam("masterId") String masterId) throws ParseException {
+    List<BusinessSchedule> scheduleByDateAndMaster(@RequestParam("date") String dateString,
+                                                   @RequestParam("masterId") String masterId) throws ParseException {
         java.sql.Date sqlDate = null;
         if (!dateString.isEmpty()) {
             final String OLD_FORMAT = "dd-MM-yyyy";
@@ -52,9 +54,9 @@ public class ScheduleController {
             sqlDate = new java.sql.Date(date.getTime());
         }
         List<Schedule> scheduleList = scheduleDAO.getScheduleListByDateAndMaster(sqlDate, masterId);
-        List<Schedule.BusinessSchedule> businessScheduleList = new ArrayList<>();
+        List<BusinessSchedule> businessScheduleList = new ArrayList<>();
         for (Schedule s : scheduleList)
-            businessScheduleList.add(s.getBusinessSchedule(s));
+            businessScheduleList.add(new BusinessSchedule(s));
         return businessScheduleList;
     }
 

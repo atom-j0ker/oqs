@@ -1,14 +1,15 @@
 package com.oqs.controllers;
 
 import com.oqs.crud.*;
+import com.oqs.dto.ServiceTable;
 import com.oqs.model.Price;
 import com.oqs.model.Service;
 import com.oqs.pair.Pair;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -62,9 +63,9 @@ public class ServiceController {
 
     @RequestMapping(value = "/organization/cancelService/{serviceId}", method = RequestMethod.GET)
     public @ResponseBody
-    Service.ServiceTable serviceCancel(@PathVariable("serviceId") long serviceId) {
+    ServiceTable serviceCancel(@PathVariable("serviceId") long serviceId) {
         Service service = serviceDAO.get(serviceId);
-        return service.getServiceTable(service);
+        return new ServiceTable(service);
     }
 
     @RequestMapping(value = "/organization/deleteService", method = RequestMethod.GET)

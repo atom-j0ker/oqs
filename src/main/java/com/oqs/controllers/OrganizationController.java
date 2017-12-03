@@ -1,5 +1,6 @@
 package com.oqs.controllers;
 
+import com.oqs.dto.ServiceTable;
 import com.oqs.pair.Pair;
 import com.oqs.crud.*;
 import com.oqs.model.*;
@@ -11,8 +12,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import javax.inject.Inject;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -83,18 +84,18 @@ public class OrganizationController {
 
     @RequestMapping(value = "/fillServiceTable", method = RequestMethod.GET)
     public @ResponseBody
-    Pair<Integer, List<Service.ServiceTable>> servicesSortBy(@RequestParam("string") String string,
-                                                             @RequestParam("categoryId") String categoryId,
-                                                             @RequestParam("sortBy") String sortBy,
-                                                             @RequestParam("page") String page,
-                                                             @RequestParam("rowsOnPage") String rowsOnPage) {
+    Pair<Integer, List<ServiceTable>> servicesSortBy(@RequestParam("string") String string,
+                                                     @RequestParam("categoryId") String categoryId,
+                                                     @RequestParam("sortBy") String sortBy,
+                                                     @RequestParam("page") String page,
+                                                     @RequestParam("rowsOnPage") String rowsOnPage) {
         Pair<Integer, List<Service>> services = serviceDAO.getServiceListByParams(
                 string, categoryId, sortBy, Integer.valueOf(page), Integer.valueOf(rowsOnPage));
-        Pair<Integer, List<Service.ServiceTable>> pair =
-                new Pair<Integer, List<Service.ServiceTable>>(services.getFirst(), null);
-        List<Service.ServiceTable> serviceList = new ArrayList<Service.ServiceTable>();
+        Pair<Integer, List<ServiceTable>> pair =
+                new Pair<>(services.getFirst(), null);
+        List<ServiceTable> serviceList = new ArrayList<>();
         for (Service s : services.getSecond())
-            serviceList.add(s.getServiceTable(s));
+            serviceList.add(new ServiceTable(s));
         pair.setSecond(serviceList);
         return pair;
     }
