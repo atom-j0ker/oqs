@@ -7,12 +7,15 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.logging.Logger;
 
 @Component
 public class FileUpload {
 
     @Value("${directory}")
     private String directory;
+    private final Logger LOGGER = Logger.getLogger(this.getClass().getName());
+
 
     public void fileUpload(MultipartFile file, String fileName) {
         if (!file.isEmpty()) {
@@ -21,8 +24,7 @@ public class FileUpload {
                 byte[] bytes = file.getBytes();
                 buffStream.write(bytes);
             } catch (Exception e) {
-                System.out.println("You failed to upload " + file.getOriginalFilename() + ": " + e.getMessage());//TODO add logger
-                //TODO rethrow own exception
+                LOGGER.warning("You failed to upload " + file.getOriginalFilename() + ": " + e.getMessage());
             }
         }
     }
