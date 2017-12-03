@@ -23,18 +23,22 @@ import java.util.Set;
 @Controller
 public class UserController {
 
-    @Inject
-    private PhotoDAO photoDAO;
-    @Inject
-    private RoleDAO roleDAO;
-    @Inject
-    private ScheduleDAO scheduleDAO;
-    @Inject
-    private UserDAO userDAO;
-    @Inject
-    private BCryptPasswordEncoder encoder;
+    private final PhotoDAO photoDAO;
+    private final RoleDAO roleDAO;
+    private final ScheduleDAO scheduleDAO;
+    private final UserDAO userDAO;
+    private final BCryptPasswordEncoder encoder;
     @Value("${directory}")
     private String directory;
+
+    @Inject
+    public UserController(PhotoDAO photoDAO, RoleDAO roleDAO, ScheduleDAO scheduleDAO, UserDAO userDAO, BCryptPasswordEncoder encoder) {
+        this.photoDAO = photoDAO;
+        this.roleDAO = roleDAO;
+        this.scheduleDAO = scheduleDAO;
+        this.userDAO = userDAO;
+        this.encoder = encoder;
+    }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String startPage() {

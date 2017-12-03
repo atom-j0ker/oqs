@@ -20,15 +20,10 @@ import javax.inject.Inject;
 @Controller
 public class PhotoController {
 
-    @Inject
-    private BusinessDAO businessDAO;
-    @Inject
-    private FileUpload fileUpload;
-    @Inject
-    private PhotoDAO photoDAO;
-    @Inject
-    private UserDAO userDAO;
-
+    private final BusinessDAO businessDAO;
+    private final FileUpload fileUpload;
+    private final PhotoDAO photoDAO;
+    private final UserDAO userDAO;
     @Value("${directory}")
     private String directory;
     @Value("${business}")
@@ -37,6 +32,14 @@ public class PhotoController {
     private String userFolder;
     @Value("${format.jpg}")
     private String formatJPG;
+
+    @Inject
+    public PhotoController(BusinessDAO businessDAO, FileUpload fileUpload, PhotoDAO photoDAO, UserDAO userDAO) {
+        this.businessDAO = businessDAO;
+        this.fileUpload = fileUpload;
+        this.photoDAO = photoDAO;
+        this.userDAO = userDAO;
+    }
 
     @RequestMapping(value = "/organization/{organizationId}/change-photo", method = RequestMethod.POST)
     public String changeOrganizationPhoto(@PathVariable("organizationId") long organizationId, @RequestParam("file") MultipartFile file) {

@@ -19,18 +19,22 @@ import java.util.List;
 @Controller
 public class OrganizationController {
 
-    @Inject
-    private BusinessDAO businessDAO;
-    @Inject
-    private CategoryDAO categoryDAO;
-    @Inject
-    private RatingDAO ratingDAO;
-    @Inject
-    private ServiceDAO serviceDAO;
-    @Inject
-    private UserDAO userDAO;
+    private final BusinessDAO businessDAO;
+    private final CategoryDAO categoryDAO;
+    private final RatingDAO ratingDAO;
+    private final ServiceDAO serviceDAO;
+    private final UserDAO userDAO;
     @Value("${directory}")
     private String directory;
+
+    @Inject
+    public OrganizationController(BusinessDAO businessDAO, CategoryDAO categoryDAO, RatingDAO ratingDAO, ServiceDAO serviceDAO, UserDAO userDAO) {
+        this.businessDAO = businessDAO;
+        this.categoryDAO = categoryDAO;
+        this.ratingDAO = ratingDAO;
+        this.serviceDAO = serviceDAO;
+        this.userDAO = userDAO;
+    }
 
     @RequestMapping(value = "/user/{userId}/createBusiness", method = RequestMethod.GET)
     public ModelAndView createBusinessPage(@PathVariable("userId") long userId) {

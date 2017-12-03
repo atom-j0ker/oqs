@@ -17,14 +17,18 @@ import java.util.Set;
 @Controller
 public class MasterController {
 
-    @Inject
-    BusinessDAO businessDAO;
-    @Inject
-    MasterDAO masterDAO;
-    @Inject
-    ServiceDAO serviceDAO;
+    final BusinessDAO businessDAO;
+    final MasterDAO masterDAO;
+    final ServiceDAO serviceDAO;
     @Value("${directory}")
     private String directory;
+
+    @Inject
+    public MasterController(BusinessDAO businessDAO, MasterDAO masterDAO, ServiceDAO serviceDAO) {
+        this.businessDAO = businessDAO;
+        this.masterDAO = masterDAO;
+        this.serviceDAO = serviceDAO;
+    }
 
     @RequestMapping(value = "/organization/{organizationId}/mastersSettings", method = RequestMethod.GET)
     public ModelAndView mastersSettings(@PathVariable("organizationId") long organizationId) {

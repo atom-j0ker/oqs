@@ -16,16 +16,21 @@ import java.util.List;
 
 @Controller
 public class BookingController {
+
+    private final MasterDAO masterDAO;
+    private final ServiceDAO serviceDAO;
+    private final ScheduleDAO scheduleDAO;
+    private final StatusDAO statusDAO;
+    private final UserDAO userDAO;
+
     @Inject
-    private MasterDAO masterDAO;
-    @Inject
-    private ServiceDAO serviceDAO;
-    @Inject
-    private ScheduleDAO scheduleDAO;
-    @Inject
-    private StatusDAO statusDAO;
-    @Inject
-    private UserDAO userDAO;
+    public BookingController(MasterDAO masterDAO, ServiceDAO serviceDAO, ScheduleDAO scheduleDAO, StatusDAO statusDAO, UserDAO userDAO) {
+        this.masterDAO = masterDAO;
+        this.serviceDAO = serviceDAO;
+        this.scheduleDAO = scheduleDAO;
+        this.statusDAO = statusDAO;
+        this.userDAO = userDAO;
+    }
 
     @RequestMapping(value = "/organization/{organizationId}/service/{serviceId}", method = RequestMethod.GET)
     public ModelAndView bookingPage(@PathVariable("organizationId") long organizationId,

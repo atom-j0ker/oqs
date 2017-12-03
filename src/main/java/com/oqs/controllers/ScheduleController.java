@@ -16,12 +16,16 @@ import java.util.List;
 @Controller
 public class ScheduleController {
 
+    private final MasterDAO masterDAO;
+    private final ScheduleDAO scheduleDAO;
+    private final StatusDAO statusDAO;
+
     @Inject
-    private MasterDAO masterDAO;
-    @Inject
-    private ScheduleDAO scheduleDAO;
-    @Inject
-    private StatusDAO statusDAO;
+    public ScheduleController(MasterDAO masterDAO, ScheduleDAO scheduleDAO, StatusDAO statusDAO) {
+        this.masterDAO = masterDAO;
+        this.scheduleDAO = scheduleDAO;
+        this.statusDAO = statusDAO;
+    }
 
 
     @RequestMapping(value = "/organization/{organizationId}/schedule", method = RequestMethod.GET)

@@ -16,12 +16,16 @@ import java.util.List;
 @Controller
 public class ServiceController {
 
+    private final BusinessDAO businessDAO;
+    private final CategoryDAO categoryDAO;
+    private final ServiceDAO serviceDAO;
+
     @Inject
-    private BusinessDAO businessDAO;
-    @Inject
-    private CategoryDAO categoryDAO;
-    @Inject
-    private ServiceDAO serviceDAO;
+    public ServiceController(BusinessDAO businessDAO, CategoryDAO categoryDAO, ServiceDAO serviceDAO) {
+        this.businessDAO = businessDAO;
+        this.categoryDAO = categoryDAO;
+        this.serviceDAO = serviceDAO;
+    }
 
     @RequestMapping(value = "/organization/{organizationId}/serviceAdd", method = RequestMethod.GET)
     public ModelAndView serviceAddPage(@PathVariable("organizationId") long organizationId) {
