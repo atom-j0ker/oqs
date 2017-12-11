@@ -64,12 +64,12 @@
                     <img class="info-img" src="/resources/img/information.png" title="${sch.comment}"/></td>
                 <td>${sch.master.user.firstname} ${sch.master.user.lastname}</td>
                 <td><fmt:formatDate value="${sch.date}" pattern="dd-MM-yyyy"/></td>
-                <td>${sch.time}</td>
+                <td>${sch.startTime}</td>
                 <td>
                     <select id="booking${sch.id}" class="form-control status">
-                        <option id="1" <c:if test="${sch.status.id==1}">selected</c:if>>Waiting</option>
-                        <option id="2" <c:if test="${sch.status.id==2}">selected</c:if>>Visited</option>
-                        <option id="3" <c:if test="${sch.status.id==3}">selected</c:if>>Not visited</option>
+                        <option <c:if test="${sch.status=='WAITING'}">selected</c:if>>Waiting</option>
+                        <option <c:if test="${sch.status=='VISITED'}">selected</c:if>>Visited</option>
+                        <option <c:if test="${sch.status=='NOT WISITED'}">selected</c:if>>Not visited</option>
                     </select>
                 </td>
             </tr>
@@ -126,12 +126,11 @@
                         "<td>" + schedule[i].service + "<img class='info-img' src='/resources/img/information.png' title=" + schedule[i].comment + "/></td></td>" +
                         "<td>" + schedule[i].masterFirstname + " " + schedule[i].masterLastname + "</td>" +
                         "<td>" + schedule[i].date + "</td>" +
-                        "<td>" + schedule[i].time + "</td>" +
-//TODO fix problem with c:if test
+                        "<td>" + schedule[i].startTime + "</td>" +
                         "<td><select id='booking" + schedule[i].id + "' class='form-control status'>" +
-                        "<option id='1' <c:if test='" + schedule[i].id == 1 + "'>selected</c:if>>Waiting</option>" +
-                        "<option id='2' <c:if test='" + schedule[i].id == 2 + "'>selected</c:if>>Visited</option>" +
-                        "<option id='3' <c:if test='" + schedule[i].id == 3 + "'>selected</c:if>>Not visited</option>" +
+                        "<option <c:if test='" + schedule[i].id == 1 + "'>selected</c:if>>Waiting</option>" +
+                        "<option <c:if test='" + schedule[i].id == 2 + "'>selected</c:if>>Visited</option>" +
+                        "<option <c:if test='" + schedule[i].id == 3 + "'>selected</c:if>>Not visited</option>" +
                         "</select>" +
                         "</td>" +
                         "</tr>");
@@ -144,13 +143,13 @@
     }
 
     $(".status").change(function () {
-        var statusId = $(this).children(":selected").attr("id");
+        var status = $(this).children(":selected").val();
         var bookingId = $(this).attr("id");
         bookingId = bookingId.substring(7, bookingId.length);
         $.ajax({
             type: "GET",
             url: '/changeStatus',
-            data: "bookingId=" + bookingId + "&statusId=" + statusId,
+            data: "bookingId=" + bookingId + "&status=" + status,
             error: function (xhr, textStatus) {
                 alert([xhr.status, textStatus]);
             }

@@ -16,8 +16,8 @@ public class BusinessSchedule {
     private String masterFirstname;
     private String masterLastname;
     private Date date;
-    private Time time;
-    private long statusId;
+    private Time startTime;
+    private String status;
 
     public BusinessSchedule(Schedule schedule) {
         this.id = schedule.getId();
@@ -29,8 +29,8 @@ public class BusinessSchedule {
         this.masterFirstname = schedule.getMaster().getUser().getFirstname();
         this.masterLastname = schedule.getMaster().getUser().getLastname();
         this.date = schedule.getDate();
-        this.time = schedule.getTime();
-        this.statusId = schedule.getStatus().getId();
+        this.startTime = schedule.getStartTime();
+        this.status = schedule.getStatus();
     }
 
     public long getId() {
@@ -105,20 +105,22 @@ public class BusinessSchedule {
         this.date = date;
     }
 
-    public Time getTime() {
-        return time;
+    public Time getStartTime() {
+        return startTime;
     }
 
-    public void setTime(Time time) {
-        this.time = time;
+    public BusinessSchedule setStartTime(Time startTime) {
+        this.startTime = startTime;
+        return this;
     }
 
-    public long getStatusId() {
-        return statusId;
+    public String getStatus() {
+        return status;
     }
 
-    public void setStatusId(long statusId) {
-        this.statusId = statusId;
+    public BusinessSchedule setStatus(String status) {
+        this.status = status;
+        return this;
     }
 }
 

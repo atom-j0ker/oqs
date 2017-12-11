@@ -9,43 +9,53 @@ import java.sql.Time;
 public class Schedule {
     @Id
     @GeneratedValue
-    @Column(name = "schedule_id")
+    @Column(name = "id")
     private long id;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "schedule_user")
+    @JoinColumn(name = "user")
     private User user;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "schedule_service")
+    @JoinColumn(name = "service")
     private Service service;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "schedule_master")
+    @JoinColumn(name = "master")
     private Master master;
 
-    @Column(name = "schedule_date")
+    @Column(name = "date")
     private Date date;
 
-    @Column(name = "schedule_time")
-    private Time time;
+    @Column(name = "start_time")
+    private Time startTime;
 
-    @Column(name = "schedule_comment")
+    @Column(name = "end_time")
+    private Time endTime;
+
+    @Column(name = "comment")
     private String comment;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "schedule_status")
-    private Status status;
+    @Column(name = "status")
+    private String status;
 
     public Schedule() {
     }
 
-    public Schedule(User user, Service service, Master master, Date date, Time time, String comment, Status status) {
+    public Schedule(User user,
+                    Service service,
+                    Master master,
+                    Date date,
+                    Time startTime,
+                    Time endTime,
+                    String comment,
+                    String status) {
         this.user = user;
         this.service = service;
         this.master = master;
         this.date = date;
-        this.time = time;
+        this.startTime = startTime;
+        this.endTime = endTime;
         this.comment = comment;
         this.status = status;
     }
@@ -90,12 +100,22 @@ public class Schedule {
         this.date = date;
     }
 
-    public Time getTime() {
-        return time;
+    public Time getStartTime() {
+        return startTime;
     }
 
-    public void setTime(Time time) {
-        this.time = time;
+    public Schedule setStartTime(Time startTime) {
+        this.startTime = startTime;
+        return this;
+    }
+
+    public Time getEndTime() {
+        return endTime;
+    }
+
+    public Schedule setEndTime(Time endTime) {
+        this.endTime = endTime;
+        return this;
     }
 
     public String getComment() {
@@ -106,12 +126,13 @@ public class Schedule {
         this.comment = comment;
     }
 
-    public Status getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(Status status) {
+    public Schedule setStatus(String status) {
         this.status = status;
+        return this;
     }
 
     @Override
@@ -122,7 +143,8 @@ public class Schedule {
                 ", service=" + service +
                 ", master=" + master +
                 ", date=" + date +
-                ", time=" + time +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
                 ", comment='" + comment + '\'' +
                 ", status=" + status +
                 '}';
