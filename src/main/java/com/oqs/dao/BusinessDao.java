@@ -1,4 +1,4 @@
-package com.oqs.crud;
+package com.oqs.dao;
 
 import com.oqs.model.Business;
 import com.oqs.util.Pair;
@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 @Repository
-public class BusinessDAO {//TODO check singleton annotation (how many instances)
+public class BusinessDao {//TODO check singleton annotation (how many instances)
     @PersistenceContext
     public EntityManager entityManager;
 

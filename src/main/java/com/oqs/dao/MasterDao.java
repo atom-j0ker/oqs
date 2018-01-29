@@ -1,4 +1,4 @@
-package com.oqs.crud;
+package com.oqs.dao;
 
 import com.oqs.model.Master;
 import org.springframework.stereotype.Repository;
@@ -11,7 +11,7 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Repository
-public class MasterDAO {
+public class MasterDao {
     @PersistenceContext
     public EntityManager entityManager;
 

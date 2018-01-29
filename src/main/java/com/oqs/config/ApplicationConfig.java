@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @PropertySource(value = "classpath:config.properties")
 @EnableTransactionManagement
-@EnableJpaRepositories("com.oqs.crud")
+@EnableJpaRepositories("com.oqs.dao")
 public class ApplicationConfig {
 
     @Bean

@@ -1,6 +1,6 @@
-package com.oqs.crud;
+package com.oqs.dao;
 
-import com.oqs.model.Photo;
+import com.oqs.model.Price;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -8,21 +8,21 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 @Repository
-public class PhotoDAO {
+public class PriceDao {
     @PersistenceContext
     public EntityManager entityManager;
 
     @Transactional
-    public long saveOrUpdate(Photo photo) {
-        return entityManager.merge(photo).getId();
+    public void saveOrUpdate(Price price) {
+        entityManager.merge(price);
     }
 
     @Transactional
     public void delete(long id) {
-        entityManager.remove(entityManager.getReference(Photo.class, id));
+        entityManager.remove(entityManager.getReference(Price.class, id));
     }
 
-    public Photo get(long id) {
-        return entityManager.find(Photo.class, id);
+    public Price get(long id) {
+        return entityManager.find(Price.class, id);
     }
 }

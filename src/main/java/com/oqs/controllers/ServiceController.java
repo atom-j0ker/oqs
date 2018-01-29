@@ -1,6 +1,6 @@
 package com.oqs.controllers;
 
-import com.oqs.crud.*;
+import com.oqs.dao.*;
 import com.oqs.dto.ServiceTable;
 import com.oqs.model.Price;
 import com.oqs.model.Service;
@@ -17,20 +17,20 @@ import java.util.List;
 @Controller
 public class ServiceController {
 
-    private final BusinessDAO businessDAO;
-    private final CategoryDAO categoryDAO;
-    private final ServiceDAO serviceDAO;
+    private final BusinessDao businessDao;
+    private final CategoryDao categoryDao;
+    private final ServiceDao serviceDao;
 
     @Inject
-    public ServiceController(BusinessDAO businessDAO, CategoryDAO categoryDAO, ServiceDAO serviceDAO) {
-        this.businessDAO = businessDAO;
-        this.categoryDAO = categoryDAO;
-        this.serviceDAO = serviceDAO;
+    public ServiceController(BusinessDao businessDao, CategoryDao categoryDao, ServiceDao serviceDao) {
+        this.businessDao = businessDao;
+        this.categoryDao = categoryDao;
+        this.serviceDao = serviceDao;
     }
 
     @RequestMapping(value = "/organization/{organizationId}/serviceAdd", method = RequestMethod.GET)
     public ModelAndView serviceAddPage(@PathVariable("organizationId") long organizationId) {
-        return new ModelAndView("serviceAdd", "categories", categoryDAO.getCategories());
+        return new ModelAndView("serviceAdd", "categories", categoryDao.getCategories());
     }
 
     @RequestMapping(value = "/organization/{organizationId}/serviceAdd", method = RequestMethod.POST)
@@ -38,11 +38,11 @@ public class ServiceController {
                              @PathVariable("organizationId") long organizationId,
                              HttpServletRequest request) {
         Price price = new Price();
-        service.setBusiness(businessDAO.get(organizationId));
-        service.setCategory(categoryDAO.get(Long.valueOf(request.getParameter("subcategory"))));
+        service.setBusiness(businessDao.get(organizationId));
+        service.setCategory(categoryDao.get(Long.valueOf(request.getParameter("subcategory"))));
         price.setPrice(Integer.valueOf(request.getParameter(("price"))));
         service.setPrice(price);
-        service = serviceDAO.get(serviceDAO.saveOrUpdate(service));
+        service = serviceDao.get(serviceDao.saveOrUpdate(service));
         return "redirect:/organization/" + organizationId;
     }
 
@@ -53,33 +53,33 @@ public class ServiceController {
                        @RequestParam("newPrice") String newPrice,
                        @RequestParam("newDuration") String newDuration) {
         Price price = new Price();
-        Service service = serviceDAO.get(serviceId);
+        Service service = serviceDao.get(serviceId);
         service.setName(newName);
         price.setPrice(Integer.valueOf(newPrice));
         service.setPrice(price);
         service.setDuration(Short.valueOf(newDuration));
-        serviceDAO.saveOrUpdate(service);
+        serviceDao.saveOrUpdate(service);
     }
 
     @RequestMapping(value = "/organization/cancelService/{serviceId}", method = RequestMethod.GET)
     public @ResponseBody
     ServiceTable serviceCancel(@PathVariable("serviceId") long serviceId) {
-        Service service = serviceDAO.get(serviceId);
+        Service service = serviceDao.get(serviceId);
         return new ServiceTable(service);
     }
 
     @RequestMapping(value = "/organization/deleteService", method = RequestMethod.GET)
     public @ResponseBody
     void serviceDelete(@RequestParam("serviceId") String serviceId) {
-        serviceDAO.delete(Long.valueOf(serviceId));
+        serviceDao.delete(Long.valueOf(serviceId));
     }
 
     @RequestMapping(value = "/serviceCheckBoxes/{organizationId}/{masterId}", method = RequestMethod.GET)
     public @ResponseBody
     Pair<List<Service>, List<Service>> serviceCheckBoxes(@PathVariable("organizationId") long organizationId,
                                                          @PathVariable("masterId") long masterId) {
-        List<Service> serviceListByOrganization = serviceDAO.getServiceListByOrganization(organizationId);
-        List<Service> serviceListByMaster = serviceDAO.getServiceListByMaster(masterId);
+        List<Service> serviceListByOrganization = serviceDao.getServiceListByOrganization(organizationId);
+        List<Service> serviceListByMaster = serviceDao.getServiceListByMaster(masterId);
         return new Pair<>(serviceListByOrganization, serviceListByMaster);
     }
 

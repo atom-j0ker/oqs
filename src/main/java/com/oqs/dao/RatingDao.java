@@ -1,4 +1,4 @@
-package com.oqs.crud;
+package com.oqs.dao;
 
 import com.oqs.model.Rating;
 import org.springframework.stereotype.Repository;
@@ -10,7 +10,7 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Repository
-public class RatingDAO {
+public class RatingDao {
     @PersistenceContext
     public EntityManager entityManager;
 

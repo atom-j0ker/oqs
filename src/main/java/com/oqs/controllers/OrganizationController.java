@@ -2,7 +2,7 @@ package com.oqs.controllers;
 
 import com.oqs.dto.ServiceTable;
 import com.oqs.util.Pair;
-import com.oqs.crud.*;
+import com.oqs.dao.*;
 import com.oqs.model.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -20,33 +20,33 @@ import java.util.List;
 @Controller
 public class OrganizationController {
 
-    private final BusinessDAO businessDAO;
-    private final CategoryDAO categoryDAO;
-    private final RatingDAO ratingDAO;
-    private final ServiceDAO serviceDAO;
-    private final UserDAO userDAO;
+    private final BusinessDao businessDao;
+    private final CategoryDao categoryDao;
+    private final RatingDao ratingDao;
+    private final ServiceDao serviceDao;
+    private final UserDao userDao;
     @Value("${directory}")
     private String directory;
 
     @Inject
-    public OrganizationController(BusinessDAO businessDAO, CategoryDAO categoryDAO, RatingDAO ratingDAO, ServiceDAO serviceDAO, UserDAO userDAO) {
-        this.businessDAO = businessDAO;
-        this.categoryDAO = categoryDAO;
-        this.ratingDAO = ratingDAO;
-        this.serviceDAO = serviceDAO;
-        this.userDAO = userDAO;
+    public OrganizationController(BusinessDao businessDao, CategoryDao categoryDao, RatingDao ratingDao, ServiceDao serviceDao, UserDao userDao) {
+        this.businessDao = businessDao;
+        this.categoryDao = categoryDao;
+        this.ratingDao = ratingDao;
+        this.serviceDao = serviceDao;
+        this.userDao = userDao;
     }
 
     @RequestMapping(value = "/user/{userId}/createBusiness", method = RequestMethod.GET)
     public ModelAndView createBusinessPage(@PathVariable("userId") long userId) {
-        return new ModelAndView("createBusiness", "user", userDAO.get(userId));
+        return new ModelAndView("createBusiness", "user", userDao.get(userId));
     }
 
     @RequestMapping(value = "/user/{userId}/createBusiness", method = RequestMethod.POST)
     public String createBusiness(Business business, @PathVariable("userId") long userId, BindingResult result) {
-        User user = userDAO.get(userId);
+        User user = userDao.get(userId);
         user.setBusiness(business);
-        userDAO.saveOrUpdate(user);
+        userDao.saveOrUpdate(user);
         return "redirect:/";
     }
 
@@ -55,8 +55,8 @@ public class OrganizationController {
                                           @ModelAttribute("categoryName") String categoryName) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("organizations");
-        modelAndView.addObject("organizations", businessDAO.getBsnList());
-        modelAndView.addObject("categories", categoryDAO.getCategories());
+        modelAndView.addObject("organizations", businessDao.getBsnList());
+        modelAndView.addObject("categories", categoryDao.getCategories());
         if (!categoryId.isEmpty()) {
             modelAndView.addObject("categoryId", categoryId);
             modelAndView.addObject("categoryName", categoryName);
@@ -78,7 +78,7 @@ public class OrganizationController {
     Pair<Integer, List<Business>> organizationsByCategorySort(@RequestParam("categoryId") String categoryId,
                                                               @RequestParam("page") String page,
                                                               @RequestParam("rowsOnPage") String rowsOnPage) {
-        return businessDAO.getBsnListByCategory(Long.valueOf(categoryId),
+        return businessDao.getBsnListByCategory(Long.valueOf(categoryId),
                 Integer.valueOf(page), Integer.valueOf(rowsOnPage));
     }
 
@@ -89,7 +89,7 @@ public class OrganizationController {
                                                      @RequestParam("sortBy") String sortBy,
                                                      @RequestParam("page") String page,
                                                      @RequestParam("rowsOnPage") String rowsOnPage) {
-        Pair<Integer, List<Service>> services = serviceDAO.getServiceListByParams(
+        Pair<Integer, List<Service>> services = serviceDao.getServiceListByParams(
                 string, categoryId, sortBy, Integer.valueOf(page), Integer.valueOf(rowsOnPage));
         Pair<Integer, List<ServiceTable>> pair =
                 new Pair<>(services.getFirst(), null);
@@ -103,19 +103,19 @@ public class OrganizationController {
     @RequestMapping(value = "/organization/{organizationId}", method = RequestMethod.GET)
     public ModelAndView organization(@PathVariable("organizationId") long organizationId) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Business business = businessDAO.get(organizationId);
+        Business business = businessDao.get(organizationId);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("organization");
         modelAndView.addObject("organization", business);
         if (business.getPhoto() != null)
             modelAndView.addObject("photo", directory + business.getPhoto().getPhoto());
-        modelAndView.addObject("services", serviceDAO.getServiceListByOrganization(organizationId));
-        modelAndView.addObject("categories", categoryDAO.getCategories());
-        modelAndView.addObject("rating", ratingDAO.getRating(organizationId));
+        modelAndView.addObject("services", serviceDao.getServiceListByOrganization(organizationId));
+        modelAndView.addObject("categories", categoryDao.getCategories());
+        modelAndView.addObject("rating", ratingDao.getRating(organizationId));
         if (auth.isAuthenticated()) {
             String username = auth.getName();
             if (!username.equals("anonymousUser"))
-                modelAndView.addObject("user", userDAO.get(username));
+                modelAndView.addObject("user", userDao.get(username));
         }
         return modelAndView;
     }
@@ -123,6 +123,6 @@ public class OrganizationController {
     @RequestMapping(value = "/fillSubcategories", method = RequestMethod.GET)
     public @ResponseBody
     List<Category> fillCategories(@RequestParam("categoryId") String categoryId) {
-        return categoryDAO.getSubcategories(Long.valueOf(categoryId));
+        return categoryDao.getSubcategories(Long.valueOf(categoryId));
     }
 }

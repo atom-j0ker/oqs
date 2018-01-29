@@ -1,4 +1,4 @@
-package com.oqs.crud;
+package com.oqs.dao;
 
 import com.oqs.model.Schedule;
 import org.springframework.stereotype.Repository;
@@ -13,7 +13,7 @@ import java.sql.Time;
 import java.util.List;
 
 @Repository
-public class ScheduleDAO {
+public class ScheduleDao {
     @PersistenceContext
     public EntityManager entityManager;
 

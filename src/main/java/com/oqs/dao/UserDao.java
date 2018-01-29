@@ -1,4 +1,4 @@
-package com.oqs.crud;
+package com.oqs.dao;
 
 import com.oqs.model.User;
 import org.springframework.stereotype.Repository;
@@ -9,7 +9,7 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 @Repository
-public class UserDAO {
+public class UserDao {
     @PersistenceContext
     public EntityManager entityManager;
 

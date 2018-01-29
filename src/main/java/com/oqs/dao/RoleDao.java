@@ -1,4 +1,4 @@
-package com.oqs.crud;
+package com.oqs.dao;
 
 import com.oqs.model.Role;
 import org.springframework.stereotype.Repository;
@@ -8,7 +8,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 @Repository
-public class RoleDAO {
+public class RoleDao {
     @PersistenceContext
     public EntityManager entityManager;
 

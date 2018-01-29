@@ -1,6 +1,6 @@
 package com.oqs.controllers;
 
-import com.oqs.crud.*;
+import com.oqs.dao.*;
 import com.oqs.model.Schedule;
 import com.oqs.model.VisitStatus;
 import com.oqs.util.DateFormatter;
@@ -14,24 +14,23 @@ import javax.servlet.http.HttpServletRequest;
 import java.sql.Date;
 import java.sql.Time;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 public class BookingController {
 
-    private final MasterDAO masterDAO;
-    private final ServiceDAO serviceDAO;
-    private final ScheduleDAO scheduleDAO;
-    private final UserDAO userDAO;
+    private final MasterDao masterDao;
+    private final ServiceDao serviceDao;
+    private final ScheduleDao scheduleDao;
+    private final UserDao userDao;
 
     @Inject
-    public BookingController(MasterDAO masterDAO, ServiceDAO serviceDAO, ScheduleDAO scheduleDAO, UserDAO userDAO) {
-        this.masterDAO = masterDAO;
-        this.serviceDAO = serviceDAO;
-        this.scheduleDAO = scheduleDAO;
-        this.userDAO = userDAO;
+    public BookingController(MasterDao masterDao, ServiceDao serviceDao, ScheduleDao scheduleDao, UserDao userDao) {
+        this.masterDao = masterDao;
+        this.serviceDao = serviceDao;
+        this.scheduleDao = scheduleDao;
+        this.userDao = userDao;
     }
 
     @RequestMapping(value = "/organization/{organizationId}/service/{serviceId}", method = RequestMethod.GET)
@@ -39,8 +38,8 @@ public class BookingController {
                                     @PathVariable("serviceId") long serviceId) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("booking");
-        modelAndView.addObject("service", serviceDAO.get(serviceId));
-        modelAndView.addObject("masters", masterDAO.getMasterListByServiceAndOrganization(serviceId, organizationId));
+        modelAndView.addObject("service", serviceDao.get(serviceId));
+        modelAndView.addObject("masters", masterDao.getMasterListByServiceAndOrganization(serviceId, organizationId));
         return modelAndView;
     }
 
@@ -52,22 +51,22 @@ public class BookingController {
         String dateString = request.getParameter("dateName");
         Date sqlDate = DateFormatter.format(dateString);
 
-        schedule.setUser(userDAO.get(username));
-        schedule.setService(serviceDAO.get(serviceId));
-        schedule.setMaster(masterDAO.get(Long.valueOf(request.getParameter("mastersListName"))));
+        schedule.setUser(userDao.get(username));
+        schedule.setService(serviceDao.get(serviceId));
+        schedule.setMaster(masterDao.get(Long.valueOf(request.getParameter("mastersListName"))));
         schedule.setDate(sqlDate);
         schedule.setStartTime(Time.valueOf(request.getParameter("timeListName")));
         schedule.setComment(request.getParameter("bookingComment"));
         schedule.setStatus(VisitStatus.WAITING.getValue());
-        scheduleDAO.saveOrUpdate(schedule);
+        scheduleDao.saveOrUpdate(schedule);
 
-        return "redirect:/user/" + userDAO.getId(username);
+        return "redirect:/user/" + userDao.getId(username);
     }
 
     @RequestMapping(value = "/delete-booking/{scheduleId}", method = RequestMethod.GET)
     public @ResponseBody
     void bookingDelete(@PathVariable("scheduleId") long scheduleId) {
-        scheduleDAO.delete(scheduleId);
+        scheduleDao.delete(scheduleId);
     }
 
 
@@ -82,7 +81,7 @@ public class BookingController {
             timeListFree.add(java.sql.Time.valueOf(i + ":00:00"));
             timeListFree.add(java.sql.Time.valueOf(i + ":30:00"));
         }
-        List<Time> timeListBusy = scheduleDAO.getTimeListBusy(masterId, sqlDate);
+        List<Time> timeListBusy = scheduleDao.getTimeListBusy(masterId, sqlDate);
         return new Pair<>(timeListFree, timeListBusy);
     }
 }

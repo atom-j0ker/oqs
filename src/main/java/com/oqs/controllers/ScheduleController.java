@@ -1,7 +1,7 @@
 package com.oqs.controllers;
 
-import com.oqs.crud.MasterDAO;
-import com.oqs.crud.ScheduleDAO;
+import com.oqs.dao.MasterDao;
+import com.oqs.dao.ScheduleDao;
 import com.oqs.dto.BusinessSchedule;
 import com.oqs.model.Schedule;
 import com.oqs.util.DateFormatter;
@@ -12,20 +12,19 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.inject.Inject;
 import java.sql.Date;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 public class ScheduleController {
 
-    private final MasterDAO masterDAO;
-    private final ScheduleDAO scheduleDAO;
+    private final MasterDao masterDao;
+    private final ScheduleDao scheduleDao;
 
     @Inject
-    public ScheduleController(MasterDAO masterDAO, ScheduleDAO scheduleDAO) {
-        this.masterDAO = masterDAO;
-        this.scheduleDAO = scheduleDAO;
+    public ScheduleController(MasterDao masterDao, ScheduleDao scheduleDao) {
+        this.masterDao = masterDao;
+        this.scheduleDao = scheduleDao;
     }
 
 
@@ -33,8 +32,8 @@ public class ScheduleController {
     public ModelAndView schedulePage(@PathVariable("organizationId") long organizationId) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("schedule");
-        modelAndView.addObject("masters", masterDAO.getMasterListByOrganization(organizationId));
-        modelAndView.addObject("schedule", scheduleDAO.getScheduleListByBusiness(organizationId));
+        modelAndView.addObject("masters", masterDao.getMasterListByOrganization(organizationId));
+        modelAndView.addObject("schedule", scheduleDao.getScheduleListByBusiness(organizationId));
         return modelAndView;
     }
 
@@ -45,7 +44,7 @@ public class ScheduleController {
         Date sqlDate = null;
         if (!dateString.isEmpty())
             sqlDate = DateFormatter.format(dateString);
-        List<Schedule> scheduleList = scheduleDAO.getScheduleListByDateAndMaster(sqlDate, masterId);
+        List<Schedule> scheduleList = scheduleDao.getScheduleListByDateAndMaster(sqlDate, masterId);
         List<BusinessSchedule> businessScheduleList = new ArrayList<>();
         for (Schedule s : scheduleList)
             businessScheduleList.add(new BusinessSchedule(s));
@@ -56,8 +55,8 @@ public class ScheduleController {
     public @ResponseBody
     void changeStatus(@RequestParam("bookingId") long bookingId,
                       @RequestParam("statusId") String status) {
-        Schedule booking = scheduleDAO.get(bookingId);
+        Schedule booking = scheduleDao.get(bookingId);
         booking.setStatus(status.toUpperCase());
-        scheduleDAO.saveOrUpdate(booking);
+        scheduleDao.saveOrUpdate(booking);
     }
 }

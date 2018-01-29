@@ -1,4 +1,4 @@
-package com.oqs.crud;
+package com.oqs.dao;
 
 import com.oqs.util.Pair;
 import com.oqs.model.Service;
@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 @Repository
-public class ServiceDAO {
+public class ServiceDao {
     @PersistenceContext//TODO read
     public EntityManager entityManager;
 

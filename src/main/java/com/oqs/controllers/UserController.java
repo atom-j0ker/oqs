@@ -1,9 +1,9 @@
 package com.oqs.controllers;
 
-import com.oqs.crud.PhotoDAO;
-import com.oqs.crud.RoleDAO;
-import com.oqs.crud.ScheduleDAO;
-import com.oqs.crud.UserDAO;
+import com.oqs.dao.PhotoDao;
+import com.oqs.dao.RoleDao;
+import com.oqs.dao.ScheduleDao;
+import com.oqs.dao.UserDao;
 import com.oqs.email.GoogleMail;
 import com.oqs.model.Master;
 import com.oqs.model.Role;
@@ -24,20 +24,20 @@ import java.util.Set;
 @Controller
 public class UserController {
 
-    private final PhotoDAO photoDAO;
-    private final RoleDAO roleDAO;
-    private final ScheduleDAO scheduleDAO;
-    private final UserDAO userDAO;
+    private final PhotoDao photoDao;
+    private final RoleDao roleDao;
+    private final ScheduleDao scheduleDao;
+    private final UserDao userDao;
     private final BCryptPasswordEncoder encoder;
     @Value("${directory}")
     private String directory;
 
     @Inject
-    public UserController(PhotoDAO photoDAO, RoleDAO roleDAO, ScheduleDAO scheduleDAO, UserDAO userDAO, BCryptPasswordEncoder encoder) {
-        this.photoDAO = photoDAO;
-        this.roleDAO = roleDAO;
-        this.scheduleDAO = scheduleDAO;
-        this.userDAO = userDAO;
+    public UserController(PhotoDao photoDao, RoleDao roleDao, ScheduleDao scheduleDao, UserDao userDao, BCryptPasswordEncoder encoder) {
+        this.photoDao = photoDao;
+        this.roleDao = roleDao;
+        this.scheduleDao = scheduleDao;
+        this.userDao = userDao;
         this.encoder = encoder;
     }
 
@@ -59,37 +59,37 @@ public class UserController {
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public String createNewUser(User user, BindingResult result, HttpServletRequest request) {
         String ROLE_MASTER = "ROLE_MASTER";
-        Role role = roleDAO.get(roleDAO.getId(request.getParameter("role")));
+        Role role = roleDao.get(roleDao.getId(request.getParameter("role")));
 
         user.setPassword(encoder.encode(user.getPassword()));
         Set<Role> roles = new HashSet<Role>();
         roles.add(role);
         user.setRoles(roles);
-        user.setPhoto(photoDAO.get(9)); //no photo
+        user.setPhoto(photoDao.get(9)); //no photo
 
         if (role.getRole().equals(ROLE_MASTER)) {
             Master master = new Master();
             user.setMaster(master);
         }
-        userDAO.saveOrUpdate(user);
+        userDao.saveOrUpdate(user);
 
         return "redirect:/";
     }
 
     @RequestMapping(value = "/my-profile", method = RequestMethod.POST)
     public String myProfilePage(HttpServletRequest request) {
-        long userId = userDAO.getId(request.getParameter("username"));
+        long userId = userDao.getId(request.getParameter("username"));
         return "redirect:/user/" + userId;
     }
 
     @RequestMapping(value = "/user/{userId}", method = RequestMethod.GET)
     public ModelAndView myProfilePage(@PathVariable("userId") long userId) {
-        User user = userDAO.get(userId);
+        User user = userDao.get(userId);
         String photo = null;
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("my-profile");
         modelAndView.addObject("user", user);
-        modelAndView.addObject("schedule", scheduleDAO.getScheduleListByUser(userId));
+        modelAndView.addObject("schedule", scheduleDao.getScheduleListByUser(userId));
         photo = directory + user.getPhoto().getPhoto();
         modelAndView.addObject("photo", photo);
         return modelAndView;
