@@ -1,6 +1,6 @@
 package com.oqs.crud;
 
-import com.oqs.pair.Pair;
+import com.oqs.util.Pair;
 import com.oqs.model.Service;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;

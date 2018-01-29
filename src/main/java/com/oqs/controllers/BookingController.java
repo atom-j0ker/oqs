@@ -3,13 +3,15 @@ package com.oqs.controllers;
 import com.oqs.crud.*;
 import com.oqs.model.Schedule;
 import com.oqs.model.VisitStatus;
-import com.oqs.pair.Pair;
+import com.oqs.util.DateFormatter;
+import com.oqs.util.Pair;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import java.sql.Date;
 import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -47,15 +49,8 @@ public class BookingController {
                              @PathVariable("username") String username,
                              @PathVariable("serviceId") long serviceId,
                              HttpServletRequest request, Schedule schedule) throws ParseException {
-        final String OLD_FORMAT = "dd-MM-yyyy";
-        final String NEW_FORMAT = "yyyy-MM-dd";
-
         String dateString = request.getParameter("dateName");
-
-        SimpleDateFormat sdf = new SimpleDateFormat(OLD_FORMAT);
-        java.util.Date date = sdf.parse(dateString);
-        sdf.applyPattern(NEW_FORMAT);
-        java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+        Date sqlDate = DateFormatter.format(dateString);
 
         schedule.setUser(userDAO.get(username));
         schedule.setService(serviceDAO.get(serviceId));
@@ -80,13 +75,7 @@ public class BookingController {
     public @ResponseBody
     Pair<List<Time>, List<Time>> scheduleByMaster(@RequestParam("masterId") long masterId,
                                                   @RequestParam("date") String dateString) throws ParseException {
-        final String OLD_FORMAT = "dd-MM-yyyy";
-        final String NEW_FORMAT = "yyyy-MM-dd";
-
-        SimpleDateFormat sdf = new SimpleDateFormat(OLD_FORMAT);
-        java.util.Date date = sdf.parse(dateString);
-        sdf.applyPattern(NEW_FORMAT);
-        java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+        Date sqlDate = DateFormatter.format(dateString);
 
         List<Time> timeListFree = new ArrayList<>();
         for (int i = 8; i < 20; i++) {

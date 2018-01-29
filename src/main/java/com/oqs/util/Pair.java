@@ -1,4 +1,4 @@
-package com.oqs.pair;
+package com.oqs.util;
 
 public class Pair<F, S> {
     private F first;

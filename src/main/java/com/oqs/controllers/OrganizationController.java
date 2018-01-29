@@ -1,7 +1,7 @@
 package com.oqs.controllers;
 
 import com.oqs.dto.ServiceTable;
-import com.oqs.pair.Pair;
+import com.oqs.util.Pair;
 import com.oqs.crud.*;
 import com.oqs.model.*;
 import org.springframework.beans.factory.annotation.Value;

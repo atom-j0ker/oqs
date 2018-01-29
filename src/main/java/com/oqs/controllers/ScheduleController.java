@@ -4,11 +4,13 @@ import com.oqs.crud.MasterDAO;
 import com.oqs.crud.ScheduleDAO;
 import com.oqs.dto.BusinessSchedule;
 import com.oqs.model.Schedule;
+import com.oqs.util.DateFormatter;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.inject.Inject;
+import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -40,16 +42,9 @@ public class ScheduleController {
     public @ResponseBody
     List<BusinessSchedule> scheduleByDateAndMaster(@RequestParam("date") String dateString,
                                                    @RequestParam("masterId") String masterId) throws ParseException {
-        java.sql.Date sqlDate = null;
-        if (!dateString.isEmpty()) {
-            final String OLD_FORMAT = "dd-MM-yyyy";
-            final String NEW_FORMAT = "yyyy-MM-dd";
-
-            SimpleDateFormat sdf = new SimpleDateFormat(OLD_FORMAT);
-            java.util.Date date = sdf.parse(dateString);
-            sdf.applyPattern(NEW_FORMAT);
-            sqlDate = new java.sql.Date(date.getTime());
-        }
+        Date sqlDate = null;
+        if (!dateString.isEmpty())
+            sqlDate = DateFormatter.format(dateString);
         List<Schedule> scheduleList = scheduleDAO.getScheduleListByDateAndMaster(sqlDate, masterId);
         List<BusinessSchedule> businessScheduleList = new ArrayList<>();
         for (Schedule s : scheduleList)

@@ -4,7 +4,7 @@ import com.oqs.crud.*;
 import com.oqs.dto.ServiceTable;
 import com.oqs.model.Price;
 import com.oqs.model.Service;
-import com.oqs.pair.Pair;
+import com.oqs.util.Pair;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
