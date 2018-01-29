@@ -2,7 +2,6 @@ package com.oqs.controllers;
 
 import com.oqs.crud.MasterDAO;
 import com.oqs.crud.ScheduleDAO;
-import com.oqs.crud.StatusDAO;
 import com.oqs.dto.BusinessSchedule;
 import com.oqs.model.Schedule;
 import org.springframework.stereotype.Controller;
@@ -20,13 +19,11 @@ public class ScheduleController {
 
     private final MasterDAO masterDAO;
     private final ScheduleDAO scheduleDAO;
-    private final StatusDAO statusDAO;
 
     @Inject
-    public ScheduleController(MasterDAO masterDAO, ScheduleDAO scheduleDAO, StatusDAO statusDAO) {
+    public ScheduleController(MasterDAO masterDAO, ScheduleDAO scheduleDAO) {
         this.masterDAO = masterDAO;
         this.scheduleDAO = scheduleDAO;
-        this.statusDAO = statusDAO;
     }
 
 
@@ -63,9 +60,9 @@ public class ScheduleController {
     @RequestMapping(value = "/changeStatus", method = RequestMethod.GET)
     public @ResponseBody
     void changeStatus(@RequestParam("bookingId") long bookingId,
-                      @RequestParam("statusId") long statusId) {
+                      @RequestParam("statusId") String status) {
         Schedule booking = scheduleDAO.get(bookingId);
-        booking.setStatus(statusDAO.get(statusId));
+        booking.setStatus(status.toUpperCase());
         scheduleDAO.saveOrUpdate(booking);
     }
 }

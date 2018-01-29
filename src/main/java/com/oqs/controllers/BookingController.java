@@ -2,6 +2,7 @@ package com.oqs.controllers;
 
 import com.oqs.crud.*;
 import com.oqs.model.Schedule;
+import com.oqs.model.VisitStatus;
 import com.oqs.pair.Pair;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -21,15 +22,13 @@ public class BookingController {
     private final MasterDAO masterDAO;
     private final ServiceDAO serviceDAO;
     private final ScheduleDAO scheduleDAO;
-    private final StatusDAO statusDAO;
     private final UserDAO userDAO;
 
     @Inject
-    public BookingController(MasterDAO masterDAO, ServiceDAO serviceDAO, ScheduleDAO scheduleDAO, StatusDAO statusDAO, UserDAO userDAO) {
+    public BookingController(MasterDAO masterDAO, ServiceDAO serviceDAO, ScheduleDAO scheduleDAO, UserDAO userDAO) {
         this.masterDAO = masterDAO;
         this.serviceDAO = serviceDAO;
         this.scheduleDAO = scheduleDAO;
-        this.statusDAO = statusDAO;
         this.userDAO = userDAO;
     }
 
@@ -62,9 +61,9 @@ public class BookingController {
         schedule.setService(serviceDAO.get(serviceId));
         schedule.setMaster(masterDAO.get(Long.valueOf(request.getParameter("mastersListName"))));
         schedule.setDate(sqlDate);
-        schedule.setTime(Time.valueOf(request.getParameter("timeListName")));
+        schedule.setStartTime(Time.valueOf(request.getParameter("timeListName")));
         schedule.setComment(request.getParameter("bookingComment"));
-        schedule.setStatus(statusDAO.get(1));
+        schedule.setStatus(VisitStatus.WAITING.getValue());
         scheduleDAO.saveOrUpdate(schedule);
 
         return "redirect:/user/" + userDAO.getId(username);
